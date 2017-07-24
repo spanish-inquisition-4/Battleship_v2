@@ -6,7 +6,7 @@ One additional feature is added (Nuke - see Game features)
 
 # How to run the game?
 
-#Code quality verification:
+# Code quality verification:
 - Run SonarQube server on default port (9000)
 - Run **checkQuality.sh** <br />
 This script will generate Checkstyle, Findbugs, JaCoCo and Sonar reports. 
