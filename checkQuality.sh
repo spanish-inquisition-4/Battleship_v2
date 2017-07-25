@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#create quality analisys
+#create quality analysis
 mvn clean install
 mvn site
 mvn sonar:sonar
