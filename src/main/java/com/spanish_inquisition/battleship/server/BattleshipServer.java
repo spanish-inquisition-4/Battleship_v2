@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-import static com.spanish_inquisition.battleship.common.AppLogger.defaultLevel;
+import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogger;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
@@ -16,7 +16,6 @@ public class BattleshipServer {
     private static final int NUMBER_OF_PLAYERS = 2;
     private static final Integer PORT_NUMBER = 6666;
     private static List<Socket> clients;
-
 
     public static void main(String[] args) {
         initializeLogger();
@@ -29,12 +28,12 @@ public class BattleshipServer {
         List<Socket> clientSockets = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
             new Thread(()->{
-                System.out.println("Hello from thread " + Thread.currentThread().getName());
+                logger.log(DEFAULT_LEVEL, "Hello from thread " + Thread.currentThread().getName());
                 Socket clientSocket = null;
                 try {
                     clientSocket = serverSocket.accept();
                 } catch (IOException e) {
-                    logger.log(defaultLevel, "There was an error while waiting for connection");
+                    logger.log(DEFAULT_LEVEL, "There was an error while waiting for connection");
                 }
                 clientSockets.add(clientSocket);
             }).run();

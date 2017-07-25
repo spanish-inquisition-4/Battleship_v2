@@ -11,9 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
-import static com.spanish_inquisition.battleship.common.AppLogger.defaultLevel;
 import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogger;
-import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 public class BattleshipServerTestIT {
     private ServerSocket serverSocket;

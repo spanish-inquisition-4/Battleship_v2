@@ -15,8 +15,11 @@ public class AppLoggerTest {
 
     @Test
     public void testInitializeLogger() throws Exception {
+        //given
         assertNull(AppLogger.handler);
+        //when
         AppLogger.initializeLogger();
+        //then
         assertNotNull(AppLogger.handler);
         assertEquals((AppLogger.logger.getHandlers().length), 1);
         assertEquals(AppLogger.logger.getLevel(), Level.CONFIG);

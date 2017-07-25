@@ -17,14 +17,12 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
  * The class also contains information about the window's height and width
  */
 public class Client extends Application {
-    private static final int SCENE_WIDTH = 900;
-    private static final int SCENE_HEIGHT = 500;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/MainMenu.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+        Scene scene = new Scene(root);
 
         primaryStage.setTitle("Battleships");
         primaryStage.setScene(scene);

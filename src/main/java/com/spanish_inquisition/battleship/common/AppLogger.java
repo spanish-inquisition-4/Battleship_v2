@@ -12,7 +12,7 @@ import java.util.logging.*;
 public class AppLogger {
     public static final Logger logger = Logger.getLogger(AppLogger.class.getName());
     static Handler handler = null;
-    public static final Level defaultLevel = Level.CONFIG;
+    public static final Level DEFAULT_LEVEL = Level.CONFIG;
 
     /**
      * This method will initialize the logger with the path and a name of the logfile, level of the logging info and
