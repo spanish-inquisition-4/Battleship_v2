@@ -1,10 +1,3 @@
-# For code reviewers
-
-In current version of project we:
-- configured pom file
-- created .gitignore and readme file
-- created script for checking code quality
-
 # About
 
 Java implementation of Battleship game (client-server architecture with simple GUI in JavaFX).<br />
