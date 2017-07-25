@@ -1,4 +1,4 @@
-package com.spanish_inquisition.battleship.network;
+package com.spanish_inquisition.battleship.client.network;
 
 import com.spanish_inquisition.battleship.common.AppLogger;
 
