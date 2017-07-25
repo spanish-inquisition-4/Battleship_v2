@@ -33,7 +33,6 @@ public class Client extends Application {
 
     public static void main(String[] args) {
         AppLogger.initializeLogger();
-        logger.log(Level.CONFIG, "Message");
         launch(args);
     }
 }

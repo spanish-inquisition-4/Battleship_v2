@@ -18,9 +18,8 @@ public class BattleshipServer {
     private static List<Socket> clients;
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         initializeLogger();
-
         ServerSocket serverSocket = createServerSocket();
         clients = connectWithPlayers(serverSocket);
         connectWithPlayers(serverSocket);
@@ -35,7 +34,7 @@ public class BattleshipServer {
                 try {
                     clientSocket = serverSocket.accept();
                 } catch (IOException e) {
-                    logger.log(defaultLevel, "Client didn't connect with server");
+                    logger.log(defaultLevel, "There was an error while waiting for connection");
                 }
                 clientSockets.add(clientSocket);
             }).run();
