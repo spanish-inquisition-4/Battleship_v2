@@ -12,12 +12,12 @@ import java.util.logging.Logger;
  * @author Michal_Partacz
  */
 public class SocketClient {
-    private final static Logger logger = Logger.getLogger(AppLogger.class.getName());
-    private Level level = Level.CONFIG;
-
-    private final static int PORT = 6666;
-    private Socket socket = null;
     private final static String HOST_NAME = "localhost";
+    private final static int PORT = 6666;
+    private final static Logger logger = Logger.getLogger(AppLogger.class.getName());
+
+    private Level level = Level.CONFIG;
+    private Socket socket;
     private BufferedReader input;
     private PrintWriter output;
 
