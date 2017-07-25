@@ -1,5 +1,6 @@
 package com.spanish_inquisition.battleship.client;
 
+import com.spanish_inquisition.battleship.common.AppLogger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,6 +28,7 @@ public class Client extends Application {
     }
 
     public static void main(String[] args) {
+        AppLogger.initializeLogger();
         launch(args);
     }
 }
