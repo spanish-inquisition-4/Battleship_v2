@@ -6,7 +6,10 @@ One additional feature is added (Nuke - see Game features)
 
 # How to run the game?
 
-#Code quality verification:
+It's not possible to run the game at this stage.
+
+# Code quality verification:
+
 - Run SonarQube server on default port (9000)
 - Run **checkQuality.sh** <br />
 This script will generate Checkstyle, Findbugs, JaCoCo and Sonar reports. 
@@ -40,7 +43,3 @@ Reports will be created in:
 # TODO List
 
 [Trello playersBoard](https://trello.com/b/ONK9r1ZU/battleships)
-
-# BONUSES
-
-- BW: additional 1h to finish the project (activity on git lecture)
