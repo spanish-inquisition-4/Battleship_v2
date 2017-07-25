@@ -10,9 +10,8 @@ import java.util.logging.*;
  *         The class should be initialized as soon as the app starts by static invoke of the initializeLogger method
  */
 public class AppLogger {
-
     public static final Logger logger = Logger.getLogger(AppLogger.class.getName());
-    private static Handler handler = null;
+    static Handler handler = null;
     public static final Level defaultLevel = Level.CONFIG;
 
     /**
@@ -26,9 +25,9 @@ public class AppLogger {
             logger.log(Level.WARNING, "Could not create file");
             e.printStackTrace();
         }
-        Logger newLogger = Logger.getLogger("");
+        Logger newLogger = Logger.getLogger(AppLogger.class.getName());
         handler.setFormatter(new SimpleFormatter());
-        newLogger.addHandler(handler);
-        newLogger.setLevel(Level.CONFIG);
+        logger.addHandler(handler);
+        logger.setLevel(Level.CONFIG);
     }
 }

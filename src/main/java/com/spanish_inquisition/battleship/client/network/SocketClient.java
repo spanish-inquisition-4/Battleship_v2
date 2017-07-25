@@ -15,17 +15,13 @@ public class SocketClient {
     private final static Logger logger = Logger.getLogger(AppLogger.class.getName());
     private Level level = Level.CONFIG;
 
-    private final static int PORT = 6666;
+    final static int PORT = 6666;
     private Socket socket = null;
     private final static String HOST_NAME = "localhost";
     private BufferedReader input;
     private PrintWriter output;
 
-    public SocketClient() throws IOException {
-        setUpStreamsAndOpenSocket();
-    }
-
-    private void setUpStreamsAndOpenSocket() throws IOException {
+    void setUpStreamsAndOpenSocket() throws IOException {
         logger.log(level, "Setting up streams and socket");
         socket = new Socket(HOST_NAME, PORT);
         input = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
