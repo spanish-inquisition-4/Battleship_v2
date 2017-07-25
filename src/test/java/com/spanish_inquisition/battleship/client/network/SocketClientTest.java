@@ -11,13 +11,13 @@ import java.net.ServerSocket;
 @Test
 public class SocketClientTest {
 
-    @Test(expectedExceptions = IOException.class, priority = 1)
+    @Test(expectedExceptions = IOException.class)
     public void testNewSocketClient_withoutServer() throws Exception {
         SocketClient socketClient = new SocketClient();
         socketClient.setUpStreamsAndOpenSocket();
     }
 
-    @Test(priority = 2)
+    @Test
     public void testNewSocketClient_withServer() throws Exception {
         DummyServer dummyServer = new DummyServer();
         new Thread(dummyServer::runThread).start();
@@ -31,6 +31,7 @@ public class SocketClientTest {
             try {
                 serverSocket = new ServerSocket(SocketClient.PORT);
                 serverSocket.accept();
+                serverSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
