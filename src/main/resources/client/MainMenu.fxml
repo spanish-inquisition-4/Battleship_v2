@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file contains all the UI elements which we want to load to the window initially. Some of the elements will contain
+corresponding methods which will be invoked in the java class specified in tag fx:controller -->
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.spanish_inquisition.battleship.client.MainMenuController"
+            prefHeight="400.0" prefWidth="600.0">
+
+</AnchorPane>
