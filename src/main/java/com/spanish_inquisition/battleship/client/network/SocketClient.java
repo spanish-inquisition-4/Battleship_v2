@@ -1,4 +1,4 @@
-package com.spanish_inquisition.battleship.network;
+package com.spanish_inquisition.battleship.client.network;
 
 import com.spanish_inquisition.battleship.common.AppLogger;
 
@@ -21,11 +21,7 @@ public class SocketClient {
     private BufferedReader input;
     private PrintWriter output;
 
-    public SocketClient() throws IOException {
-        setUpStreamsAndOpenSocket();
-    }
-
-    private void setUpStreamsAndOpenSocket() throws IOException {
+    void setUpStreamsAndOpenSocket() throws IOException {
         logger.log(level, "Setting up streams and socket");
         socket = new Socket(HOST_NAME, PORT);
         input = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));

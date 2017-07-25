@@ -19,6 +19,7 @@
         <maven.version>3.5.0</maven.version>
         <!--Dependencies versions-->
         <testng.version>6.11</testng.version>
+        <mockito.version>1.10.19</mockito.version>
         <!--Reporting plugins versions-->
         <findbugs.version>3.0.4</findbugs.version>
         <checkstyle.version>2.17</checkstyle.version>
@@ -42,6 +43,12 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
