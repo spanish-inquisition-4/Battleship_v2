@@ -2,14 +2,10 @@ package com.spanish_inquisition.battleship.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
-import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogger;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
@@ -25,20 +21,18 @@ public class BattleshipServer {
     }
 
     static void connectWithPlayers(ServerSocket serverSocket) {
-        List<ClientConnectionHandler> clientSockets = new ArrayList<>();
+        List<ClientConnectionHandler> clientsHandlers = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
-            new Thread(()->{
-                ClientConnectionHandler clientConnectionHandler = null;
-                try {
-                    clientConnectionHandler = new ClientConnectionHandler(serverSocket);
-                    clientConnectionHandler.start();
-                } catch (IOException e) {
-                    logger.log(DEFAULT_LEVEL, "There was an error while waiting for connection");
-                }
-                clientSockets.add(clientConnectionHandler);
-            }).run();
+            ClientConnectionHandler clientConnectionHandler = null;
+            try {
+                clientConnectionHandler = new ClientConnectionHandler(serverSocket);
+                clientConnectionHandler.start();
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "couldn't accept connection from client");
+            }
+            clientsHandlers.add(clientConnectionHandler);
         }
-        clients =  clientSockets;
+        clients = clientsHandlers;
     }
 
     static ServerSocket createServerSocket() {
@@ -46,12 +40,9 @@ public class BattleshipServer {
         try {
             serverSocket = new ServerSocket(PORT_NUMBER);
         } catch (IOException e) {
-            logger.log(Level.WARNING, Arrays.toString(e.getStackTrace()));
+            logger.log(Level.WARNING, "could't create server socket");
             System.exit(-1);
         }
         return serverSocket;
-    }
-
-    static void acceptNameFromPlayers() {
     }
 }

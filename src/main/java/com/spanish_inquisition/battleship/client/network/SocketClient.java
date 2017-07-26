@@ -13,10 +13,11 @@ import java.util.logging.Logger;
  */
 public class SocketClient {
     private final static String HOST_NAME = "localhost";
-    private final static int PORT = 6666;
     private final static Logger logger = Logger.getLogger(AppLogger.class.getName());
 
+    final static int PORT = 6666;
     private Level level = Level.CONFIG;
+
     private Socket socket;
     private BufferedReader input;
     private PrintWriter output;

@@ -1,22 +1,38 @@
 package com.spanish_inquisition.battleship.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
-import static com.spanish_inquisition.battleship.common.AppLogger.logger;
-
-public class ClientConnectionHandler extends Thread{
-    Socket clientSocket;
+public class ClientConnectionHandler extends Thread {
     String name;
+    BufferedReader clientInput;
+    PrintWriter clientOutput;
 
     public ClientConnectionHandler(ServerSocket serverSocket) throws IOException {
-        clientSocket = serverSocket.accept();
+        Socket clientSocket = serverSocket.accept();
+        clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        clientOutput = new PrintWriter(clientSocket.getOutputStream(), true);
     }
 
     public void run() {
-        logger.log(DEFAULT_LEVEL, "Hello from thread " + Thread.currentThread().getName());
+        name = acceptNameFromClient();
+        // todo: loop for handling player requests
+    }
 
+    private String acceptNameFromClient() {
+        String readName = "";
+        try {
+            while(!clientInput.ready()) {
+                Thread.sleep(10);
+            }
+            readName = clientInput.readLine();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return readName;
     }
 }
