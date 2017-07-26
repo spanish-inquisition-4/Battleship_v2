@@ -18,15 +18,23 @@ public class SocketClient {
     final static int PORT = 6666;
     private final static Logger logger = Logger.getLogger(AppLogger.class.getName());
 
-    private Socket socket;
-    private BufferedReader input;
-    private PrintWriter output;
+    Socket socket;
+    BufferedReader input;
+    PrintWriter output;
 
-    public void setUpStreamsAndOpenSocket() throws IOException {
+    SocketClient() {}
+
+    public void setUpStreamsOnSocket() throws IOException {
         logger.log(DEFAULT_LEVEL, "Setting up streams and socket");
-        socket = new Socket(HOST_NAME, PORT);
         input = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
         output = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
+    }
+
+    public static SocketClient createSocketClientWithSocket() throws IOException {
+        SocketClient socketClient = new SocketClient();
+        socketClient.socket = new Socket(HOST_NAME, PORT);
+        socketClient.setUpStreamsOnSocket();
+        return socketClient;
     }
 
     public void sendStringToServer(String string) {

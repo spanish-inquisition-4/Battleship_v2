@@ -16,7 +16,7 @@ import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogg
 public class BattleshipServerTestIT {
     private ServerSocket serverSocket;
     private final String SERVER_ADDRESS = "localhost";
-    private final int TEST_PORT = 6660;
+    private final int TEST_PORT = 20202;
     private Socket client1;
     private Socket client2;
 
@@ -59,8 +59,9 @@ public class BattleshipServerTestIT {
 
     @Test
     public void shouldCreateServerSocket() {
+        int CREATION_TEST_PORT = 22202;
         // When
-        ServerSocket testServerSocket = BattleshipServer.createServerSocket();
+        ServerSocket testServerSocket = BattleshipServer.createServerSocket(CREATION_TEST_PORT);
         // Then
         Assert.assertNotNull(testServerSocket);
     }

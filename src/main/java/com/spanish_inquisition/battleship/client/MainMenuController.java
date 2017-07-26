@@ -30,9 +30,8 @@ public class MainMenuController {
      */
     @FXML
     public void initialize() {
-        this.socketClient = new SocketClient();
         try {
-            this.socketClient.setUpStreamsAndOpenSocket();
+            this.socketClient = SocketClient.createSocketClientWithSocket();
         } catch (IOException e) {
             logger.log(Level.WARNING, "The client could not connect to the server", e);
             gameStatusLabel.setText("I could not connect to the server :(");

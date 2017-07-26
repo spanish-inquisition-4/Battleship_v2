@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
-import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogger;
-import static com.spanish_inquisition.battleship.common.AppLogger.logger;
+import static com.spanish_inquisition.battleship.common.AppLogger.*;
 
 public class BattleshipServer {
     private static final int NUMBER_OF_PLAYERS = 2;
@@ -19,7 +16,7 @@ public class BattleshipServer {
 
     public static void main(String[] args) {
         initializeLogger();
-        ServerSocket serverSocket = createServerSocket();
+        ServerSocket serverSocket = createServerSocket(PORT_NUMBER);
         clients = connectWithPlayers(serverSocket);
         connectWithPlayers(serverSocket);
     }
@@ -41,12 +38,12 @@ public class BattleshipServer {
         return clientSockets;
     }
 
-    static ServerSocket createServerSocket() {
+    static ServerSocket createServerSocket(int portNumber) {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(PORT_NUMBER);
+            serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {
-            logger.log(Level.WARNING, Arrays.toString(e.getStackTrace()));
+            logger.log(Level.WARNING, "Exception during socket creation: " +e);
             System.exit(-1);
         }
         return serverSocket;
