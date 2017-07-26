@@ -10,29 +10,13 @@ import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogg
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 public class BattleshipServer {
-    private static final int NUMBER_OF_PLAYERS = 2;
     private static final Integer PORT_NUMBER = 6666;
+    static final int NUMBER_OF_PLAYERS = 2;
     static List<ClientConnectionHandler> clients;
 
     public static void main(String[] args) {
         initializeLogger();
-        ServerSocket serverSocket = createServerSocket();
-        connectWithPlayers(serverSocket);
-    }
-
-    static void connectWithPlayers(ServerSocket serverSocket) {
-        List<ClientConnectionHandler> clientsHandlers = new ArrayList<>();
-        for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
-            ClientConnectionHandler clientConnectionHandler = null;
-            try {
-                clientConnectionHandler = new ClientConnectionHandler(serverSocket);
-                clientConnectionHandler.start();
-            } catch (IOException e) {
-                logger.log(Level.WARNING, "couldn't accept connection from client");
-            }
-            clientsHandlers.add(clientConnectionHandler);
-        }
-        clients = clientsHandlers;
+        connectWithPlayers(createServerSocket());
     }
 
     static ServerSocket createServerSocket() {
@@ -40,9 +24,24 @@ public class BattleshipServer {
         try {
             serverSocket = new ServerSocket(PORT_NUMBER);
         } catch (IOException e) {
-            logger.log(Level.WARNING, "could't create server socket");
+            logger.log(Level.WARNING, "could't create server socket", e);
             System.exit(-1);
         }
         return serverSocket;
+    }
+
+    static void connectWithPlayers(ServerSocket serverSocket) {
+        clients = new ArrayList<>();
+        for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
+            ClientConnectionHandler clientConnectionHandler = null;
+            try {
+                clientConnectionHandler = new ClientConnectionHandler();
+                clientConnectionHandler.initializeSocketStreams(serverSocket);
+                clientConnectionHandler.start();
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "couldn't accept connection from client", e);
+            }
+            clients.add(clientConnectionHandler);
+        }
     }
 }
