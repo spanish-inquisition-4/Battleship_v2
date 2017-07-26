@@ -110,4 +110,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Log extensions
+*.log*
+
 # End of https://www.gitignore.io/api/java,maven,linux,windows,intellij+all
