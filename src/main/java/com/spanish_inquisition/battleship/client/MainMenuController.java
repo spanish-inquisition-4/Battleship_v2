@@ -34,7 +34,7 @@ public class MainMenuController {
         try {
             this.socketClient.setUpStreamsAndOpenSocket();
         } catch (IOException e) {
-            logger.log(Level.WARNING, "The client could not connect to the server: " + e.getMessage());
+            logger.log(Level.WARNING, "The client could not connect to the server", e);
             gameStatusLabel.setText("I could not connect to the server :(");
         }
         initializeElementsAfterServerConnection();

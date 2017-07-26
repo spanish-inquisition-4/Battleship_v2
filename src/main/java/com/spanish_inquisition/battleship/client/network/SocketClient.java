@@ -34,7 +34,7 @@ public class SocketClient {
             this.output.println(string);
             logger.log(DEFAULT_LEVEL, "sent string to server = " + string);
         } catch (NullPointerException e) {
-            logger.log(Level.WARNING, "Could not send " + string + " to server");
+            logger.log(Level.WARNING, "Could not send " + string + " to server", e);
         }
     }
 }
