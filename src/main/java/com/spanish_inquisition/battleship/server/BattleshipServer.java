@@ -12,15 +12,15 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 public class BattleshipServer {
     private static final Integer PORT_NUMBER = 6666;
-    static final int NUMBER_OF_PLAYERS = 2;
-    static List<ClientConnectionHandler> clients;
+    final int NUMBER_OF_PLAYERS = 2;
+    List<ClientConnectionHandler> clients;
 
-    public static void main(String[] args) {
+    public void proceed(){
         initializeLogger();
-        connectWithPlayers(createServerSocket());
+        connectWithPlayers(createServerSocket(PORT_NUMBER));
     }
 
-    static ServerSocket createServerSocket(int portNumber) {
+    ServerSocket createServerSocket(int portNumber) {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(portNumber);
@@ -31,7 +31,7 @@ public class BattleshipServer {
         return serverSocket;
     }
 
-    static void connectWithPlayers(ServerSocket serverSocket) {
+    void connectWithPlayers(ServerSocket serverSocket) {
         clients = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
             ClientConnectionHandler clientConnectionHandler = null;
