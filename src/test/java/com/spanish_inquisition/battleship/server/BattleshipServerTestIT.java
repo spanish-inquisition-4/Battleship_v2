@@ -71,8 +71,9 @@ public class BattleshipServerTestIT {
 
     @Test
     public void shouldCreateServerSocket() {
+        int CREATION_TEST_PORT = 22202;
         // When
-        ServerSocket testServerSocket = BattleshipServer.createServerSocket();
+        ServerSocket testServerSocket = BattleshipServer.createServerSocket(CREATION_TEST_PORT);
         // Then
         Assert.assertNotNull(testServerSocket);
     }
