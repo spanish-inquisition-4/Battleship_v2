@@ -32,7 +32,7 @@ public class SocketClientTest {
         socketClient.setUpStreamsOnSocket();
         assertEquals(byteArrayOutputStream.size(), 0);
         String stringToServer = "Hello server!";
-        String stringExpectedFromServer = stringToServer + "\r\n";
+        String stringExpectedFromServer = stringToServer + System.getProperty("line.separator");
         socketClient.sendStringToServer(stringToServer);
         assertNotEquals(byteArrayOutputStream.size(), 0);
         assertEquals(byteArrayOutputStream.toByteArray(), stringExpectedFromServer.getBytes(StandardCharsets.UTF_8));
