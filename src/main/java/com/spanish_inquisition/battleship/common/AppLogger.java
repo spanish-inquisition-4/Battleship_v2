@@ -25,7 +25,6 @@ public class AppLogger {
             logger.log(Level.WARNING, "Could not create file");
             e.printStackTrace();
         }
-        Logger newLogger = Logger.getLogger(AppLogger.class.getName());
         handler.setFormatter(new SimpleFormatter());
         logger.addHandler(handler);
         logger.setLevel(Level.CONFIG);
