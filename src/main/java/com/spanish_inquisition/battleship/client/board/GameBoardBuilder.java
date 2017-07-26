@@ -31,18 +31,18 @@ public class GameBoardBuilder {
     }
 
     private void fillTheBoardWithButtonsAndLabels() {
-        for (int i = 0; i < BOARD_SIZE_WITH_LABELS; i++) {
+        for (int column = 0; column < BOARD_SIZE_WITH_LABELS; column++) {
             Platform.runLater(() -> gridPane.getRowConstraints().add(new RowConstraints(FIELD_SIZE)));
-            for (int j = 0; j < BOARD_SIZE_WITH_LABELS; j++) {
-                if (i == 0 && j == 0) {
+            for (int row = 0; row < BOARD_SIZE_WITH_LABELS; row++) {
+                if (column == 0 && row == 0) {
                     Platform.runLater(() -> gridPane.getColumnConstraints().add(new ColumnConstraints(FIELD_SIZE)));
-                } else if (i == 0) {
+                } else if (column == 0) {
                     Platform.runLater(() -> gridPane.getColumnConstraints().add(new ColumnConstraints(FIELD_SIZE)));
-                    addHorizontalLabelOnIndex(j);
-                } else if (j == 0) {
-                    addVerticalLabelOnIndex(i);
+                    addHorizontalLabelOnIndex(row);
+                } else if (row == 0) {
+                    addVerticalLabelOnIndex(column);
                 } else {
-                    createNewBoardTileAndAddIt(i, j);
+                    createNewBoardTileAndAddIt(column, row);
                 }
             }
         }
