@@ -62,15 +62,15 @@ public class MainMenuController {
      */
     @FXML
     public void onFeatureButtonClicked() {
-        this.sendTextToSocket(this.nameTextField.getText());
+        this.sendTextToSocketAndStartANewGame(this.nameTextField.getText());
     }
 
     @FXML
     public void onNameTextFieldEntered() {
-        this.sendTextToSocket(this.nameTextField.getText());
+        this.sendTextToSocketAndStartANewGame(this.nameTextField.getText());
     }
 
-    private void sendTextToSocket(String text) {
+    private void sendTextToSocketAndStartANewGame(String text) {
         if(this.socketClient != null)
             this.socketClient.sendStringToServer(text);
         this.game = new Game();

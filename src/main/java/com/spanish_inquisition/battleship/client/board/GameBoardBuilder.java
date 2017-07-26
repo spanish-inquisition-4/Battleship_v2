@@ -57,21 +57,21 @@ public class GameBoardBuilder {
         fillGridPaneHeightAndWidthForNode(tile);
     }
 
-    private void addVerticalLabelOnIndex(int j) {
-        Label boardBoardTileLabel = new Label(String.valueOf(j));
-        Platform.runLater(() -> this.gridPane.add(boardBoardTileLabel, 0, j));
+    private void addVerticalLabelOnIndex(int columnIndex) {
+        Label boardBoardTileLabel = new Label(String.valueOf(columnIndex));
+        Platform.runLater(() -> this.gridPane.add(boardBoardTileLabel, 0, columnIndex));
         fillGridPaneHeightAndWidthForNode(boardBoardTileLabel);
     }
 
-    private void addHorizontalLabelOnIndex(int i) {
-        Label boardBoardTileLabel = new Label(String.valueOf((char) ('A' + i - 1)));
-        Platform.runLater(() -> this.gridPane.add(boardBoardTileLabel, i, 0));
+    private void addHorizontalLabelOnIndex(int rowIndex) {
+        Label boardBoardTileLabel = new Label(String.valueOf((char) ('A' + rowIndex - 1)));
+        Platform.runLater(() -> this.gridPane.add(boardBoardTileLabel, rowIndex, 0));
         fillGridPaneHeightAndWidthForNode(boardBoardTileLabel);
     }
 
-    private void fillGridPaneHeightAndWidthForNode(Node n) {
-        GridPane.setFillHeight(n, true);
-        GridPane.setFillWidth(n, true);
+    private void fillGridPaneHeightAndWidthForNode(Node node) {
+        GridPane.setFillHeight(node, true);
+        GridPane.setFillWidth(node, true);
     }
 
     EventHandler<MouseEvent> getOnBoardTileClickedEvent(BoardTile tile, BoardController boardController) {
