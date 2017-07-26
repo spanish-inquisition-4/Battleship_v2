@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -52,9 +53,9 @@ public class BattleshipServerTestIT {
             }
         }).run();
         // When
-        List<Socket> testClients = BattleshipServer.connectWithPlayers(serverSocket);
+        BattleshipServer.connectWithPlayers(serverSocket);
         // Then
-        Assert.assertEquals(2, testClients.size());
+        Assert.assertEquals(2, BattleshipServer.clients.size());
     }
 
     @Test
