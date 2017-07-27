@@ -17,7 +17,7 @@ public class BattleshipServer {
 
     public static void main(String[] args) {
         initializeLogger();
-        connectWithPlayers(createServerSocket());
+        connectWithPlayers(createServerSocket(PORT_NUMBER));
     }
 
     static ServerSocket createServerSocket(int portNumber) {
