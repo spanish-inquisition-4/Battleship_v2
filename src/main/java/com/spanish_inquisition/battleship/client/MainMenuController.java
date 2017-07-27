@@ -32,6 +32,7 @@ public class MainMenuController {
     public Label playersLabel;
     public GridPane playersGridPane;
     public VBox opponentsVBox;
+    public VBox playerNameVBox;
     public Label opponentsLabel;
     public GridPane opponentsGridPane;
     public Label gameStatusLabel;
@@ -73,6 +74,12 @@ public class MainMenuController {
     private void sendTextToSocketAndStartANewGame(String text) {
         if(this.socketClient != null)
             this.socketClient.sendStringToServer(text);
+        this.playerNameVBox.setVisible(false);
+        runTheGame();
+    }
+
+    private void runTheGame() {
+        this.playersLabel.setText("Set Up your ships");
         this.game = new Game();
         this.game.buildPlayersBoard(new BoardController(new GameBoard(this.playersGridPane)));
     }

@@ -9,7 +9,7 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
  * @author Michal_Partacz
  */
 public class Game {
-    private BoardController boardController;
+    BoardController boardController;
 
     public void buildPlayersBoard(BoardController boardController) {
         logger.log(DEFAULT_LEVEL, "Building players board");

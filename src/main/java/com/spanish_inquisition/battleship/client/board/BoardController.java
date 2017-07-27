@@ -2,6 +2,8 @@ package com.spanish_inquisition.battleship.client.board;
 
 import javafx.scene.layout.GridPane;
 
+import java.util.Map;
+
 /**
  * @author Michal_Partacz
  * The method has a GameBoard object and mainly has methods which will operate on it.
@@ -24,5 +26,9 @@ public class BoardController {
 
     public GameBoard getGameBoard() {
         return gameBoard;
+    }
+
+    public Map<Integer, BoardTile> getBoardsIndexTiles() {
+        return gameBoard.getIndexTiles();
     }
 }

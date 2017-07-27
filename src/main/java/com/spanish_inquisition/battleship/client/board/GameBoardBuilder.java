@@ -1,8 +1,10 @@
 package com.spanish_inquisition.battleship.client.board;
 
 import com.spanish_inquisition.battleship.common.AdjacentFieldsCalc;
+import com.spanish_inquisition.battleship.common.Styles;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -10,15 +12,21 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 /**
  * @author Michal_Partacz
  * This class will make sure the board of buttons is properly initialized and with every event handlers needed.
  */
 public class GameBoardBuilder {
-    private static final int BOARD_SIZE_WITH_LABELS = 11;
-    private static final double FIELD_SIZE = 10;
+    public static final int BOARD_SIZE_WITH_LABELS = 11;
+    public static final double FIELD_SIZE = 30;
     private GridPane gridPane;
     private BoardController boardController;
+    private Map<Integer, Label> verticalLabels = new HashMap<>();
+    private Map<Integer, Label> horizontalLabels = new HashMap<>();
 
     public GameBoardBuilder(BoardController boardController) {
         this.boardController = boardController;
@@ -38,13 +46,24 @@ public class GameBoardBuilder {
                     Platform.runLater(() -> gridPane.getColumnConstraints().add(new ColumnConstraints(FIELD_SIZE)));
                 } else if (column == 0) {
                     Platform.runLater(() -> gridPane.getColumnConstraints().add(new ColumnConstraints(FIELD_SIZE)));
-                    addHorizontalLabelOnIndex(row);
+                    addVerticalLabelOnIndex(row);
                 } else if (row == 0) {
-                    addVerticalLabelOnIndex(column);
+                    addHorizontalLabelOnIndex(column);
                 } else {
                     createNewBoardTileAndAddIt(column, row);
                 }
             }
+        }
+        addCorrespondingLabelsToTiles();
+    }
+
+    private void addCorrespondingLabelsToTiles() {
+            for (Map.Entry<Integer, BoardTile> entry : boardController.getBoardsIndexTiles().entrySet()) {
+            BoardTile tile = entry.getValue();
+            int boardIndex = entry.getKey();
+            int[] tileCoordinates = AdjacentFieldsCalc.translateIndexToCoordinates(boardIndex);
+            tile.setLabels(horizontalLabels.get(tileCoordinates[1] + 1), verticalLabels.get(tileCoordinates[0] + 1));
+            setButtonsHoverOverEvents(tile);
         }
     }
 
@@ -57,21 +76,30 @@ public class GameBoardBuilder {
         fillGridPaneHeightAndWidthForNode(tile);
     }
 
-    private void addVerticalLabelOnIndex(int columnIndex) {
-        Label boardBoardTileLabel = new Label(String.valueOf(columnIndex));
-        Platform.runLater(() -> this.gridPane.add(boardBoardTileLabel, 0, columnIndex));
+    private void addHorizontalLabelOnIndex(int rowIndex) {
+        Label boardBoardTileLabel = buildCenteredLabelWithText(String.valueOf(rowIndex));
+        Platform.runLater(() -> this.gridPane.add(boardBoardTileLabel, 0, rowIndex));
         fillGridPaneHeightAndWidthForNode(boardBoardTileLabel);
+        horizontalLabels.put(rowIndex, boardBoardTileLabel);
     }
 
-    private void addHorizontalLabelOnIndex(int rowIndex) {
-        Label boardBoardTileLabel = new Label(String.valueOf((char) ('A' + rowIndex - 1)));
-        Platform.runLater(() -> this.gridPane.add(boardBoardTileLabel, rowIndex, 0));
+    private void addVerticalLabelOnIndex(int columnIndex) {
+        Label boardBoardTileLabel = buildCenteredLabelWithText(String.valueOf((char) ('A' + columnIndex - 1)));
+        Platform.runLater(() -> this.gridPane.add(boardBoardTileLabel, columnIndex, 0));
         fillGridPaneHeightAndWidthForNode(boardBoardTileLabel);
+        verticalLabels.put(columnIndex, boardBoardTileLabel);
     }
 
     private void fillGridPaneHeightAndWidthForNode(Node node) {
         GridPane.setFillHeight(node, true);
         GridPane.setFillWidth(node, true);
+    }
+
+    private Label buildCenteredLabelWithText(String text) {
+        Label boardBoardTileLabel = new Label(text);
+        boardBoardTileLabel.setAlignment(Pos.CENTER);
+        boardBoardTileLabel.setMaxSize(200, 200);
+        return boardBoardTileLabel;
     }
 
     EventHandler<MouseEvent> getOnBoardTileClickedEvent(BoardTile tile, BoardController boardController) {
@@ -81,5 +109,10 @@ public class GameBoardBuilder {
                 //do something when the button is closed
             }
         };
+    }
+
+    private void setButtonsHoverOverEvents(BoardTile tile) {
+        tile.setOnMouseEntered(event -> tile.setTileStyle(Styles.MOUSE_ENTERED, Styles.TEXT_LIME));
+        tile.setOnMouseExited(event -> tile.setTileStyle(Styles.DEFAULT_TILE_COLOR, Styles.TEXT_BLACK));
     }
 }

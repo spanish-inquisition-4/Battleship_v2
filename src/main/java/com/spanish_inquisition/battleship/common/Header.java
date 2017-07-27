@@ -25,7 +25,7 @@ public enum Header {
         try {
             header = valueOf(responseHeader);
         } catch (IllegalArgumentException e) {
-            logger.log(Level.WARNING, e.getMessage(), e);
+            logger.log(Level.WARNING, e.getMessage());
             header = UNKNOWN;
         }
         return header;
