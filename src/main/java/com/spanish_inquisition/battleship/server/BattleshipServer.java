@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogger;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
-
 public class BattleshipServer {
     private static final Integer PORT_NUMBER = 6666;
     static final int NUMBER_OF_PLAYERS = 2;
@@ -17,7 +16,7 @@ public class BattleshipServer {
 
     public static void main(String[] args) {
         initializeLogger();
-        connectWithPlayers(createServerSocket());
+        connectWithPlayers(createServerSocket(PORT_NUMBER));
     }
 
     static ServerSocket createServerSocket(int portNumber) {
