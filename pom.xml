@@ -77,8 +77,6 @@
         <!--Sonar properties-->
         <sonar.pluginClass>org.sonar.plugins.java.JavaPlugin</sonar.pluginClass>
         <sonar.pluginName>Java</sonar.pluginName>
-        <!--<property name="sonar.java.libraries" location="${project.build.dir}/classes" />-->
-        <!--<sonar.java.libraries></sonar.java.libraries>-->
     </properties>
 
     <dependencies>
