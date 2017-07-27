@@ -16,11 +16,10 @@ import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogg
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 public class BattleshipServerTestIT {
+    private BattleshipServer battleshipServer;
     private ServerSocket serverSocket;
     private final String SERVER_ADDRESS = "localhost";
-    private final int TEST_PORT = 6661;
-    private Socket client1;
-    private Socket client2;
+    private final int TEST_PORT = 5660;
 
     @BeforeClass
     public void beforeClass() {
@@ -29,6 +28,7 @@ public class BattleshipServerTestIT {
 
     @BeforeMethod
     public void beforeMethod() {
+        battleshipServer = new BattleshipServer();
         try {
             serverSocket = new ServerSocket(TEST_PORT);
         } catch (IOException e) {
@@ -39,31 +39,34 @@ public class BattleshipServerTestIT {
     @Test
     public void shouldConnectWithTwoPlayers() {
         // Given
-        new Thread(() -> assignSocketAndNameTo(client1, "Name 1")).run();
-        new Thread(() -> assignSocketAndNameTo(client2, "Name 2")).run();
+        new Thread(() -> assignSocketAndNameTo("Name 1")).run();
+        new Thread(() -> assignSocketAndNameTo("Name 2")).run();
         // When
-        BattleshipServer.connectWithPlayers(serverSocket);
+        battleshipServer.connectWithPlayers(serverSocket);
         // Then
-        Assert.assertEquals(BattleshipServer.NUMBER_OF_PLAYERS, BattleshipServer.clients.size());
+        Assert.assertEquals(battleshipServer.NUMBER_OF_PLAYERS, battleshipServer.clients.size());
     }
 
     @Test
     public void shouldReadNamesFromClients() throws InterruptedException {
         // Given
-        new Thread(() -> assignSocketAndNameTo(client1, "Name 1")).run();
-        new Thread(() -> assignSocketAndNameTo(client2, "Name 2")).run();
-        BattleshipServer.connectWithPlayers(serverSocket);
-        BattleshipServer.clients.get(0).join();
-        BattleshipServer.clients.get(1).join();
-        Assert.assertEquals(BattleshipServer.clients.get(0).name, "Name 1");
-        Assert.assertEquals(BattleshipServer.clients.get(1).name, "Name 2");
+        new Thread(() -> assignSocketAndNameTo("Name 1")).run();
+        new Thread(() -> assignSocketAndNameTo("Name 2")).run();
+        battleshipServer.connectWithPlayers(serverSocket);
+        battleshipServer.clients.get(0).disconnect();
+        battleshipServer.clients.get(1).disconnect();
+        battleshipServer.clients.get(0).join();
+        battleshipServer.clients.get(1).join();
+        Assert.assertEquals(battleshipServer.clients.get(0).name, "Name 1");
+        Assert.assertEquals(battleshipServer.clients.get(1).name, "Name 2");
     }
 
-    private void assignSocketAndNameTo(Socket client, String nameString) {
+    private void assignSocketAndNameTo(String nameString) {
         try {
-            client = new Socket(SERVER_ADDRESS, TEST_PORT);
-            PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
+            Socket theClient = new Socket(SERVER_ADDRESS, TEST_PORT);
+            PrintWriter writer = new PrintWriter(theClient.getOutputStream(), true);
             writer.println(nameString);
+            theClient.close();
         } catch (IOException e) {
             logger.log(Level.WARNING, "could't connect to server", e);
         }
@@ -73,7 +76,7 @@ public class BattleshipServerTestIT {
     public void shouldCreateServerSocket() {
         int CREATION_TEST_PORT = 22202;
         // When
-        ServerSocket testServerSocket = BattleshipServer.createServerSocket(CREATION_TEST_PORT);
+        ServerSocket testServerSocket = battleshipServer.createServerSocket(CREATION_TEST_PORT);
         // Then
         Assert.assertNotNull(testServerSocket);
     }
@@ -82,8 +85,6 @@ public class BattleshipServerTestIT {
     public void afterMethod() {
         try {
             serverSocket.close();
-            if(client1 != null) client1.close();
-            if(client2 != null) client2.close();
         } catch (IOException e) {
             logger.log(Level.WARNING, "could't close sockets", e);
         }
