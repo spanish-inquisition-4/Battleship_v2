@@ -20,9 +20,11 @@ public class ClientConnectionHandler extends Thread {
     BufferedReader clientInput;
     PrintWriter clientOutput;
     final int clientId;
+    boolean isConnected;
 
     public ClientConnectionHandler(final int clientId) {
         this.clientId = clientId;
+        this.isConnected = true;
     }
 
     public int getClientId(){
@@ -31,6 +33,10 @@ public class ClientConnectionHandler extends Thread {
 
     public String getPlayerName() {
         return name;
+    }
+
+    public void disconnect() {
+        isConnected = false;
     }
 
     public void initializeSocket(final ServerSocket serverSocket) throws IOException {
@@ -49,7 +55,7 @@ public class ClientConnectionHandler extends Thread {
     public void run() {
         name = acceptNameFromClient();
 
-        while(clientSocket.isConnected()) {
+        while(clientSocket.isConnected() && isConnected) {
             sendMessageToUser(clientOutput);
             getMessageFromUser(clientInput);
         }
