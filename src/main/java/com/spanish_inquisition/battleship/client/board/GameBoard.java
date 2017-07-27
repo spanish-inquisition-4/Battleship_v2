@@ -24,4 +24,8 @@ public class GameBoard {
     public void addBoardTileToHashMap(int boardIndex, BoardTile tile) {
         this.indexTiles.put(boardIndex, tile);
     }
+
+    public Map<Integer, BoardTile> getIndexTiles() {
+        return indexTiles;
+    }
 }
