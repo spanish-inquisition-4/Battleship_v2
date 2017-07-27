@@ -11,7 +11,8 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
  */
 public enum Header {
     NAME,
-    UNKNOWN;
+    UNKNOWN,
+    MOVE_REGULAR;
 
     /**
      * A method which will return a Header enum for an input string. In case there is no enum that can be inferred from

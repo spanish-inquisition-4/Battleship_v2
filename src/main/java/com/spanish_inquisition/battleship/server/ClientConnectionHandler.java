@@ -11,14 +11,33 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
+import static com.spanish_inquisition.battleship.server.BattleshipServer.SERVER_ID;
+import static com.spanish_inquisition.battleship.server.BattleshipServer.requestBus;
 
 public class ClientConnectionHandler extends Thread {
     String name;
+    Socket clientSocket;
     BufferedReader clientInput;
     PrintWriter clientOutput;
+    final int clientId;
 
-    public void initializeSocketStreams(ServerSocket serverSocket) throws IOException {
-        Socket clientSocket = serverSocket.accept();
+    public ClientConnectionHandler(final int clientId) {
+        this.clientId = clientId;
+    }
+
+    public int getClientId(){
+        return clientId;
+    }
+
+    public String getPlayerName() {
+        return name;
+    }
+
+    public void initializeSocket(final ServerSocket serverSocket) throws IOException {
+        clientSocket = serverSocket.accept();
+    }
+
+    public void setUpStreams() throws IOException {
         clientInput = new BufferedReader(
                 new InputStreamReader(clientSocket.getInputStream(),
                         StandardCharsets.UTF_8));
@@ -29,7 +48,11 @@ public class ClientConnectionHandler extends Thread {
 
     public void run() {
         name = acceptNameFromClient();
-        // todo: loop for handling player requests
+
+        while(clientSocket.isConnected()) {
+            sendMessageToUser(clientOutput);
+            getMessageFromUser(clientInput);
+        }
     }
 
     private String acceptNameFromClient() {
@@ -43,5 +66,23 @@ public class ClientConnectionHandler extends Thread {
             logger.log(Level.WARNING, "couldn't read name from client", e);
         }
         return readName;
+    }
+
+    private void sendMessageToUser(PrintWriter output) {
+        if(requestBus.haveMessageForRecipient(clientId)) {
+            String messageToSend = requestBus.getMessageFor(clientId).getMessage();
+            output.println(messageToSend);
+        }
+    }
+
+    private void getMessageFromUser(BufferedReader input) {
+        try {
+            if(input.ready()) {
+                String lineFromClient = input.readLine();
+                requestBus.addMessage(clientId, SERVER_ID, lineFromClient);
+            }
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Could't read message from user: " + name + " with ID: " + clientId, e);
+        }
     }
 }
