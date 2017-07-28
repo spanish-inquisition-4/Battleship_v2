@@ -3,12 +3,12 @@ package com.spanish_inquisition.battleship.server;
 public class Message {
     private int sender;
     private int  recipient;
-    private String message;
+    private String content;
 
     public Message(int sender, int recipient, String message) {
         this.sender = sender;
         this.recipient = recipient;
-        this.message = message;
+        this.content = message;
     }
 
     public int getSender() {
@@ -19,8 +19,8 @@ public class Message {
         return recipient;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Message {
         return "Message{" +
                 "sender=" + sender +
                 ", recipient=" + recipient +
-                ", message='" + message + '\'' +
+                ", message='" + content + '\'' +
                 '}';
     }
 }
