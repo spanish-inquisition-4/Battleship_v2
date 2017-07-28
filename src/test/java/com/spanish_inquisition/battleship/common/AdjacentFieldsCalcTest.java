@@ -4,9 +4,11 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.*;
+
 public class AdjacentFieldsCalcTest {
 
-    @DataProvider(name = "IndexesProvider")
+    @DataProvider
     private Object[][] indexesProvider() {
         return new Object[][] {
                 {0, new int[] {0,0}},
@@ -20,7 +22,7 @@ public class AdjacentFieldsCalcTest {
         };
     }
 
-    @DataProvider(name = "CoordinatesProvider")
+    @DataProvider
     public Object[][] coordinatesProvider(){
         return new Object[][] {
                 {new int[] {-5, 3}, -1 },
@@ -38,22 +40,22 @@ public class AdjacentFieldsCalcTest {
         };
     }
 
-    @Test(dataProvider = "IndexesProvider")
+    @Test(dataProvider = "indexesProvider")
     public void shouldTranslateIndexToCoordinates(int index, int[] expectedCoordinates){
         // When
         int[] calculatedCoordinates = AdjacentFieldsCalc.translateIndexToCoordinates(index);
 
         // Then
-        Assert.assertEquals(expectedCoordinates[0], calculatedCoordinates[0]);
-        Assert.assertEquals(expectedCoordinates[1], calculatedCoordinates[1]);
+        assertEquals(expectedCoordinates[0], calculatedCoordinates[0]);
+        assertEquals(expectedCoordinates[1], calculatedCoordinates[1]);
     }
 
-    @Test(dataProvider = "CoordinatesProvider")
+    @Test(dataProvider = "coordinatesProvider")
     public void shouldTranslateCoordinatesToIndex(int[] coordinates, int expectedIndex){
         // When
         int calculatedIndex = AdjacentFieldsCalc.translateCoordinatesToIndex(coordinates[0],coordinates[1]);
 
         // Then
-        Assert.assertEquals(calculatedIndex, expectedIndex);
+        assertEquals(calculatedIndex, expectedIndex);
     }
 }

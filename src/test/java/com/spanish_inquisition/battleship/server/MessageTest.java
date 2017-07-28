@@ -1,8 +1,9 @@
 package com.spanish_inquisition.battleship.server;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 public class MessageTest {
 
@@ -19,34 +20,41 @@ public class MessageTest {
     @Test
     public void shouldCheckIfMessageIsToRecipient() {
         // Then
-        Assert.assertEquals(true, testMessage.isToRecipient(2));
-        Assert.assertEquals(false, testMessage.isToRecipient(84));
+        assertEquals(true, testMessage.isToRecipient(2));
+        assertEquals(false, testMessage.isToRecipient(84));
     }
 
     @Test
-    public void shouldGetMessageSender(){
+    public void shouldCheckIfMessageIsFromServer() {
+        // Then
+        assertEquals(true, testMessage.isFromSender(1));
+        assertEquals(false, testMessage.isFromSender(84));
+    }
+
+    @Test
+    public void shouldGetMessageSender() {
         // When
         int getSender = testMessage.getSender();
 
         // Then
-        Assert.assertEquals(sender, getSender);
+        assertEquals(sender, getSender);
     }
 
     @Test
-    public void shouldGetMessageRecipient(){
+    public void shouldGetMessageRecipient() {
         // When
         int getRecipient = testMessage.getRecipient();
 
         // Then
-        Assert.assertEquals(recipient, getRecipient);
+        assertEquals(recipient, getRecipient);
     }
 
     @Test
-    public void shouldGetMessageContent(){
+    public void shouldGetMessageContent() {
         // When
         String getContent = testMessage.getContent();
 
         // Then
-        Assert.assertEquals(content, getContent);
+        assertEquals(content, getContent);
     }
 }
