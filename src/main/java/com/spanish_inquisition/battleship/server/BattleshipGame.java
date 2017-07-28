@@ -22,7 +22,7 @@ public class BattleshipGame {
                 System.out.println("checking message from player " + player.getPlayerName());
                 int playerId = player.getClientId();
                 if(requestBus.haveMessageFromSender(playerId)){
-                    String message = requestBus.getMessageFromSender(playerId).getContent();
+                    String message = requestBus.getMessageFrom(playerId).getContent();
                     if(message.contains(Header.MOVE_REGULAR.name())) {
                         logger.log(DEFAULT_LEVEL, "Player clicked on field:" + message.substring(message.indexOf(":") + 1, message.length()));
                         gameIsRunning = false;

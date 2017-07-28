@@ -5,6 +5,9 @@ public class Message {
     private int recipient;
     private String content;
 
+    public Message() {
+    }
+
     public Message(int sender, int recipient, String message) {
         this.sender = sender;
         this.recipient = recipient;
@@ -13,6 +16,10 @@ public class Message {
 
     boolean isToRecipient(int recipient) {
         return this.recipient == recipient;
+    }
+
+    boolean isFromSender(int sender) {
+        return this.sender == sender;
     }
 
     int getSender() {

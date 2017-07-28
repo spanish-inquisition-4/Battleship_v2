@@ -1,8 +1,7 @@
 package com.spanish_inquisition.battleship.server;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -32,36 +31,37 @@ class MessageBus {
         return msg;
     }
 
-    boolean haveMessageFromSender(int senderId) {
-        if (messageBus != null) {
-            for (Message message : messageBus)
-                if (message.getSender() == senderId) return true;
+    Message getMessageFrom(int senderId) {
+        Message firstSenderMessage;
+        try {
+            firstSenderMessage = messageBus.stream()
+                    .filter(message -> message.isFromSender(senderId)).findFirst().get();
+        } catch (NoSuchElementException e) {
+            firstSenderMessage = new Message();
         }
-        return false;
+        removeAllSenderMessagesFromBus(senderId);
+        return firstSenderMessage;
+    }
+
+    private void removeAllSenderMessagesFromBus(int senderId) {
+        messageBus.removeIf(message -> message.isFromSender(senderId));
+    }
+
+    boolean haveMessageFromSender(int senderId) {
+        boolean isFromSender = false;
+        if (messageBus != null) {
+            isFromSender = messageBus.stream()
+                    .anyMatch(message -> message.isFromSender(senderId));
+        }
+        return isFromSender;
     }
 
     boolean haveMessageForRecipient(int recipientId) {
+        boolean isForRecipient = false;
         if (messageBus != null) {
-            for (Message message : messageBus)
-                if (message.isToRecipient(recipientId)) return true;
+            isForRecipient = messageBus.stream()
+                    .anyMatch(message -> message.isToRecipient(recipientId));
         }
-        return false;
-    }
-
-    Message getMessageFromSender(int senderId) {
-        List<Message> newList = new LinkedList<>();
-        for (Message msg : messageBus) {
-            if (msg.getSender() == senderId) {
-                newList.add(msg);
-            }
-        }
-
-        Message msg = null;
-        if (!newList.isEmpty()) {
-            msg = newList.get(0);
-        }
-
-        messageBus.removeAll(newList);
-        return msg;
+        return isForRecipient;
     }
 }
