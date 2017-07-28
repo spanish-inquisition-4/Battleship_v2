@@ -1,6 +1,5 @@
 package com.spanish_inquisition.battleship.server;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -14,6 +13,8 @@ import java.util.logging.Level;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogger;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 public class BattleshipServerTestIT {
     private BattleshipServer battleshipServer;
@@ -44,7 +45,7 @@ public class BattleshipServerTestIT {
         // When
         battleshipServer.connectWithPlayers(serverSocket);
         // Then
-        Assert.assertEquals(battleshipServer.NUMBER_OF_PLAYERS, battleshipServer.clients.size());
+        assertEquals(battleshipServer.NUMBER_OF_PLAYERS, battleshipServer.clients.size());
     }
 
     @Test
@@ -57,8 +58,8 @@ public class BattleshipServerTestIT {
         battleshipServer.clients.get(1).disconnect();
         battleshipServer.clients.get(0).join();
         battleshipServer.clients.get(1).join();
-        Assert.assertEquals(battleshipServer.clients.get(0).name, "Name 1");
-        Assert.assertEquals(battleshipServer.clients.get(1).name, "Name 2");
+        assertEquals(battleshipServer.clients.get(0).name, "Name 1");
+        assertEquals(battleshipServer.clients.get(1).name, "Name 2");
     }
 
     private void assignSocketAndNameTo(String nameString) {
@@ -78,7 +79,7 @@ public class BattleshipServerTestIT {
         // When
         ServerSocket testServerSocket = battleshipServer.createServerSocket(CREATION_TEST_PORT);
         // Then
-        Assert.assertNotNull(testServerSocket);
+        assertNotNull(testServerSocket);
     }
 
     @AfterMethod
