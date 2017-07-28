@@ -8,4 +8,4 @@ mvn site
 mvn sonar:sonar
 
 #display results
-firefox http://localhost:9000 target/site/index.html
+firefox http://localhost:9000 target/site/index.html &
