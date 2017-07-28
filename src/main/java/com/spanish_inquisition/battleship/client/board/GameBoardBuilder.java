@@ -1,6 +1,6 @@
 package com.spanish_inquisition.battleship.client.board;
 
-import com.spanish_inquisition.battleship.common.AdjacentFieldsCalc;
+import com.spanish_inquisition.battleship.common.AdjacentTilesCalc;
 import com.spanish_inquisition.battleship.common.Styles;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -61,14 +61,14 @@ public class GameBoardBuilder {
             for (Map.Entry<Integer, BoardTile> entry : boardController.getBoardsIndexTiles().entrySet()) {
             BoardTile tile = entry.getValue();
             int boardIndex = entry.getKey();
-            int[] tileCoordinates = AdjacentFieldsCalc.translateIndexToCoordinates(boardIndex);
+            int[] tileCoordinates = AdjacentTilesCalc.translateIndexToCoordinates(boardIndex);
             tile.setLabels(horizontalLabels.get(tileCoordinates[1] + 1), verticalLabels.get(tileCoordinates[0] + 1));
             setButtonsHoverOverEvents(tile);
         }
     }
 
     private void createNewBoardTileAndAddIt(int absoluteXCoordinate, int absoluteYCoordinate) {
-        int boardIndex = AdjacentFieldsCalc.translateCoordinatesToIndex(absoluteXCoordinate - 1, absoluteYCoordinate - 1);
+        int boardIndex = AdjacentTilesCalc.translateCoordinatesToIndex(absoluteXCoordinate - 1, absoluteYCoordinate - 1);
         BoardTile tile = new BoardTile(boardIndex);
         tile.setOnMouseClicked(getOnBoardTileClickedEvent(tile, boardController));
         Platform.runLater(() -> this.gridPane.add(tile, absoluteXCoordinate, absoluteYCoordinate));
