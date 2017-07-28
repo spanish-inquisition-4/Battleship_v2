@@ -42,12 +42,6 @@ public class MessageBusTest {
                         new Message(1, 2, "CCC"),
                         new Message(5, 36, "QWE")),
                         1, new Message(1, 2, "AAA")},
-                {Arrays.asList(
-                        new Message(1, 2, "AAA"),
-                        new Message(10, 20, "BBB"),
-                        new Message(1, 2, "CCC"),
-                        new Message(5, 36, "QWE")),
-                        84, new Message()},
         };
     }
 

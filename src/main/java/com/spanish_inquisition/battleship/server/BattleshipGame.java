@@ -22,10 +22,13 @@ public class BattleshipGame {
                 System.out.println("checking message from player " + player.getPlayerName());
                 int playerId = player.getClientId();
                 if(requestBus.haveMessageFromSender(playerId)){
-                    String message = requestBus.getMessageFrom(playerId).getContent();
-                    if(message.contains(Header.MOVE_REGULAR.name())) {
-                        logger.log(DEFAULT_LEVEL, "Player clicked on field:" + message.substring(message.indexOf(":") + 1, message.length()));
-                        gameIsRunning = false;
+                    Message message = requestBus.getMessageFrom(playerId);
+                    if (message != null) {
+                        String content = message.getContent();
+                        if (content.contains(Header.MOVE_REGULAR.name())) {
+                            logger.log(DEFAULT_LEVEL, "Player clicked on field:" + content.substring(content.indexOf(":") + 1, content.length()));
+                            gameIsRunning = false;
+                        }
                     }
                 }
             }
