@@ -76,7 +76,7 @@ public class ClientConnectionHandler extends Thread {
 
     private void sendMessageToUser(PrintWriter output) {
         if(requestBus.haveMessageForRecipient(clientId)) {
-            String messageToSend = requestBus.getMessageFor(clientId).getMessage();
+            String messageToSend = requestBus.getMessageFor(clientId).getContent();
             output.println(messageToSend);
         }
     }
