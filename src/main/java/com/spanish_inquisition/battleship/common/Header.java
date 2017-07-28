@@ -12,6 +12,9 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 public enum Header {
     NAME,
     UNKNOWN,
+    FLEET_REQUEST,
+    FLEET_INVALID,
+    FLEET_VALID,
     MOVE_REGULAR;
 
     /**

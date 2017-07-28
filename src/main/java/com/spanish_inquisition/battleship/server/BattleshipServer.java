@@ -13,7 +13,7 @@ public class BattleshipServer {
     private static final Integer PORT_NUMBER = 6666;
     final int NUMBER_OF_PLAYERS = 2;
     static final int SERVER_ID = 0;
-    static MessageBus requestBus;
+    MessageBus requestBus;
     List<ClientConnectionHandler> clients;
 
     public BattleshipServer(){
@@ -23,7 +23,7 @@ public class BattleshipServer {
     public void proceed(){
         initializeLogger();
         connectWithPlayers(createServerSocket(PORT_NUMBER));
-        BattleshipGame game = new BattleshipGame(clients);
+        BattleshipGame game = new BattleshipGame(clients, requestBus);
         game.proceed();
 
     }
@@ -44,7 +44,7 @@ public class BattleshipServer {
         for (int i = 1; i < NUMBER_OF_PLAYERS + 1; i++) {
             ClientConnectionHandler clientConnectionHandler = null;
             try {
-                clientConnectionHandler = new ClientConnectionHandler(i);
+                clientConnectionHandler = new ClientConnectionHandler(i, requestBus);
                 clientConnectionHandler.initializeSocket(serverSocket);
                 clientConnectionHandler.setUpStreams();
                 clientConnectionHandler.start();
