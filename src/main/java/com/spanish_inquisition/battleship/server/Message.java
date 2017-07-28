@@ -2,7 +2,7 @@ package com.spanish_inquisition.battleship.server;
 
 public class Message {
     private int sender;
-    private int  recipient;
+    private int recipient;
     private String content;
 
     public Message(int sender, int recipient, String message) {
@@ -11,15 +11,19 @@ public class Message {
         this.content = message;
     }
 
-    public int getSender() {
+    boolean isToRecipient(int recipient) {
+        return this.recipient == recipient;
+    }
+
+    int getSender() {
         return sender;
     }
 
-    public int getRecipient() {
+    int getRecipient() {
         return recipient;
     }
 
-    public String getContent() {
+    String getContent() {
         return content;
     }
 

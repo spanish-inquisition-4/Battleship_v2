@@ -17,6 +17,13 @@ public class MessageTest {
     }
 
     @Test
+    public void shouldCheckIfMessageIsToRecipient() {
+        // Then
+        Assert.assertEquals(true, testMessage.isToRecipient(2));
+        Assert.assertEquals(false, testMessage.isToRecipient(84));
+    }
+
+    @Test
     public void shouldGetMessageSender(){
         // When
         int getSender = testMessage.getSender();
