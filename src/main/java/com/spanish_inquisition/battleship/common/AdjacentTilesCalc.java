@@ -12,46 +12,22 @@ import java.util.List;
 public class AdjacentTilesCalc {
 
     private static final int IMPORTED_BOARD_SIZE = GameBoardBuilder.BOARD_SIZE_WITH_LABELS -1;
-
-    public enum TileDirection {
-        LEFT,
-        RIGHT,
-        ABOVE,
-        BELOW,
-        UPPER_LEFT,
-        UPPER_RIGHT,
-        LOWER_LEFT,
-        LOWER_RIGHT
-    }
+    private static final int OUT_OF_BOARD_INDEX = -1;
 
     public static List<Integer> getBoardIndexesOfAllAdjacentTilesOf(Integer tile) {
         List<Integer> adjacentFields = new LinkedList<>();
         TileDirection[] enumValues = TileDirection.values();
         for (TileDirection tileDirection: enumValues) {
             int adjacentBoardIndex = getAdjacentTileIndex(tile, tileDirection);
-            if(adjacentBoardIndex != -1) {
+            if(adjacentBoardIndex != OUT_OF_BOARD_INDEX) {
                 adjacentFields.add(adjacentBoardIndex);
             }
         }
         return adjacentFields;
     }
 
-    public static int getAdjacentTileIndex(BoardTile boardTile, TileDirection tileDirection) {
-        return getAdjacentTileIndex(boardTile.getBoardIndex(), tileDirection);
-    }
-
     public static int getAdjacentTileIndex(Integer boardIndex, TileDirection tileDirection) {
-        switch (tileDirection) {
-            case LEFT: return getBoardIndexOfTileToTheLeft(boardIndex);
-            case RIGHT: return getBoardIndexOfTileToTheRight(boardIndex);
-            case ABOVE: return getBoardIndexOfTileAbove(boardIndex);
-            case BELOW: return getBoardIndexOfTileBelow(boardIndex);
-            case UPPER_LEFT: return getBoardIndexOfUpperLeftTile(boardIndex);
-            case UPPER_RIGHT: return getBoardIndexOfUpperRightTile(boardIndex);
-            case LOWER_LEFT: return getBoardIndexOfLowerLeftTile(boardIndex);
-            case LOWER_RIGHT: return getBoardIndexOfLowerRightTile(boardIndex);
-            default: return -1;
-        }
+        return tileDirection.getAdjacentTileIndex(boardIndex);
     }
 
     public static int translateCoordinatesToIndex(int xCoordinate, int yCoordinate) {
@@ -66,45 +42,5 @@ public class AdjacentTilesCalc {
         coordinates[0] = (index % IMPORTED_BOARD_SIZE); //x coordinate
         coordinates[1] = (index / IMPORTED_BOARD_SIZE); //y coordinate
         return coordinates;
-    }
-
-    static int getBoardIndexOfTileToTheLeft(Integer boardIndex) {
-        int[] coordinates = translateIndexToCoordinates(boardIndex);
-        return translateCoordinatesToIndex(coordinates[0] - 1, coordinates[1]);
-    }
-
-    static int getBoardIndexOfTileToTheRight(Integer boardIndex) {
-        int[] coordinates = translateIndexToCoordinates(boardIndex);
-        return translateCoordinatesToIndex(coordinates[0] + 1, coordinates[1]);
-    }
-
-    static int getBoardIndexOfTileAbove(Integer boardIndex) {
-        int[] coordinates = translateIndexToCoordinates(boardIndex);
-        return translateCoordinatesToIndex(coordinates[0], coordinates[1] - 1);
-    }
-
-    static int getBoardIndexOfTileBelow(Integer boardIndex) {
-        int[] coordinates = translateIndexToCoordinates(boardIndex);
-        return translateCoordinatesToIndex(coordinates[0], coordinates[1] + 1);
-    }
-
-    static int getBoardIndexOfUpperLeftTile(Integer boardIndex) {
-        int[] coordinates = translateIndexToCoordinates(boardIndex);
-        return translateCoordinatesToIndex(coordinates[0] - 1, coordinates[1] - 1);
-    }
-
-    static int getBoardIndexOfLowerLeftTile(Integer boardIndex) {
-        int[] coordinates = translateIndexToCoordinates(boardIndex);
-        return translateCoordinatesToIndex(coordinates[0] - 1, coordinates[1] + 1);
-    }
-
-    static int getBoardIndexOfUpperRightTile(Integer boardIndex) {
-        int[] coordinates = translateIndexToCoordinates(boardIndex);
-        return translateCoordinatesToIndex(coordinates[0] + 1, coordinates[1] - 1);
-    }
-
-    static int getBoardIndexOfLowerRightTile(Integer boardIndex) {
-        int[] coordinates = translateIndexToCoordinates(boardIndex);
-        return translateCoordinatesToIndex(coordinates[0] + 1, coordinates[1] + 1);
     }
 }
