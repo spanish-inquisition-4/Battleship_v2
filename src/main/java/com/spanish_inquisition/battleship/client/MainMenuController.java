@@ -24,17 +24,29 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
  */
 public class MainMenuController {
 
+    @FXML
     public VBox centralVBox;
+    @FXML
     public TextField nameTextField;
+    @FXML
     public Button featureButton;
+    @FXML
     public HBox gameHBox;
+    @FXML
     public VBox playersVBox;
+    @FXML
     public Label playersLabel;
+    @FXML
     public GridPane playersGridPane;
+    @FXML
     public VBox opponentsVBox;
+    @FXML
     public VBox playerNameVBox;
+    @FXML
     public Label opponentsLabel;
+    @FXML
     public GridPane opponentsGridPane;
+    @FXML
     public Label gameStatusLabel;
 
     private SocketClient socketClient;

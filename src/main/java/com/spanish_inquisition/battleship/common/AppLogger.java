@@ -26,11 +26,12 @@ public class AppLogger {
         try {
             handler = new FileHandler("Battleship.log", false);
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Could not create file");
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Could not create file", e);
         }
         handler.setFormatter(new SimpleFormatter());
         logger.addHandler(handler);
         logger.setLevel(Level.CONFIG);
     }
+
+    private AppLogger() {}
 }
