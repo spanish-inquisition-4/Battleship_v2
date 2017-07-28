@@ -5,9 +5,6 @@ public class Message {
     private int recipient;
     private String content;
 
-    public Message() {
-    }
-
     public Message(int sender, int recipient, String message) {
         this.sender = sender;
         this.recipient = recipient;
