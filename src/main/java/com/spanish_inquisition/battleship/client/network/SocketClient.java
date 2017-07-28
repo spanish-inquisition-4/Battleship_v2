@@ -14,10 +14,10 @@ import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
  * @author Michal_Partacz
  */
 public class SocketClient {
-    private final static String HOST_NAME = "localhost";
-  
-    final static int PORT = 6666;
-    private final static Logger logger = Logger.getLogger(AppLogger.class.getName());
+    private static final String HOST_NAME = "localhost";
+
+    static final int PORT = 6666;
+    private static final Logger logger = Logger.getLogger(AppLogger.class.getName());
 
     Socket socket;
     BufferedReader input;
