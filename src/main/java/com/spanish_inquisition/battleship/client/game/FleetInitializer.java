@@ -19,7 +19,6 @@ public class FleetInitializer {
 
     public FleetInitializer(BoardController boardController) {
         this.boardController = boardController;
-
     }
 
     public void setUpShips() {

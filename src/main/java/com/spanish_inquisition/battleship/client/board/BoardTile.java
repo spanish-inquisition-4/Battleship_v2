@@ -34,7 +34,8 @@ public class BoardTile extends Button {
             verticalLabel.setTextFill(paint);
         }
     }
-    public void setTileStyle( Paint paint) {
+
+    public void setTileStyle(Paint paint) {
         if (horizontalLabel != null) {
             horizontalLabel.setTextFill(paint);
         }
