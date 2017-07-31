@@ -41,7 +41,7 @@ public class PlacingShipsState extends GameState {
     }
 
     private boolean setFleetIfIsValid(Player player) {
-        String fleetMessage = requestBus.getMessageFromSender(player.getPlayerId()).getContent();
+        String fleetMessage = requestBus.getMessageFrom(player.getPlayerId()).getContent();
         if (fleetMessage.contains(Header.FLEET_REQUEST.name())) {
             if (FleetValidator.validate(fleetMessage)) {
                 player.setFleet(new FleetBuilder().build(fleetMessage));

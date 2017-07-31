@@ -16,7 +16,7 @@ import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 public class SocketClient {
     private static final String HOST_NAME = "localhost";
 
-    static final int PORT = 6666;
+    static int PORT = 6666;
     private static final Logger logger = Logger.getLogger(AppLogger.class.getName());
 
     Socket socket;

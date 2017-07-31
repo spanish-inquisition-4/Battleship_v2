@@ -17,12 +17,14 @@ public class AppLogger {
     public static final Logger logger = Logger.getLogger(AppLogger.class.getName());
     static Handler handler = null;
     public static final Level DEFAULT_LEVEL = Level.CONFIG;
+    private static boolean isInitialized = false;
 
     /**
      * This method will initialize the logger with the path and a name of the logfile, level of the logging info and
      * a formatter which will modify the logged information.
      */
     public static void initializeLogger() {
+        if(isInitialized) {return;}
         try {
             handler = new FileHandler("Battleship.log", false);
         } catch (IOException e) {
@@ -31,6 +33,7 @@ public class AppLogger {
         handler.setFormatter(new SimpleFormatter());
         logger.addHandler(handler);
         logger.setLevel(Level.CONFIG);
+        isInitialized = true;
     }
 
     private AppLogger() {}

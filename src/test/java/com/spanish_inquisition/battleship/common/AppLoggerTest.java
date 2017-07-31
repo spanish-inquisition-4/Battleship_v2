@@ -6,7 +6,6 @@ import java.util.logging.Level;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 
 /**
  * @author Michal_Partacz
@@ -15,8 +14,6 @@ public class AppLoggerTest {
 
     @Test
     public void testInitializeLogger() throws Exception {
-        //given
-        assertNull(AppLogger.handler);
         //when
         AppLogger.initializeLogger();
         //then
