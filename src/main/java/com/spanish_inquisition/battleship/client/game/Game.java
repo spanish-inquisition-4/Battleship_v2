@@ -16,4 +16,9 @@ public class Game {
         this.boardController = boardController;
         boardController.buildPlayersBoard();
     }
+
+    public void placePlayersShips() {
+        logger.log(DEFAULT_LEVEL, "Setting fleet for player");
+        boardController.placeShips();
+    }
 }

@@ -48,6 +48,10 @@ public class MainMenuController {
     public GridPane opponentsGridPane;
     @FXML
     public Label gameStatusLabel;
+    @FXML
+    private VBox fleetSetupVBox;
+    @FXML
+    private Button fleetSetupButton;
 
     private SocketClient socketClient;
     private Game game;
@@ -94,5 +98,11 @@ public class MainMenuController {
         this.playersLabel.setText("Set Up your ships");
         this.game = new Game();
         this.game.buildPlayersBoard(new BoardController(new GameBoard(this.playersGridPane)));
+        this.fleetSetupButton.setVisible(true);
+    }
+
+    @FXML
+    public void onFleetSetupButtonClicked(){
+        this.game.placePlayersShips();
     }
 }

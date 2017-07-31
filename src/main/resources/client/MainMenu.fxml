@@ -67,4 +67,15 @@ corresponding methods which will be invoked in the java class specified in tag f
          </BorderPane.margin>
       </HBox>
    </top>
+   <left>
+      <VBox fx:id="fleetSetupVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="fleetSetupButton" mnemonicParsing="false" onAction="#onFleetSetupButtonClicked" text="Set-up fleet" visible="false">
+               <VBox.margin>
+                  <Insets left="2.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </left>
 </BorderPane>

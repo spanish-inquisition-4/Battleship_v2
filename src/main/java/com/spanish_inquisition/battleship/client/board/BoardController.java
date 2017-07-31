@@ -1,5 +1,6 @@
 package com.spanish_inquisition.battleship.client.board;
 
+import com.spanish_inquisition.battleship.client.game.FleetInitializer;
 import javafx.scene.layout.GridPane;
 
 import java.util.Map;
@@ -30,5 +31,10 @@ public class BoardController {
 
     public Map<Integer, BoardTile> getBoardsIndexTiles() {
         return gameBoard.getIndexTiles();
+    }
+
+    public void placeShips() {
+        FleetInitializer fleetInitializer = new FleetInitializer(this);
+        fleetInitializer.setUpShips();
     }
 }
