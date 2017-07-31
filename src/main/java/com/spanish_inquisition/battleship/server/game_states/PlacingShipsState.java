@@ -31,7 +31,10 @@ public class PlacingShipsState extends GameState {
     }
 
     private void resolvePlayerFleetValidation(Player player, List<Player> notReadyPlayers) {
-        if (setFleetIfIsValid(player)) {
+        String fleetMessage = requestBus.getMessageFrom(player.getPlayerId()).getContent();
+        boolean isValidFleet = validateFleet(fleetMessage);
+        if (isValidFleet) {
+            player.setFleet(new FleetBuilder().build(fleetMessage));
             notReadyPlayers.remove(player);
             requestBus.addMessage(SERVER_ID, player.getPlayerId(), Header.FLEET_VALID.name());
         } else {
@@ -39,15 +42,10 @@ public class PlacingShipsState extends GameState {
         }
     }
 
-    private boolean setFleetIfIsValid(Player player) {
-        String fleetMessage = requestBus.getMessageFrom(player.getPlayerId()).getContent();
+    private boolean validateFleet(String fleetMessage) {
         if (fleetMessage.contains(Header.FLEET_REQUEST.name())) {
-            if (FleetValidator.validate(fleetMessage)) {
-                player.setFleet(new FleetBuilder().build(fleetMessage));
-                return true;
-            }
+            return FleetValidator.validate(fleetMessage);
         }
-
         return false;
     }
 }
