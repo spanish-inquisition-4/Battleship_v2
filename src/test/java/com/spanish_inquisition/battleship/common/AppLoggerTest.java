@@ -15,8 +15,6 @@ public class AppLoggerTest {
 
     @Test
     public void testInitializeLogger() throws Exception {
-        //given
-        assertNull(AppLogger.handler);
         //when
         AppLogger.initializeLogger();
         //then

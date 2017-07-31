@@ -39,6 +39,7 @@ public class SocketClientTest {
 
     @Test(expectedExceptions = IOException.class)
     public void testNewSocketClient_withoutServer() throws Exception {
+        SocketClient.PORT = 4567;
         SocketClient.createSocketClientWithSocket();
     }
 
