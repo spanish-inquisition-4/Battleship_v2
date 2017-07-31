@@ -12,7 +12,6 @@ import java.util.logging.Level;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 import static com.spanish_inquisition.battleship.server.BattleshipServer.SERVER_ID;
-import static com.spanish_inquisition.battleship.server.BattleshipServer.requestBus;
 
 public class ClientConnectionHandler extends Thread {
     String name;
@@ -20,10 +19,12 @@ public class ClientConnectionHandler extends Thread {
     BufferedReader clientInput;
     PrintWriter clientOutput;
     final int clientId;
+    private MessageBus requestBus;
     boolean isConnected;
 
-    public ClientConnectionHandler(final int clientId) {
+    public ClientConnectionHandler(final int clientId, MessageBus requestBus) {
         this.clientId = clientId;
+        this.requestBus = requestBus;
         this.isConnected = true;
     }
 
@@ -64,10 +65,12 @@ public class ClientConnectionHandler extends Thread {
     private String acceptNameFromClient() {
         String readName = "";
         try {
-            while (!clientInput.ready()) {
-                Thread.sleep(10);
+            if(clientInput != null) {
+                while (!clientInput.ready()) {
+                    Thread.sleep(10);
+                }
+                readName = clientInput.readLine();
             }
-            readName = clientInput.readLine();
         } catch (IOException | InterruptedException e) {
             logger.log(Level.WARNING, "couldn't read name from client", e);
         }
@@ -75,17 +78,21 @@ public class ClientConnectionHandler extends Thread {
     }
 
     private void sendMessageToUser(PrintWriter output) {
-        if(requestBus.haveMessageForRecipient(clientId)) {
-            String messageToSend = requestBus.getMessageFor(clientId).getContent();
-            output.println(messageToSend);
+        if(output != null) {
+            if (requestBus.haveMessageForRecipient(clientId)) {
+                String messageToSend = requestBus.getMessageFor(clientId).getContent();
+                output.println(messageToSend);
+            }
         }
     }
 
     private void getMessageFromUser(BufferedReader input) {
         try {
-            if(input.ready()) {
-                String lineFromClient = input.readLine();
-                requestBus.addMessage(clientId, SERVER_ID, lineFromClient);
+            if(input != null) {
+                if (input.ready()) {
+                    String lineFromClient = input.readLine();
+                    requestBus.addMessage(clientId, SERVER_ID, lineFromClient);
+                }
             }
         } catch (IOException e) {
             logger.log(Level.WARNING, "Could't read message from user: " + name + " with ID: " + clientId, e);
