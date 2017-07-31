@@ -1,11 +1,11 @@
 package com.spanish_inquisition.battleship.client.board;
 
 import com.spanish_inquisition.battleship.client.game.FleetInitializer;
+import com.spanish_inquisition.battleship.client.game.ServerMessageCreator;
 import com.spanish_inquisition.battleship.common.Styles;
 import javafx.scene.layout.GridPane;
 
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * @author Michal_Partacz
@@ -13,6 +13,7 @@ import java.util.function.BiConsumer;
  */
 public class BoardController {
     private GameBoard gameBoard;
+    private FleetInitializer fleetInitializer;
 
     public BoardController(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
@@ -20,6 +21,7 @@ public class BoardController {
 
     public void buildPlayersBoard() {
         GameBoardBuilder gameBoardBuilder = new GameBoardBuilder(this);
+        fleetInitializer = new FleetInitializer(this);
         gameBoardBuilder.buildGameBoard();
     }
 
@@ -36,9 +38,12 @@ public class BoardController {
     }
 
     public void placeShips() {
-        FleetInitializer fleetInitializer = new FleetInitializer(this);
         Map<Integer, BoardTile> indexTiles = gameBoard.getIndexTiles();
         indexTiles.forEach((integer, boardTile) -> boardTile.setTileStyle(Styles.DEFAULT_TILE_COLOR, Styles.TEXT_BLACK));
         fleetInitializer.setUpShips();
+    }
+
+    public String getMessageForServer(){
+        return ServerMessageCreator.createFleetMessage(fleetInitializer.getShipPlaces());
     }
 }

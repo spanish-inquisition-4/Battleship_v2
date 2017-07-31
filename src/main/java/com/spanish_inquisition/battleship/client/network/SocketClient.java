@@ -40,8 +40,9 @@ public class SocketClient {
 
     public void sendStringToServer(String string) {
         try {
+            logger.log(DEFAULT_LEVEL, "Attempting sent string to server = " + string);
             this.output.println(string);
-            logger.log(DEFAULT_LEVEL, "sent string to server = " + string);
+            logger.log(DEFAULT_LEVEL, "Sent string to server = " + string);
         } catch (NullPointerException e) {
             logger.log(Level.WARNING, "Could not send " + string + " to server", e);
         }

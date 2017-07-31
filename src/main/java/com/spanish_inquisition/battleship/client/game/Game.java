@@ -21,4 +21,8 @@ public class Game {
         logger.log(DEFAULT_LEVEL, "Setting fleet for player");
         boardController.placeShips();
     }
+
+    public String getShipPlacementForServer(){
+        return boardController.getMessageForServer();
+    }
 }

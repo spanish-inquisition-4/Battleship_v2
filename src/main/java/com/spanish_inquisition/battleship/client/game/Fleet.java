@@ -6,11 +6,11 @@ import java.util.Random;
 
 public enum Fleet {
 
-    SHIPS_ONE(Arrays.asList(13, 16, 17, 20, 23, 29, 33, 45, 55, 58, 61, 68, 78, 80, 82, 83, 84, 88, 90, 96)),
+    SHIPS_ONE(Arrays.asList(20, 29, 61, 96, 16, 17, 45, 55, 80, 90, 13, 23, 33, 82, 83, 84, 58, 68, 78, 88)),
 
-    SHIPS_TWO(Arrays.asList(1, 8, 9, 14, 19, 20, 29, 33, 34, 44, 52, 56, 68, 62, 63, 66, 68, 81, 86, 87)),
+    SHIPS_TWO(Arrays.asList(1, 14, 20, 81, 56, 66, 58, 68, 86, 87, 33, 34, 44, 52, 62, 63, 8, 9, 19, 29)),
 
-    SHIPS_THREE(Arrays.asList(8, 10, 12, 13, 16, 20, 23, 28, 38, 51, 52, 53, 54, 68, 69, 73, 75, 81, 85, 86));
+    SHIPS_THREE(Arrays.asList(8, 16, 73, 81, 10, 20, 28, 38, 68, 69, 12, 13, 23, 75, 85, 86, 51, 52, 53, 54));
 
     private List<Integer> shipPlaces;
 
