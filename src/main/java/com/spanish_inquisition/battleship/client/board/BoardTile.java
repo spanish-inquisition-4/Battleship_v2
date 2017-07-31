@@ -34,4 +34,8 @@ public class BoardTile extends Button {
             verticalLabel.setTextFill(paint);
         }
     }
+
+    public int getBoardIndex() {
+        return boardIndex;
+    }
 }

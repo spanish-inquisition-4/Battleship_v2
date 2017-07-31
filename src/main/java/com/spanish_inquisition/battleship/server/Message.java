@@ -15,6 +15,10 @@ public class Message {
         return this.recipient == recipient;
     }
 
+    boolean isFromSender(int sender) {
+        return this.sender == sender;
+    }
+
     int getSender() {
         return sender;
     }
