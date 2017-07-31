@@ -2,6 +2,8 @@ package com.spanish_inquisition.battleship.server;
 
 import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.server.fleet.Ship;
+import com.spanish_inquisition.battleship.server.game_states.GameState;
+import com.spanish_inquisition.battleship.server.game_states.PlacingShipsState;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -18,7 +20,7 @@ import java.util.logging.Level;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 public class PlacingShipsStateTest {
-    List<Player> players;
+    Players players;
     private int TEST_PORT = 5550;
     MessageBus messageBus;
     ServerSocket ss;
@@ -34,7 +36,7 @@ public class PlacingShipsStateTest {
         }
         new Thread(() -> assignSocketAndNameTo("Name 1")).run();
         new Thread(() -> assignSocketAndNameTo("Name 2")).run();
-        players = new ArrayList<>();
+        players = new Players();
         for(int i = 1; i < 3; i++) {
             ClientConnectionHandler cch = new ClientConnectionHandler(i, messageBus);
             cch.start();
@@ -43,7 +45,7 @@ public class PlacingShipsStateTest {
             } catch (IOException e) {
                 logger.log(Level.WARNING, "couldn't connect with server", e);
             }
-            players.add(new Player(cch));
+            players.addPlayer(new Player(cch));
         }
     }
 
@@ -66,8 +68,9 @@ public class PlacingShipsStateTest {
         pss.transform();
 
         List<List<Ship>> playersShips = new ArrayList<>();
+        List<Player> playersList = players.getBothPlayers();
         for(int i = 0; i < 2; i++) {
-            playersShips.add(players.get(i).getFleet().getShips());
+            playersShips.add(playersList.get(i).getFleet().getShips());
         }
 
         for(List<Ship> playerShips : playersShips) {

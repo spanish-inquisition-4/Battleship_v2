@@ -1,6 +1,9 @@
-package com.spanish_inquisition.battleship.server;
+package com.spanish_inquisition.battleship.server.game_states;
 
 import com.spanish_inquisition.battleship.common.Header;
+import com.spanish_inquisition.battleship.server.MessageBus;
+import com.spanish_inquisition.battleship.server.Player;
+import com.spanish_inquisition.battleship.server.Players;
 import com.spanish_inquisition.battleship.server.fleet.FleetBuilder;
 import com.spanish_inquisition.battleship.server.fleet.FleetValidator;
 
@@ -10,29 +13,28 @@ import java.util.List;
 import static com.spanish_inquisition.battleship.server.BattleshipServer.SERVER_ID;
 
 public class PlacingShipsState extends GameState {
-    private List<Player> players;
-    private MessageBus requestBus;
-
-    public PlacingShipsState(List<Player> players, MessageBus requestBus) {
-        this.players = players;
-        this.requestBus = requestBus;
+    public PlacingShipsState(Players players, MessageBus requestBus) {
+        super(players, requestBus);
     }
 
     @Override
     public GameState transform() {
-        List<Player> notReadyPlayers = new LinkedList<>(players);
-        while(!notReadyPlayers.isEmpty()) {
-            for(Player player : notReadyPlayers) {
-                if(requestBus.haveMessageFromSender(player.getPlayerId())) {
+        List<Player> notReadyPlayers = new LinkedList<>(players.getBothPlayers());
+        while (!notReadyPlayers.isEmpty()) {
+            for (Player player : notReadyPlayers) {
+                if (requestBus.haveMessageFromSender(player.getPlayerId())) {
                     resolvePlayerFleetValidation(player, notReadyPlayers);
                 }
             }
         }
-        return new EndState();
+        return new PlayerActionState(players, requestBus);
     }
 
     private void resolvePlayerFleetValidation(Player player, List<Player> notReadyPlayers) {
-        if(setFleetIfIsValid(player)) {
+        String fleetMessage = requestBus.getMessageFrom(player.getPlayerId()).getContent();
+        boolean isValidFleet = validateFleet(fleetMessage);
+        if (isValidFleet) {
+            player.setFleet(new FleetBuilder().build(fleetMessage));
             notReadyPlayers.remove(player);
             requestBus.addMessage(SERVER_ID, player.getPlayerId(), Header.FLEET_VALID.name());
         } else {
@@ -40,15 +42,10 @@ public class PlacingShipsState extends GameState {
         }
     }
 
-    private boolean setFleetIfIsValid(Player player) {
-        String fleetMessage = requestBus.getMessageFrom(player.getPlayerId()).getContent();
+    private boolean validateFleet(String fleetMessage) {
         if (fleetMessage.contains(Header.FLEET_REQUEST.name())) {
-            if (FleetValidator.validate(fleetMessage)) {
-                player.setFleet(new FleetBuilder().build(fleetMessage));
-                return true;
-            }
+            return FleetValidator.validate(fleetMessage);
         }
-
         return false;
     }
 }

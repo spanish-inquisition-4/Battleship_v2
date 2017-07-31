@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-class MessageBus {
+public class MessageBus {
     private Queue<Message> messageBus;
 
     MessageBus() {
@@ -15,7 +15,7 @@ class MessageBus {
         AppLogger.initializeLogger();
     }
 
-    void addMessage(int senderId, int recipientId, String message) {
+    public void addMessage(int senderId, int recipientId, String message) {
         Message newMessage = new Message(senderId, recipientId, message);
         messageBus.add(newMessage);
     }
@@ -34,7 +34,7 @@ class MessageBus {
         return msg;
     }
 
-    Message getMessageFrom(int senderId) {
+    public Message getMessageFrom(int senderId) {
         Optional<Message> optionalMessage;
         optionalMessage = messageBus.stream()
                 .filter(message -> message.isFromSender(senderId)).findFirst();
@@ -46,7 +46,7 @@ class MessageBus {
         messageBus.removeIf(message -> message.isFromSender(senderId));
     }
 
-    boolean haveMessageFromSender(int senderId) {
+    public boolean haveMessageFromSender(int senderId) {
         boolean isFromSender = false;
         if (messageBus != null) {
             isFromSender = messageBus.stream()

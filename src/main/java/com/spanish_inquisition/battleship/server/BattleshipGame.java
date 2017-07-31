@@ -1,5 +1,8 @@
 package com.spanish_inquisition.battleship.server;
 
+import com.spanish_inquisition.battleship.server.game_states.GameState;
+import com.spanish_inquisition.battleship.server.game_states.PlacingShipsState;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +16,9 @@ public class BattleshipGame {
     }
 
     public void proceed() {
-        List<Player> players = new ArrayList<>();
+        Players players = new Players();
         for(ClientConnectionHandler client : clients) {
-            players.add(new Player(client));
+            players.addPlayer(new Player(client));
         }
         GameState currentState = new PlacingShipsState(players, requestBus);
         while(currentState.isGameRunning()){

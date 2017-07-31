@@ -15,6 +15,8 @@ public enum Header {
     FLEET_REQUEST,
     FLEET_INVALID,
     FLEET_VALID,
+    PLAYER_TURN,
+    OPPONENT_TURN,
     MOVE_REGULAR;
 
     /**

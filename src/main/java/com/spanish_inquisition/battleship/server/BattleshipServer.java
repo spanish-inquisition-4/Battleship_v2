@@ -12,7 +12,7 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 public class BattleshipServer {
     private static final Integer PORT_NUMBER = 6666;
     final int NUMBER_OF_PLAYERS = 2;
-    static final int SERVER_ID = 0;
+    public static final int SERVER_ID = 0;
     MessageBus requestBus;
     List<ClientConnectionHandler> clients;
 
