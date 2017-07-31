@@ -27,7 +27,7 @@ public class Message {
         return recipient;
     }
 
-    String getContent() {
+    public String getContent() {
         return content;
     }
 
