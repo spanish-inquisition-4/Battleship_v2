@@ -3,12 +3,9 @@ package com.spanish_inquisition.battleship.server;
 import com.spanish_inquisition.battleship.common.AppLogger;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
-import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 class MessageBus {
     private Queue<Message> messageBus;
@@ -38,15 +35,11 @@ class MessageBus {
     }
 
     Message getMessageFrom(int senderId) {
-        Message firstSenderMessage = null;
-        try {
-            firstSenderMessage = messageBus.stream()
-                    .filter(message -> message.isFromSender(senderId)).findFirst().get();
-        } catch (NoSuchElementException e) {
-            logger.log(DEFAULT_LEVEL, String.format("No message from sender with id: %d found in bus", senderId), e);
-        }
+        Optional<Message> optionalMessage;
+        optionalMessage = messageBus.stream()
+                .filter(message -> message.isFromSender(senderId)).findFirst();
         removeAllSenderMessagesFromBus(senderId);
-        return firstSenderMessage;
+        return optionalMessage.orElse(new Message(0, 0, ""));
     }
 
     private void removeAllSenderMessagesFromBus(int senderId) {
