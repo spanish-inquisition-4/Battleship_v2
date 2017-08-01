@@ -15,7 +15,6 @@ import javafx.scene.layout.RowConstraints;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * @author Michal_Partacz
  * This class will make sure the board of buttons is properly initialized and with every event handlers needed.

@@ -30,7 +30,7 @@ public class BoardController {
         return this.gameBoard.getGridPane();
     }
 
-    public GameBoard getGameBoard() {
+    GameBoard getGameBoard() {
         return gameBoard;
     }
 
