@@ -1,6 +1,5 @@
 package com.spanish_inquisition.battleship.common;
 
-import com.spanish_inquisition.battleship.client.board.BoardTile;
 import com.spanish_inquisition.battleship.client.board.GameBoardBuilder;
 
 import java.util.LinkedList;

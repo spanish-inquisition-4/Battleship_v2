@@ -1,10 +1,7 @@
 package com.spanish_inquisition.battleship.server.game_states;
 
 import com.spanish_inquisition.battleship.server.MessageBus;
-import com.spanish_inquisition.battleship.server.Player;
 import com.spanish_inquisition.battleship.server.Players;
-
-import java.util.List;
 
 public abstract class GameState {
     protected Players players;
@@ -14,7 +11,6 @@ public abstract class GameState {
         this.players = players;
         this.requestBus = requestBus;
     }
-
 
     public boolean isGameRunning() {
         return true;

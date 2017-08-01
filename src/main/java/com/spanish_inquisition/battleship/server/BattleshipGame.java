@@ -3,7 +3,6 @@ package com.spanish_inquisition.battleship.server;
 import com.spanish_inquisition.battleship.server.game_states.GameState;
 import com.spanish_inquisition.battleship.server.game_states.PlacingShipsState;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BattleshipGame {
@@ -17,11 +16,11 @@ public class BattleshipGame {
 
     public void proceed() {
         Players players = new Players();
-        for(ClientConnectionHandler client : clients) {
+        for (ClientConnectionHandler client : clients) {
             players.addPlayer(new Player(client));
         }
         GameState currentState = new PlacingShipsState(players, requestBus);
-        while(currentState.isGameRunning()){
+        while (currentState.isGameRunning()) {
             currentState = currentState.transform();
         }
     }

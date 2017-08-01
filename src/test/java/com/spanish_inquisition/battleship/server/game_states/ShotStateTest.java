@@ -1,6 +1,5 @@
 package com.spanish_inquisition.battleship.server.game_states;
 
-import com.spanish_inquisition.battleship.client.game.Game;
 import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.server.ClientConnectionHandler;
 import com.spanish_inquisition.battleship.server.MessageBus;
@@ -8,9 +7,7 @@ import com.spanish_inquisition.battleship.server.Player;
 import com.spanish_inquisition.battleship.server.Players;
 import com.spanish_inquisition.battleship.server.fleet.FleetBuilder;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -21,7 +18,6 @@ import java.net.Socket;
 import java.util.logging.Level;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
-import static org.testng.Assert.*;
 
 public class ShotStateTest {
     Players players;
@@ -41,7 +37,7 @@ public class ShotStateTest {
         new Thread(() -> assignSocketAndNameTo("Name 1")).run();
         new Thread(() -> assignSocketAndNameTo("Name 2")).run();
         players = new Players();
-        for(int i = 1; i < 3; i++) {
+        for (int i = 1; i < 3; i++) {
             ClientConnectionHandler cch = new ClientConnectionHandler(i, messageBus);
             cch.start();
             try {
@@ -67,7 +63,7 @@ public class ShotStateTest {
     @Test
     public void testShootMessageWithInvalidHeader() {
         GameState ss = new ShotState(players, messageBus);
-        messageBus.addMessage(1,0, Header.FLEET_REQUEST.name()+":1;");
+        messageBus.addMessage(1, 0, Header.FLEET_REQUEST.name() + ":1;");
         ss = ss.transform();
         Assert.assertEquals(ShotState.class, ss.getClass());
     }
@@ -75,7 +71,7 @@ public class ShotStateTest {
     @Test
     public void testShootMessageWithValidHeader() {
         GameState ss = new ShotState(players, messageBus);
-        messageBus.addMessage(1,0, Header.MOVE_REGULAR.name()+":1;");
+        messageBus.addMessage(1, 0, Header.MOVE_REGULAR.name() + ":1;");
         players.getOpponentOf(players.getCurrentPlayer()).setFleet(
                 new FleetBuilder().build(
                         Header.FLEET_REQUEST.name() +
@@ -86,11 +82,11 @@ public class ShotStateTest {
     }
 
     @AfterTest
-    public void closeConnections(){
+    public void closeConnections() {
         try {
             ss.close();
         } catch (IOException e) {
-            logger.log(Level.WARNING, "couldn't close server",e);
+            logger.log(Level.WARNING, "couldn't close server", e);
         }
     }
 }

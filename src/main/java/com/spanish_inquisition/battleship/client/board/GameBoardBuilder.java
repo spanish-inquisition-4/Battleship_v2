@@ -103,11 +103,8 @@ public class GameBoardBuilder {
     }
 
     EventHandler<MouseEvent> getOnBoardTileClickedEvent(BoardTile tile, BoardController boardController) {
-        return new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                //do something when the button is closed
-            }
+        return event -> {
+            //do something when the button is closed
         };
     }
 

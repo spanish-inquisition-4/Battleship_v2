@@ -6,9 +6,6 @@ import com.spanish_inquisition.battleship.server.MessageBus;
 import com.spanish_inquisition.battleship.server.Player;
 import com.spanish_inquisition.battleship.server.Players;
 import com.spanish_inquisition.battleship.server.fleet.Ship;
-import com.spanish_inquisition.battleship.server.game_states.GameState;
-import com.spanish_inquisition.battleship.server.game_states.PlacingShipsState;
-import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -42,7 +39,7 @@ public class PlacingShipsStateTest {
         new Thread(() -> assignSocketAndNameTo("Name 1")).run();
         new Thread(() -> assignSocketAndNameTo("Name 2")).run();
         players = new Players();
-        for(int i = 1; i < 3; i++) {
+        for (int i = 1; i < 3; i++) {
             ClientConnectionHandler cch = new ClientConnectionHandler(i, messageBus);
             cch.start();
             try {
@@ -68,17 +65,17 @@ public class PlacingShipsStateTest {
     @Test
     public void testIfFleetsAreAssigned() {
         GameState pss = new PlacingShipsState(players, messageBus);
-        messageBus.addMessage(1,0, Header.FLEET_REQUEST.name()+":[0,2,4,6,8,9,20,21,23,24,26,27,28,40,41,42,44,45,46,47];");
-        messageBus.addMessage(2,0, Header.FLEET_REQUEST.name()+":[0,2,4,6,8,9,20,21,23,24,26,27,28,40,41,42,44,45,46,47];");
+        messageBus.addMessage(1, 0, Header.FLEET_REQUEST.name() + ":[0,2,4,6,8,9,20,21,23,24,26,27,28,40,41,42,44,45,46,47];");
+        messageBus.addMessage(2, 0, Header.FLEET_REQUEST.name() + ":[0,2,4,6,8,9,20,21,23,24,26,27,28,40,41,42,44,45,46,47];");
         pss.transform();
 
         List<List<Ship>> playersShips = new ArrayList<>();
         List<Player> playersList = players.getBothPlayers();
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             playersShips.add(playersList.get(i).getFleet().getShips());
         }
 
-        for(List<Ship> playerShips : playersShips) {
+        for (List<Ship> playerShips : playersShips) {
             SoftAssert soft = new SoftAssert();
             soft.assertEquals(10, playerShips.size());
             soft.assertEquals(1, playerShips.get(0).getShipPoints().size());
@@ -95,11 +92,11 @@ public class PlacingShipsStateTest {
     }
 
     @AfterTest
-    public void closeConnections(){
+    public void closeConnections() {
         try {
             ss.close();
         } catch (IOException e) {
-            logger.log(Level.WARNING, "couldn't close server",e);
+            logger.log(Level.WARNING, "couldn't close server", e);
         }
     }
 }
