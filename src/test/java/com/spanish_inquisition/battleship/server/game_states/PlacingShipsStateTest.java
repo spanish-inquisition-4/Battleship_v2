@@ -1,6 +1,10 @@
-package com.spanish_inquisition.battleship.server;
+package com.spanish_inquisition.battleship.server.game_states;
 
 import com.spanish_inquisition.battleship.common.Header;
+import com.spanish_inquisition.battleship.server.ClientConnectionHandler;
+import com.spanish_inquisition.battleship.server.MessageBus;
+import com.spanish_inquisition.battleship.server.Player;
+import com.spanish_inquisition.battleship.server.Players;
 import com.spanish_inquisition.battleship.server.fleet.Ship;
 import com.spanish_inquisition.battleship.server.game_states.GameState;
 import com.spanish_inquisition.battleship.server.game_states.PlacingShipsState;
@@ -8,6 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,7 +26,7 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 public class PlacingShipsStateTest {
     Players players;
-    private int TEST_PORT = 5550;
+    private int TEST_PORT = 5559;
     MessageBus messageBus;
     ServerSocket ss;
     String SERVER_ADDRESS = "localhost";
@@ -74,17 +79,17 @@ public class PlacingShipsStateTest {
         }
 
         for(List<Ship> playerShips : playersShips) {
-            Assert.assertEquals(10, playerShips.size());
-            Assert.assertEquals(1, playerShips.get(0).getShipPoints().size());
-            Assert.assertEquals(1, playerShips.get(1).getShipPoints().size());
-            Assert.assertEquals(1, playerShips.get(2).getShipPoints().size());
-            Assert.assertEquals(1, playerShips.get(3).getShipPoints().size());
-            Assert.assertEquals(2, playerShips.get(4).getShipPoints().size());
-            Assert.assertEquals(2, playerShips.get(5).getShipPoints().size());
-            Assert.assertEquals(2, playerShips.get(6).getShipPoints().size());
-            Assert.assertEquals(3, playerShips.get(7).getShipPoints().size());
-            Assert.assertEquals(3, playerShips.get(8).getShipPoints().size());
-            Assert.assertEquals(4, playerShips.get(9).getShipPoints().size());
+            new SoftAssert().assertEquals(10, playerShips.size());
+            new SoftAssert().assertEquals(1, playerShips.get(0).getShipPoints().size());
+            new SoftAssert().assertEquals(1, playerShips.get(1).getShipPoints().size());
+            new SoftAssert().assertEquals(1, playerShips.get(2).getShipPoints().size());
+            new SoftAssert().assertEquals(1, playerShips.get(3).getShipPoints().size());
+            new SoftAssert().assertEquals(2, playerShips.get(4).getShipPoints().size());
+            new SoftAssert().assertEquals(2, playerShips.get(5).getShipPoints().size());
+            new SoftAssert().assertEquals(2, playerShips.get(6).getShipPoints().size());
+            new SoftAssert().assertEquals(3, playerShips.get(7).getShipPoints().size());
+            new SoftAssert().assertEquals(3, playerShips.get(8).getShipPoints().size());
+            new SoftAssert().assertEquals(4, playerShips.get(9).getShipPoints().size());
         }
     }
 
