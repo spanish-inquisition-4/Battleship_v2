@@ -19,4 +19,8 @@ public class Fleet {
                 "ships=" + ships +
                 '}';
     }
+
+    public boolean hasNoShips() {
+        return ships.isEmpty();
+    }
 }

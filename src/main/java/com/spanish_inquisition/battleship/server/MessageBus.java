@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class MessageBus {
     private Queue<Message> messageBus;
 
-    MessageBus() {
+    public MessageBus() {
         messageBus = new ConcurrentLinkedQueue<>();
         AppLogger.initializeLogger();
     }
