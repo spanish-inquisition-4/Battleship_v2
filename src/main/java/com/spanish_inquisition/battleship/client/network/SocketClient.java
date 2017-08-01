@@ -4,7 +4,6 @@ import com.spanish_inquisition.battleship.common.AppLogger;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,14 +17,14 @@ public class SocketClient {
     private static final String HOST_NAME = "localhost";
     static int PORT = 6666;
     private static final Logger logger = Logger.getLogger(AppLogger.class.getName());
-    private static final int THREAD_TIMEOUT = 100_000; //[ms]
+    private static final int THREAD_TIMEOUT = 10_000; //[ms]
 
     Socket socket;
     BufferedReader input;
     PrintWriter output;
     private ResponsesBus responsesBus = new ResponsesBus();
     private boolean isRunning = true;
-    private Thread updatesThread;
+    Thread updatesThread;
 
     SocketClient() {}
 
@@ -43,7 +42,7 @@ public class SocketClient {
         return socketClient;
     }
 
-    private void createUpdatesThreadAndRunIt() {
+    void createUpdatesThreadAndRunIt() {
         updatesThread = new Thread(this::readServerUpdatesContinuously);
         updatesThread.start();
     }
@@ -60,13 +59,9 @@ public class SocketClient {
         }
     }
 
-    private String readUpdateFromServer() throws IOException {
+    String readUpdateFromServer() throws IOException {
         if (socket != null && output != null && input != null) {
-            try {
                 return input.readLine();
-            } catch (UnknownHostException e) {
-                logger.warning("Trying to connect to unknown host: " + e);
-            }
         }
         return "";
     }
