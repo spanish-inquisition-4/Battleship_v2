@@ -2,9 +2,9 @@ package com.spanish_inquisition.battleship.client;
 
 import com.spanish_inquisition.battleship.client.board.BoardController;
 import com.spanish_inquisition.battleship.client.board.GameBoard;
-import com.spanish_inquisition.battleship.client.game.FleetInitializer;
 import com.spanish_inquisition.battleship.client.game.Game;
 import com.spanish_inquisition.battleship.client.network.SocketClient;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -94,11 +94,11 @@ public class MainMenuController {
         if(this.socketClient != null)
             this.socketClient.sendStringToServer(text);
         this.playerNameVBox.setVisible(false);
-        runTheGame();
+        new Thread(this::runTheGame).start();
     }
 
     private void runTheGame() {
-        this.playersLabel.setText("Set Up your ships");
+        Platform.runLater(() -> playersLabel.setText("Set Up your ships"));
         this.game = new Game();
         this.game.buildPlayersBoard(new BoardController(new GameBoard(this.playersGridPane)));
         this.fleetSetupButton.setVisible(true);
