@@ -54,7 +54,7 @@ public class SocketClient {
                 this.responsesBus.addAServerResponse(readUpdateFromServer());
                 Thread.sleep(100);
             } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+                logger.log(DEFAULT_LEVEL, "An exception while reading server responses: ", e);
                 break;
             }
         }
@@ -79,7 +79,7 @@ public class SocketClient {
             input.close();
             socket.close();
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            logger.log(DEFAULT_LEVEL, "An exception while closing the SocketClient: ", e);
         }
     }
 
