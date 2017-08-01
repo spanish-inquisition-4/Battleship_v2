@@ -25,4 +25,8 @@ public class Player {
     public Fleet getFleet() {
         return fleet;
     }
+
+    public boolean hasNoFleet() {
+        return fleet.hasNoShips();
+    }
 }
