@@ -16,9 +16,9 @@ import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
  */
 public class SocketClient {
     private static final String HOST_NAME = "localhost";
-
     static int PORT = 6666;
     private static final Logger logger = Logger.getLogger(AppLogger.class.getName());
+    private static final int THREAD_TIMEOUT = 100_000; //[ms]
 
     Socket socket;
     BufferedReader input;
@@ -74,7 +74,8 @@ public class SocketClient {
     public void closeTheSocketClient() {
         try {
             isRunning = false;
-            updatesThread.join();
+            updatesThread.join(THREAD_TIMEOUT);
+            updatesThread.interrupt();
             output.close();
             input.close();
             socket.close();

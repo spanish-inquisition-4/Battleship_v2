@@ -14,24 +14,24 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 public class ResponsesBus {
     private Queue<NetworkMessage> serverResponses;
 
-    public ResponsesBus() {
+    ResponsesBus() {
         this.serverResponses = new ConcurrentLinkedQueue<>();
     }
 
-    public boolean hasServerResponses() {
+    boolean hasServerResponses() {
         return !this.serverResponses.isEmpty();
     }
 
-    public NetworkMessage getAServerResponse() {
+    NetworkMessage getAServerResponse() {
         return this.serverResponses.poll();
     }
 
-    public void addAServerResponse(String response) {
+    void addAServerResponse(String response) {
         if (response.isEmpty()) {
             logger.info("Response empty");
             return;
         }
-        List<NetworkMessage> clientServerMessages = NetworkMessage.parseServerResponse(response);
+        List<NetworkMessage> clientServerMessages = NetworkMessage.Parser.parseServerResponse(response);
         this.serverResponses.addAll(clientServerMessages);
     }
 }
