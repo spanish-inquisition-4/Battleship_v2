@@ -52,6 +52,7 @@
     <properties>
         <!--General properties-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <maven.version>3.5.0</maven.version>
         <!--Dependencies versions-->
@@ -73,6 +74,7 @@
         <resources.plugin.version>3.0.2</resources.plugin.version>
         <site.plugin.version>3.6</site.plugin.version>
         <surefire.plugin.version>2.20</surefire.plugin.version>
+        <failsafe.plugin.version>2.20</failsafe.plugin.version>
         <enforcer.plugin.version>1.4.1</enforcer.plugin.version>
         <!--Sonar properties-->
         <sonar.pluginClass>org.sonar.plugins.java.JavaPlugin</sonar.pluginClass>
@@ -210,8 +212,27 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.plugin.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*IT.java</exclude>
+                        <exclude>**/IT*.java</exclude>
+                        <exclude>**/*ITCase.java</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
