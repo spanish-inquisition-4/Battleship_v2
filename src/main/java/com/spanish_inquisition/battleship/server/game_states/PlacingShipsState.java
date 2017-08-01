@@ -43,9 +43,6 @@ public class PlacingShipsState extends GameState {
     }
 
     private boolean validateFleet(String fleetMessage) {
-        if (fleetMessage.contains(Header.FLEET_REQUEST.name())) {
-            return FleetValidator.validate(fleetMessage);
-        }
-        return false;
+        return fleetMessage.contains(Header.FLEET_REQUEST.name()) && FleetValidator.validate(fleetMessage);
     }
 }
