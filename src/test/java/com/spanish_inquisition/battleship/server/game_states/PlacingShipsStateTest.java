@@ -79,17 +79,18 @@ public class PlacingShipsStateTest {
         }
 
         for(List<Ship> playerShips : playersShips) {
-            new SoftAssert().assertEquals(10, playerShips.size());
-            new SoftAssert().assertEquals(1, playerShips.get(0).getShipPoints().size());
-            new SoftAssert().assertEquals(1, playerShips.get(1).getShipPoints().size());
-            new SoftAssert().assertEquals(1, playerShips.get(2).getShipPoints().size());
-            new SoftAssert().assertEquals(1, playerShips.get(3).getShipPoints().size());
-            new SoftAssert().assertEquals(2, playerShips.get(4).getShipPoints().size());
-            new SoftAssert().assertEquals(2, playerShips.get(5).getShipPoints().size());
-            new SoftAssert().assertEquals(2, playerShips.get(6).getShipPoints().size());
-            new SoftAssert().assertEquals(3, playerShips.get(7).getShipPoints().size());
-            new SoftAssert().assertEquals(3, playerShips.get(8).getShipPoints().size());
-            new SoftAssert().assertEquals(4, playerShips.get(9).getShipPoints().size());
+            SoftAssert soft = new SoftAssert();
+            soft.assertEquals(10, playerShips.size());
+            soft.assertEquals(1, playerShips.get(0).getShipPoints().size());
+            soft.assertEquals(1, playerShips.get(1).getShipPoints().size());
+            soft.assertEquals(1, playerShips.get(2).getShipPoints().size());
+            soft.assertEquals(1, playerShips.get(3).getShipPoints().size());
+            soft.assertEquals(2, playerShips.get(4).getShipPoints().size());
+            soft.assertEquals(2, playerShips.get(5).getShipPoints().size());
+            soft.assertEquals(2, playerShips.get(6).getShipPoints().size());
+            soft.assertEquals(3, playerShips.get(7).getShipPoints().size());
+            soft.assertEquals(3, playerShips.get(8).getShipPoints().size());
+            soft.assertEquals(4, playerShips.get(9).getShipPoints().size());
         }
     }
 
