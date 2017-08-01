@@ -35,6 +35,15 @@ public class BoardTile extends Button {
         }
     }
 
+    public void setTileStyle(Paint paint) {
+        if (horizontalLabel != null) {
+            horizontalLabel.setTextFill(paint);
+        }
+        if (verticalLabel != null) {
+            verticalLabel.setTextFill(paint);
+        }
+    }
+
     public int getBoardIndex() {
         return boardIndex;
     }

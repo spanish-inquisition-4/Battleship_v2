@@ -58,7 +58,7 @@ public class GameBoardBuilder {
     }
 
     private void addCorrespondingLabelsToTiles() {
-            for (Map.Entry<Integer, BoardTile> entry : boardController.getBoardsIndexTiles().entrySet()) {
+        for (Map.Entry<Integer, BoardTile> entry : boardController.getBoardsIndexTiles().entrySet()) {
             BoardTile tile = entry.getValue();
             int boardIndex = entry.getKey();
             int[] tileCoordinates = AdjacentTilesCalc.translateIndexToCoordinates(boardIndex);
@@ -112,7 +112,7 @@ public class GameBoardBuilder {
     }
 
     private void setButtonsHoverOverEvents(BoardTile tile) {
-        tile.setOnMouseEntered(event -> tile.setTileStyle(Styles.MOUSE_ENTERED, Styles.TEXT_LIME));
-        tile.setOnMouseExited(event -> tile.setTileStyle(Styles.DEFAULT_TILE_COLOR, Styles.TEXT_BLACK));
+        tile.setOnMouseEntered(event -> tile.setTileStyle(Styles.TEXT_LIME));
+        tile.setOnMouseExited(event -> tile.setTileStyle(Styles.TEXT_BLACK));
     }
 }

@@ -38,6 +38,7 @@ corresponding methods which will be invoked in the java class specified in tag f
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin></GridPane>
+                        <Button fx:id="sendToServerButton" mnemonicParsing="false" onAction="#onSendToServerButtonClicked" text="Send" textFill="#2b0dd3" visible="false" />
                      </children>
                   </VBox>
                   <VBox fx:id="opponentsVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
@@ -67,4 +68,15 @@ corresponding methods which will be invoked in the java class specified in tag f
          </BorderPane.margin>
       </HBox>
    </top>
+   <left>
+      <VBox fx:id="fleetSetupVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="fleetSetupButton" mnemonicParsing="false" onAction="#onFleetSetupButtonClicked" text="Set-up fleet" visible="false">
+               <VBox.margin>
+                  <Insets left="2.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </left>
 </BorderPane>

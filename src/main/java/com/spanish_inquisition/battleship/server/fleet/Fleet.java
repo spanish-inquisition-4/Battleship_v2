@@ -12,4 +12,11 @@ public class Fleet {
     public List<Ship> getShips() {
         return ships;
     }
+
+    @Override
+    public String toString() {
+        return "Fleet{" +
+                "ships=" + ships +
+                '}';
+    }
 }
