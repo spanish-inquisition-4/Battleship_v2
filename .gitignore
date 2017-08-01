@@ -40,7 +40,8 @@ fabric.properties
 # Compiled class file
 *.class
 
-# Log file
+# Log files and directory
+logs/
 *.log
 
 # BlueJ files
