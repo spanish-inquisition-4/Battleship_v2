@@ -60,5 +60,4 @@ public class SocketClientTest {
         assertNotNull(socketClient.input);
         assertNotNull(socketClient.output);
     }
-
 }

@@ -12,4 +12,11 @@ public abstract class Ship {
     public List<Integer> getShipPoints() {
         return shipPoints;
     }
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "shipPoints=" + shipPoints +
+                '}';
+    }
 }

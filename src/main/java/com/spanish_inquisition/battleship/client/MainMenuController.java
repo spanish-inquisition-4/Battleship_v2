@@ -2,6 +2,7 @@ package com.spanish_inquisition.battleship.client;
 
 import com.spanish_inquisition.battleship.client.board.BoardController;
 import com.spanish_inquisition.battleship.client.board.GameBoard;
+import com.spanish_inquisition.battleship.client.game.FleetInitializer;
 import com.spanish_inquisition.battleship.client.game.Game;
 import com.spanish_inquisition.battleship.client.network.SocketClient;
 import javafx.fxml.FXML;
@@ -48,6 +49,12 @@ public class MainMenuController {
     public GridPane opponentsGridPane;
     @FXML
     public Label gameStatusLabel;
+    @FXML
+    private VBox fleetSetupVBox;
+    @FXML
+    private Button sendToServerButton;
+    @FXML
+    private Button fleetSetupButton;
 
     private SocketClient socketClient;
     private Game game;
@@ -94,5 +101,18 @@ public class MainMenuController {
         this.playersLabel.setText("Set Up your ships");
         this.game = new Game();
         this.game.buildPlayersBoard(new BoardController(new GameBoard(this.playersGridPane)));
+        this.fleetSetupButton.setVisible(true);
+    }
+
+    @FXML
+    public void onFleetSetupButtonClicked(){
+        this.game.placePlayersShips();
+        this.sendToServerButton.setVisible(true);
+    }
+
+    @FXML
+    void onSendToServerButtonClicked() {
+        this.fleetSetupButton.setDisable(true);
+        this.socketClient.sendStringToServer(this.game.getShipPlacementForServer());
     }
 }
