@@ -21,18 +21,18 @@ import java.util.Map;
  */
 public class GameBoardBuilder {
     public static final int BOARD_SIZE_WITH_LABELS = 11;
-    public static final double FIELD_SIZE = 30;
+    private static final double FIELD_SIZE = 30;
     private GridPane gridPane;
     private BoardController boardController;
     private Map<Integer, Label> verticalLabels = new HashMap<>();
     private Map<Integer, Label> horizontalLabels = new HashMap<>();
 
-    public GameBoardBuilder(BoardController boardController) {
+    GameBoardBuilder(BoardController boardController) {
         this.boardController = boardController;
         this.gridPane = boardController.getBoardGridPane();
     }
 
-    public GameBoard buildGameBoard() {
+    GameBoard buildGameBoard() {
         fillTheBoardWithButtonsAndLabels();
         return null;
     }
@@ -101,7 +101,7 @@ public class GameBoardBuilder {
         return boardBoardTileLabel;
     }
 
-    EventHandler<MouseEvent> getOnBoardTileClickedEvent(BoardTile tile, BoardController boardController) {
+    private EventHandler<MouseEvent> getOnBoardTileClickedEvent(BoardTile tile, BoardController boardController) {
         return event -> {
             //do something when the button is closed
         };
