@@ -1,17 +1,16 @@
 package com.spanish_inquisition.battleship.common;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.*;
 
 /**
  * @author Michal_Partacz
- *         A logger which will store the logs in a file specified in path of the handler file and of level specified in newLogger's
- *         class. There is also a formatter which will format the output of the logger before saving it in the logfile.
- *         The class should be initialized as soon as the app starts by static invoke of the initializeLogger method
+ * A logger which will store the logs in a file specified in path of the handler file and of level specified in newLogger's
+ * class. There is also a formatter which will format the output of the logger before saving it in the logfile.
+ * The class should be initialized as soon as the app starts by static invoke of the initializeLogger method
  */
 public class AppLogger {
     public static final Logger logger = Logger.getLogger(AppLogger.class.getName());
@@ -24,9 +23,11 @@ public class AppLogger {
      * a formatter which will modify the logged information.
      */
     public static void initializeLogger() {
-        if(isInitialized) {return;}
+        if (isInitialized) {
+            return;
+        }
         try {
-            handler = new FileHandler("Battleship.log", false);
+            handler = MyFileHandler.createLoggerInstance("BattleshipLog.log", false);
         } catch (IOException e) {
             logger.log(Level.WARNING, "Could not create file", e);
         }
@@ -37,4 +38,26 @@ public class AppLogger {
     }
 
     private AppLogger() {}
+
+    static class MyFileHandler extends FileHandler {
+
+        static MyFileHandler createLoggerInstance(String filename, boolean append) throws IOException {
+            String folderName = "logs";
+            Path logFilePath = Paths.get(folderName,filename);
+            if (createLogFolder(folderName)) {
+                return new MyFileHandler(logFilePath.toString(), append);
+            } else {
+                return new MyFileHandler(filename, append);
+            }
+        }
+
+        private MyFileHandler(String pattern, boolean append) throws IOException, SecurityException {
+            super(pattern, append);
+        }
+
+        private static boolean createLogFolder(String folderName) {
+            File dir = new File(folderName);
+            return dir.mkdir() || dir.exists();
+        }
+    }
 }
