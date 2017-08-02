@@ -1,6 +1,8 @@
 package com.spanish_inquisition.battleship.client.game;
 
 import com.spanish_inquisition.battleship.client.board.boardcontroller.BoardController;
+import com.spanish_inquisition.battleship.client.board.boardcontroller.OpponentBoardController;
+import com.spanish_inquisition.battleship.client.board.boardcontroller.PlayerBoardController;
 import javafx.embed.swing.JFXPanel;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -28,11 +30,20 @@ public class GameTest {
     }
 
     @Test
-    public void testBuildPlayersBoard() throws Exception {
+    public void shouldBuildPlayersBoard() {
         Game game = new Game();
-        final BoardController boardController = mock(BoardController.class);
+        final PlayerBoardController boardController = mock(PlayerBoardController.class);
         assertNull(game.playerBoardController);
         game.buildPlayersBoard(boardController);
         assertNotNull(game.playerBoardController);
+    }
+
+    @Test
+    public void shouldBuildOpponentsBoard() {
+        Game game = new Game();
+        final OpponentBoardController boardController = mock(OpponentBoardController.class);
+        assertNull(game.opponentBoardController);
+        game.buildOpponentsBoard(boardController);
+        assertNotNull(game.opponentBoardController);
     }
 }

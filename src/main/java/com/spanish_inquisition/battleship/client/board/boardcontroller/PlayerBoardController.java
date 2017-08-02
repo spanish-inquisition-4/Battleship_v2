@@ -4,6 +4,7 @@ import com.spanish_inquisition.battleship.client.board.BoardTile;
 import com.spanish_inquisition.battleship.client.board.GameBoard;
 import com.spanish_inquisition.battleship.client.board.GameBoardBuilder;
 import com.spanish_inquisition.battleship.client.game.FleetInitializer;
+import com.spanish_inquisition.battleship.client.game.ServerMessageCreator;
 import com.spanish_inquisition.battleship.common.Styles;
 import javafx.application.Platform;
 
@@ -27,5 +28,9 @@ public class PlayerBoardController extends BoardController {
         Map<Integer, BoardTile> indexTiles = gameBoard.getIndexTiles();
         Platform.runLater(() -> indexTiles.forEach((integer, boardTile) -> boardTile.setTileStyle(Styles.DEFAULT_TILE_COLOR, Styles.TEXT_BLACK)));
         fleetInitializer.setUpShips();
+    }
+
+    public String getMessageForServer() {
+        return ServerMessageCreator.createFleetMessage(fleetInitializer.getShipPlaces());
     }
 }

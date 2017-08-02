@@ -24,7 +24,7 @@ public abstract class BoardController {
 
     public abstract void buildBoard();
 
-    GridPane getBoardGridPane() {
+    public GridPane getBoardGridPane() {
         return this.gameBoard.getGridPane();
     }
 
@@ -34,9 +34,5 @@ public abstract class BoardController {
 
     public Map<Integer, BoardTile> getBoardsIndexTiles() {
         return gameBoard.getIndexTiles();
-    }
-
-    public String getMessageForServer() {
-        return ServerMessageCreator.createFleetMessage(fleetInitializer.getShipPlaces());
     }
 }
