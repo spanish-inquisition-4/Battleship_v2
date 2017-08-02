@@ -1,6 +1,6 @@
 package com.spanish_inquisition.battleship.client.game;
 
-import com.spanish_inquisition.battleship.client.board.BoardController;
+import com.spanish_inquisition.battleship.client.board.boardcontroller.BoardController;
 import com.spanish_inquisition.battleship.client.board.BoardTile;
 import com.spanish_inquisition.battleship.common.Styles;
 import javafx.application.Platform;

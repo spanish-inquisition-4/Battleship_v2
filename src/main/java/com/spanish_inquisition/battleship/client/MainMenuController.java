@@ -1,7 +1,9 @@
 package com.spanish_inquisition.battleship.client;
 
-import com.spanish_inquisition.battleship.client.board.BoardController;
+import com.spanish_inquisition.battleship.client.board.boardcontroller.BoardController;
 import com.spanish_inquisition.battleship.client.board.GameBoard;
+import com.spanish_inquisition.battleship.client.board.boardcontroller.OpponentBoardController;
+import com.spanish_inquisition.battleship.client.board.boardcontroller.PlayerBoardController;
 import com.spanish_inquisition.battleship.client.game.Game;
 import com.spanish_inquisition.battleship.client.network.SocketClient;
 import javafx.application.Platform;
@@ -100,7 +102,7 @@ public class MainMenuController {
 
     private void buildPlayerBoard() {
         Platform.runLater(() -> playersLabel.setText("Set Up your ships"));
-        this.game.buildPlayersBoard(new BoardController(new GameBoard(this.playersGridPane)));
+        this.game.buildPlayersBoard(new PlayerBoardController(new GameBoard(this.playersGridPane)));
         this.fleetSetupButton.setVisible(true);
     }
 
@@ -114,5 +116,6 @@ public class MainMenuController {
     void onSendToServerButtonClicked() {
         this.fleetSetupButton.setDisable(true);
         this.socketClient.sendStringToServer(this.game.getShipPlacementForServer());
+        this.game.buildOpponentsBoard(new OpponentBoardController(new GameBoard(this.opponentsGridPane)));
     }
 }

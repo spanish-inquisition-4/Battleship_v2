@@ -57,7 +57,7 @@ public class AppLogger {
 
         private static boolean createLogFolder(String folderName) {
             File dir = new File(folderName);
-            return dir.mkdir() || dir.exists();
+            return dir.exists()|| dir.mkdir();
         }
     }
 }

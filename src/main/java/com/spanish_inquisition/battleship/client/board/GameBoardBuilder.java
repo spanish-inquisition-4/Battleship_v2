@@ -1,5 +1,6 @@
 package com.spanish_inquisition.battleship.client.board;
 
+import com.spanish_inquisition.battleship.client.board.boardcontroller.BoardController;
 import com.spanish_inquisition.battleship.common.AdjacentTilesCalc;
 import com.spanish_inquisition.battleship.common.Styles;
 import javafx.application.Platform;
@@ -27,12 +28,12 @@ public class GameBoardBuilder {
     private Map<Integer, Label> verticalLabels = new HashMap<>();
     private Map<Integer, Label> horizontalLabels = new HashMap<>();
 
-    GameBoardBuilder(BoardController boardController) {
+    public GameBoardBuilder(BoardController boardController) {
         this.boardController = boardController;
         this.gridPane = boardController.getBoardGridPane();
     }
 
-    GameBoard buildGameBoard() {
+    public GameBoard buildGameBoard() {
         fillTheBoardWithButtonsAndLabels();
         return null;
     }

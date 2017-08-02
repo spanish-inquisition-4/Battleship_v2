@@ -17,7 +17,7 @@ public class GameBoard {
         this.gridPane = gridPane;
     }
 
-    GridPane getGridPane() {
+    public GridPane getGridPane() {
         return gridPane;
     }
 
@@ -25,7 +25,7 @@ public class GameBoard {
         this.indexTiles.put(boardIndex, tile);
     }
 
-    Map<Integer, BoardTile> getIndexTiles() {
+    public Map<Integer, BoardTile> getIndexTiles() {
         return indexTiles;
     }
 }
