@@ -15,38 +15,41 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 public class ShotStateTest {
-    Players players;
-    private int TEST_PORT = 5552;
-    MessageBus messageBus;
-    ServerSocket ss;
-    String SERVER_ADDRESS = "localhost";
+    private Players players;
+    private final int TEST_PORT = 5552;
+    private final List<Integer> CLIENT_IDS = Arrays.asList(1, 2);
+    private MessageBus messageBus;
+    private ServerSocket serverSocket;
+    private final String SERVER_ADDRESS = "localhost";
 
     @BeforeTest
     public void initialize() {
         messageBus = new MessageBus();
         try {
-            ss = new ServerSocket(TEST_PORT);
+            serverSocket = new ServerSocket(TEST_PORT);
         } catch (IOException e) {
             logger.log(Level.WARNING, "couldn't create server socket", e);
         }
         new Thread(() -> assignSocketAndNameTo("Name 1")).run();
         new Thread(() -> assignSocketAndNameTo("Name 2")).run();
         players = new Players();
-        for (int i = 1; i < 3; i++) {
-            ClientConnectionHandler cch = new ClientConnectionHandler(i, messageBus);
-            cch.start();
+        CLIENT_IDS.forEach(integer -> {
+            ClientConnectionHandler handler = new ClientConnectionHandler(integer, messageBus);
+            handler.start();
             try {
-                cch.initializeSocket(ss);
+                handler.initializeSocket(serverSocket);
             } catch (IOException e) {
                 logger.log(Level.WARNING, "couldn't connect with server", e);
             }
-            players.addPlayer(new Player(cch));
-        }
+            players.addPlayer(new Player(handler));
+        });
     }
 
     private void assignSocketAndNameTo(String nameString) {
@@ -61,30 +64,30 @@ public class ShotStateTest {
     }
 
     @Test
-    public void testShootMessageWithInvalidHeader() {
-        GameState ss = new ShotState(players, messageBus);
+    public void shouldReturnShotStateForMessageWithInvalidHeader() {
+        GameState gameState = new ShotState(players, messageBus);
         messageBus.addMessage(1, 0, Header.FLEET_REQUEST.name() + ":1;");
-        ss = ss.transform();
-        Assert.assertEquals(ShotState.class, ss.getClass());
+        gameState = gameState.transform();
+        Assert.assertEquals(ShotState.class, gameState.getClass());
     }
 
     @Test
-    public void testShootMessageWithValidHeader() {
-        GameState ss = new ShotState(players, messageBus);
+    public void shouldReturnPlayerActionStateForMessageWithCorrectHeader() {
+        GameState gameState = new ShotState(players, messageBus);
         messageBus.addMessage(1, 0, Header.MOVE_REGULAR.name() + ":1;");
         players.getOpponentOf(players.getCurrentPlayer()).setFleet(
                 new FleetBuilder().build(
                         Header.FLEET_REQUEST.name() +
                                 ":[0,2,4,6,8,9,20,21,23,24,26,27,28,40,41,42,44,45,46,47];"
                 ));
-        ss = ss.transform();
-        Assert.assertEquals(PlayerActionState.class, ss.getClass());
+        gameState = gameState.transform();
+        Assert.assertEquals(PlayerActionState.class, gameState.getClass());
     }
 
     @AfterTest
     public void closeConnections() {
         try {
-            ss.close();
+            serverSocket.close();
         } catch (IOException e) {
             logger.log(Level.WARNING, "couldn't close server", e);
         }
