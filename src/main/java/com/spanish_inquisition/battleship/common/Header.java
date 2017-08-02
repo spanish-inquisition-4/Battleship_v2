@@ -17,6 +17,7 @@ public enum Header {
     FLEET_VALID,
     PLAYER_TURN,
     OPPONENT_TURN,
+    GAME_WON,
     MOVE_REGULAR;
 
     /**
@@ -35,5 +36,10 @@ public enum Header {
             header = UNKNOWN;
         }
         return header;
+    }
+
+    public static boolean isResponseFieldChanging(Header header) {
+        // implement HIT / MISS / DESTROYED headers and return true if the header is one of those
+        return false;
     }
 }

@@ -28,6 +28,8 @@ public class SocketClient {
 
     SocketClient() {}
 
+    public ResponsesBus getResponsesBus() { return responsesBus; }
+
     void setUpStreamsOnSocket() throws IOException {
         logger.log(DEFAULT_LEVEL, "Setting up streams and socket");
         input = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
