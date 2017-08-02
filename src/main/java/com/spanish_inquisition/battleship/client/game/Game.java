@@ -17,6 +17,7 @@ public class Game {
     SocketClient socketClient;
     ResponsesBus responsesBus;
     String name;
+    private static final int GAME_LOOP_SLEEP = 100;
 
     public void buildPlayersBoard(BoardController boardController) {
         logger.log(DEFAULT_LEVEL, "Building players board");
@@ -38,10 +39,10 @@ public class Game {
         return boardController.getMessageForServer();
     }
 
-    public void runTheGame() {
+    public void runTheGame() throws InterruptedException {
         if (this.socketClient != null) {
             while (true) {
-                waitInThisThreadFor(100);
+                    Thread.sleep(GAME_LOOP_SLEEP);
                 if (this.responsesBus.hasServerResponses()) {
                     NetworkMessage message = this.responsesBus.getAServerResponse();
                     System.out.println("s = " + message);
@@ -62,15 +63,6 @@ public class Game {
             }
         }
     }
-
-    private void waitInThisThreadFor(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void acceptPlayersName(String name) {
         this.name = name;
