@@ -26,38 +26,38 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 public class MainMenuController {
 
     @FXML
-    public VBox centralVBox;
+    VBox centralVBox;
     @FXML
-    public TextField nameTextField;
+    private TextField nameTextField;
     @FXML
-    public Button featureButton;
+    Button featureButton;
     @FXML
-    public HBox gameHBox;
+    HBox gameHBox;
     @FXML
-    public VBox playersVBox;
+    VBox playersVBox;
     @FXML
-    public Label playersLabel;
+    Label playersLabel;
     @FXML
-    public GridPane playersGridPane;
+    GridPane playersGridPane;
     @FXML
-    public VBox opponentsVBox;
+    VBox opponentsVBox;
     @FXML
-    public VBox playerNameVBox;
+    VBox playerNameVBox;
     @FXML
-    public Label opponentsLabel;
+    Label opponentsLabel;
     @FXML
-    public GridPane opponentsGridPane;
+    GridPane opponentsGridPane;
     @FXML
-    public Label gameStatusLabel;
+    Label gameStatusLabel;
     @FXML
-    private VBox fleetSetupVBox;
+    VBox fleetSetupVBox;
     @FXML
-    private Button sendToServerButton;
+    Button sendToServerButton;
     @FXML
-    private Button fleetSetupButton;
+    Button fleetSetupButton;
 
-    private SocketClient socketClient;
-    private Game game;
+    SocketClient socketClient;
+    Game game;
 
     /**
      * This method is run automatically right after the fxml file's loaded
@@ -92,7 +92,7 @@ public class MainMenuController {
         this.sendTextToSocketAndStartANewGame(this.nameTextField.getText());
     }
 
-    private void sendTextToSocketAndStartANewGame(String text) {
+    void sendTextToSocketAndStartANewGame(String text) {
         this.game.acceptPlayersName(text);
         this.playerNameVBox.setVisible(false);
         new Thread(this::buildPlayerBoard).start();
@@ -105,7 +105,7 @@ public class MainMenuController {
     }
 
     @FXML
-    public void onFleetSetupButtonClicked(){
+    public void onFleetSetupButtonClicked() {
         this.game.placePlayersShips();
         this.sendToServerButton.setVisible(true);
     }
