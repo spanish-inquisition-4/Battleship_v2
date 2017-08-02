@@ -28,7 +28,7 @@ public class MainMenuController {
     @FXML
     VBox centralVBox;
     @FXML
-    private TextField nameTextField;
+    TextField nameTextField;
     @FXML
     Button featureButton;
     @FXML
