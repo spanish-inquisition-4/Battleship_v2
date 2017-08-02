@@ -1,6 +1,6 @@
 package com.spanish_inquisition.battleship.client;
 
-import com.spanish_inquisition.battleship.client.board.BoardController;
+import com.spanish_inquisition.battleship.client.board.boardcontroller.BoardController;
 import com.spanish_inquisition.battleship.client.board.GameBoard;
 import com.spanish_inquisition.battleship.client.game.Game;
 import com.spanish_inquisition.battleship.client.network.SocketClient;
@@ -114,5 +114,6 @@ public class MainMenuController {
     void onSendToServerButtonClicked() {
         this.fleetSetupButton.setDisable(true);
         this.socketClient.sendStringToServer(this.game.getShipPlacementForServer());
+        this.game.buildOpponentsBoard(new BoardController(new GameBoard(this.opponentsGridPane)));
     }
 }

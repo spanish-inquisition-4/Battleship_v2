@@ -1,5 +1,6 @@
 package com.spanish_inquisition.battleship.client.board;
 
+import com.spanish_inquisition.battleship.client.board.boardcontroller.BoardController;
 import com.spanish_inquisition.battleship.common.AdjacentTilesCalc;
 import com.spanish_inquisition.battleship.common.Styles;
 import javafx.application.Platform;
