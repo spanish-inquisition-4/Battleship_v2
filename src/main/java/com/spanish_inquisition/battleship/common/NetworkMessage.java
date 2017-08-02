@@ -14,6 +14,14 @@ public class NetworkMessage {
     private Header header;
     private String body;
 
+    public Header getHeader() {
+        return header;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
     public NetworkMessage(Header header, String body) {
         this.header = header;
         this.body = body;

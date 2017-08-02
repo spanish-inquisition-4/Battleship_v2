@@ -18,11 +18,11 @@ public class ResponsesBus {
         this.serverResponses = new ConcurrentLinkedQueue<>();
     }
 
-    boolean hasServerResponses() {
+    public boolean hasServerResponses() {
         return !this.serverResponses.isEmpty();
     }
 
-    NetworkMessage getAServerResponse() {
+    public NetworkMessage getAServerResponse() {
         return this.serverResponses.poll();
     }
 
