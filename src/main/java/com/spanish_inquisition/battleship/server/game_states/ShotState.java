@@ -5,8 +5,6 @@ import com.spanish_inquisition.battleship.server.MessageBus;
 import com.spanish_inquisition.battleship.server.Player;
 import com.spanish_inquisition.battleship.server.Players;
 
-import java.util.List;
-
 public class ShotState extends GameState {
     public ShotState(Players players, MessageBus requestBus) {
         super(players, requestBus);
