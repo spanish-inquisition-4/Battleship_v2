@@ -3,6 +3,7 @@ package com.spanish_inquisition.battleship.client.game;
 import com.spanish_inquisition.battleship.client.board.BoardController;
 import com.spanish_inquisition.battleship.client.board.BoardTile;
 import com.spanish_inquisition.battleship.common.Styles;
+import javafx.application.Platform;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class FleetInitializer {
     public void setUpShips() {
         boardTiles = boardController.getBoardsIndexTiles();
         shipPlaces = Fleet.getRandomFleet().getShipPlaces();
-        shipPlaces.forEach(this::changeTileStyle);
+        Platform.runLater(() -> shipPlaces.forEach(this::changeTileStyle));
     }
 
     private void changeTileStyle(int tileId) {

@@ -17,15 +17,15 @@ public class GameBoard {
         this.gridPane = gridPane;
     }
 
-    public GridPane getGridPane() {
+    GridPane getGridPane() {
         return gridPane;
     }
 
-    public void addBoardTileToHashMap(int boardIndex, BoardTile tile) {
+    void addBoardTileToHashMap(int boardIndex, BoardTile tile) {
         this.indexTiles.put(boardIndex, tile);
     }
 
-    public Map<Integer, BoardTile> getIndexTiles() {
+    Map<Integer, BoardTile> getIndexTiles() {
         return indexTiles;
     }
 }

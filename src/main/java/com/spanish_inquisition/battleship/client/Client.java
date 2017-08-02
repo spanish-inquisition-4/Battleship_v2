@@ -7,10 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.logging.Level;
-
-import static com.spanish_inquisition.battleship.common.AppLogger.logger;
-
 /**
  * @author Michal_Partacz
  * A main class for Client which will load the fxml file containing the UI's elements and shows them on the new window.
