@@ -1,6 +1,5 @@
 package com.spanish_inquisition.battleship.client;
 
-import com.spanish_inquisition.battleship.client.board.boardcontroller.BoardController;
 import com.spanish_inquisition.battleship.client.board.GameBoard;
 import com.spanish_inquisition.battleship.client.board.boardcontroller.OpponentBoardController;
 import com.spanish_inquisition.battleship.client.board.boardcontroller.PlayerBoardController;
@@ -22,7 +21,8 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 /**
  * @author Michal_Partacz
- * A controller for a fxml file placed in resources folder. The methods annotated with @FXML react to events specified
+ * A controller for a fxml file placed in resources folder.
+ * The methods annotated with @FXML react to events specified
  * in the file's UI elements.
  */
 public class MainMenuController {
@@ -68,11 +68,12 @@ public class MainMenuController {
     public void initialize() {
         this.game = new Game();
         try {
-            this.socketClient = SocketClient.createSocketClientWithSocket();
-            this.game.setSocketClient(socketClient);
+            socketClient = SocketClient.createSocketClientWithSocket();
+            game.setSocketClient(socketClient);
         } catch (IOException e) {
-            logger.log(Level.WARNING, "The client could not connect to the server", e);
-            gameStatusLabel.setText("I could not connect to the server :(");
+            logger.log(Level.WARNING,
+                    "The client could not connect to the server", e);
+            gameStatusLabel.setText("I couldn't connect to the server");
         }
         initializeElementsAfterServerConnection();
     }
@@ -95,27 +96,29 @@ public class MainMenuController {
     }
 
     void sendTextToSocketAndStartANewGame(String text) {
-        this.game.acceptPlayersName(text);
-        this.playerNameVBox.setVisible(false);
+        game.acceptPlayersName(text);
+        playerNameVBox.setVisible(false);
         new Thread(this::buildPlayerBoard).start();
     }
 
     private void buildPlayerBoard() {
         Platform.runLater(() -> playersLabel.setText("Set Up your ships"));
-        this.game.buildPlayersBoard(new PlayerBoardController(new GameBoard(this.playersGridPane)));
-        this.fleetSetupButton.setVisible(true);
+        game.buildPlayersBoard(new PlayerBoardController(
+           new GameBoard(this.playersGridPane)));
+        fleetSetupButton.setVisible(true);
     }
 
     @FXML
     public void onFleetSetupButtonClicked() {
-        this.game.placePlayersShips();
-        this.sendToServerButton.setVisible(true);
+        game.placePlayersShips();
+        sendToServerButton.setVisible(true);
     }
 
     @FXML
     void onSendToServerButtonClicked() {
-        this.fleetSetupButton.setDisable(true);
-        this.socketClient.sendStringToServer(this.game.getShipPlacementForServer());
-        this.game.buildOpponentsBoard(new OpponentBoardController(new GameBoard(this.opponentsGridPane)));
+        fleetSetupButton.setDisable(true);
+        socketClient.sendStringToServer(game.getShipPlacementForServer());
+        game.buildOpponentsBoard(new OpponentBoardController(
+                new GameBoard(opponentsGridPane)));
     }
 }
