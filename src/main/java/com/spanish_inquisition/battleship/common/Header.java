@@ -18,7 +18,14 @@ public enum Header {
     PLAYER_TURN,
     OPPONENT_TURN,
     GAME_WON,
-    MOVE_REGULAR;
+    DECIDE_ON_MOVE,
+    MOVE_REGULAR,
+    RESPONSE_HIT,
+    RESPONSE_OPPONENT_HIT,
+    RESPONSE_MISS,
+    RESPONSE_OPPONENT_MISS,
+    RESPONSE_DESTROYED_SHIP,
+    RESPONSE_OPPONENT_DESTROYED_SHIP;
 
     /**
      * A method which will return a Header enum for an input string. In case there is no enum that can be inferred from

@@ -1,6 +1,9 @@
 package com.spanish_inquisition.battleship.server;
 
 import com.spanish_inquisition.battleship.common.AppLogger;
+import com.spanish_inquisition.battleship.common.Header;
+import com.spanish_inquisition.battleship.common.NetworkMessage;
+import com.spanish_inquisition.battleship.server.fleet.Ship;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -16,6 +19,62 @@ public class MessageBus {
     }
 
     public void addMessage(int senderId, int recipientId, String message) {
+        Message newMessage = new Message(senderId, recipientId, message);
+        messageBus.add(newMessage);
+    }
+
+    public void addResponseHitMessage(int senderId, int recipientId, Integer field) {
+        String message = Header.RESPONSE_HIT.name() +
+                NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER +
+                field +
+                NetworkMessage.RESPONSE_SPLIT_CHARACTER;
+        Message newMessage = new Message(senderId, recipientId, message);
+        messageBus.add(newMessage);
+    }
+
+    public void addResponseOpponentHitMessage(int senderId, int recipientId, Integer field) {
+        String message = Header.RESPONSE_OPPONENT_HIT.name() +
+                NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER +
+                field +
+                NetworkMessage.RESPONSE_SPLIT_CHARACTER;
+        Message newMessage = new Message(senderId, recipientId, message);
+        messageBus.add(newMessage);
+    }
+
+    public void addResponseMissMessage(int senderId, int recipientId, Integer field) {
+        String message = Header.RESPONSE_MISS.name() +
+                NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER +
+                field +
+                NetworkMessage.RESPONSE_SPLIT_CHARACTER;
+        Message newMessage = new Message(senderId, recipientId, message);
+        messageBus.add(newMessage);
+    }
+
+    public void addResponseOpponentMissMessage(int senderId, int recipientId, Integer field) {
+        String message = Header.RESPONSE_OPPONENT_MISS.name() +
+                NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER +
+                field +
+                NetworkMessage.RESPONSE_SPLIT_CHARACTER;
+        Message newMessage = new Message(senderId, recipientId, message);
+        messageBus.add(newMessage);
+    }
+
+    public void addResponseDestroyedShipMessage(int senderId, int recipientId, Ship destroyedShip) {
+        String shipPointsAsString = destroyedShip.pointsAsString();
+        String message = Header.RESPONSE_DESTROYED_SHIP.name() +
+                NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER +
+                shipPointsAsString +
+                NetworkMessage.RESPONSE_SPLIT_CHARACTER;
+        Message newMessage = new Message(senderId, recipientId, message);
+        messageBus.add(newMessage);
+    }
+
+    public void addResponseOpponentDestroyedShipMessage(int senderId, int recipientId, Ship destroyedShip) {
+        String shipPointsAsString = destroyedShip.pointsAsString();
+        String message = Header.RESPONSE_OPPONENT_DESTROYED_SHIP.name() +
+                NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER +
+                shipPointsAsString +
+                NetworkMessage.RESPONSE_SPLIT_CHARACTER;
         Message newMessage = new Message(senderId, recipientId, message);
         messageBus.add(newMessage);
     }
@@ -63,4 +122,5 @@ public class MessageBus {
         }
         return isForRecipient;
     }
+
 }
