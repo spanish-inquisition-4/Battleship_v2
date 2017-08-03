@@ -1,5 +1,6 @@
 package com.spanish_inquisition.battleship.server;
 
+import com.spanish_inquisition.battleship.server.bus.MessageBus;
 import com.spanish_inquisition.battleship.server.game_states.GameState;
 import com.spanish_inquisition.battleship.server.game_states.PlacingShipsState;
 

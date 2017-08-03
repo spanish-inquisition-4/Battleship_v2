@@ -2,7 +2,8 @@ package com.spanish_inquisition.battleship.server.game_states;
 
 import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.common.NetworkMessage;
-import com.spanish_inquisition.battleship.server.MessageBus;
+import com.spanish_inquisition.battleship.server.bus.MessageBuilder;
+import com.spanish_inquisition.battleship.server.bus.MessageBus;
 import com.spanish_inquisition.battleship.server.Player;
 import com.spanish_inquisition.battleship.server.Players;
 import com.spanish_inquisition.battleship.server.fleet.Ship;
@@ -64,18 +65,48 @@ public class ShotState extends GameState {
     }
 
     private void notifyPlayersAboutDestroyedShip(Player player, Player opponent, Ship ship) {
-        requestBus.addResponseDestroyedShipMessage(SERVER_ID, player.getPlayerId(), ship);
-        requestBus.addResponseOpponentDestroyedShipMessage(SERVER_ID, opponent.getPlayerId(), ship);
+        requestBus.addMessage(
+                new MessageBuilder(
+                        SERVER_ID,
+                        player.getPlayerId()
+                ).buildResponseDestroyedShipMessage(ship).getMessage()
+        );
+        requestBus.addMessage(
+                new MessageBuilder(
+                        SERVER_ID,
+                        opponent.getPlayerId()
+                ).buildResponseOpponentDestroyedShipMessage(ship).getMessage()
+        );
     }
 
     private void notifyPlayersAboutHit(Player player, Player opponent, Integer targetedPoint) {
-        requestBus.addResponseHitMessage(SERVER_ID, player.getPlayerId(), targetedPoint);
-        requestBus.addResponseOpponentHitMessage(SERVER_ID, opponent.getPlayerId(), targetedPoint);
+        requestBus.addMessage(
+                new MessageBuilder(
+                        SERVER_ID,
+                        player.getPlayerId()
+                ).buildResponseHitMessage(targetedPoint).getMessage()
+        );
+        requestBus.addMessage(
+                new MessageBuilder(
+                        SERVER_ID,
+                        opponent.getPlayerId()
+                ).buildResponseOpponentHitMessage(targetedPoint).getMessage()
+        );
     }
 
     private void notifyPlayersAboutMiss(Player player, Player opponent, Integer targetedPoint) {
-        requestBus.addResponseMissMessage(SERVER_ID, player.getPlayerId(), targetedPoint);
-        requestBus.addResponseOpponentMissMessage(SERVER_ID, opponent.getPlayerId(), targetedPoint);
+        requestBus.addMessage(
+                new MessageBuilder(
+                        SERVER_ID,
+                        player.getPlayerId()
+                ).buildResponseMissMessage(targetedPoint).getMessage()
+        );
+        requestBus.addMessage(
+                new MessageBuilder(
+                        SERVER_ID,
+                        opponent.getPlayerId()
+                ).buildResponseOpponentMissMessage(targetedPoint).getMessage()
+        );
     }
 
     private Player getCurrentPlayer() {
