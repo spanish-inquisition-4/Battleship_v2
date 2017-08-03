@@ -8,6 +8,9 @@ import com.spanish_inquisition.battleship.common.NetworkMessage;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
+import static com.spanish_inquisition.battleship.common.Header.RESPONSE_OPPONENT_DESTROYED_SHIP;
+import static com.spanish_inquisition.battleship.common.Header.RESPONSE_OPPONENT_HIT;
+import static com.spanish_inquisition.battleship.common.Header.RESPONSE_OPPONENT_MISS;
 import static com.spanish_inquisition.battleship.common.Header.isResponseFieldChanging;
 
 /**
@@ -59,14 +62,41 @@ public class Game {
                     continue;
                 }
                 switch (message.getHeader()) {
-                    case PLAYER_TURN: { /*notify about his move */ }
-                    case OPPONENT_TURN: { /* notify that it is not his turn */ }
+                    case PLAYER_TURN: { /*notify about his move */
+
+                    }
+                    case DECIDE_ON_MOVE: {
+                        // wait for target point from player
+                    }
+                    case RESPONSE_HIT: {
+                        // recolor targeted point
+                    }
+                    case RESPONSE_MISS: {
+                        // recolor targeted point
+                    }
+                    case RESPONSE_DESTROYED_SHIP: {
+                        // recolor destroyed ship points
+                    }
+                    case OPPONENT_TURN: {
+                        /* notify that it is not his turn */
+                        NetworkMessage resultMessage = this.responsesBus.getAServerResponse();
+                        while(!(resultMessage.getHeader() == RESPONSE_OPPONENT_HIT
+                                || resultMessage.getHeader() == RESPONSE_OPPONENT_MISS )) {
+                           resultMessage = this.responsesBus.getAServerResponse();
+                        }
+                        // recolor targeted point
+                        NetworkMessage destroyedShipMessage = this.responsesBus.getAServerResponse();
+                        if (destroyedShipMessage.getHeader() == RESPONSE_OPPONENT_DESTROYED_SHIP) {
+                            // recolor destroyed ship points
+                        }
+                    }
                     case GAME_WON: {
                         break game_loop;/*notify the player he won or lost */
                     }
                 }
                 if (isResponseFieldChanging(message.getHeader())) {
                     // make changes to the opponent's board
+
                 }
             }
         }
