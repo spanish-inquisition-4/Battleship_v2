@@ -12,30 +12,38 @@ import com.spanish_inquisition.battleship.server.fleet.Ship;
 import static com.spanish_inquisition.battleship.server.BattleshipServer.SERVER_ID;
 
 public class ShotState extends GameState {
-    public ShotState(Players players, MessageBus requestBus) {
+    public ShotState(final Players players, final MessageBus requestBus) {
         super(players, requestBus);
     }
 
     @Override
     public GameState transform() {
         Player currentPlayer = getCurrentPlayer();
-        requestBus.addMessage(SERVER_ID, currentPlayer.getPlayerId(), Header.DECIDE_ON_MOVE.name());
-        if(!shootIfPlayerSentValidMessage(currentPlayer)) {
+        requestBus.addMessage(
+                SERVER_ID,
+                currentPlayer.getPlayerId(),
+                Header.DECIDE_ON_MOVE.name()
+        );
+
+        if (!shootIfPlayerSentValidMessage(currentPlayer)) {
             return this;
         }
-        return !didPlayerWon(currentPlayer) ?
-                new PlayerActionState(players, requestBus) : new ResultState(players, requestBus);
+        return !didPlayerWon(currentPlayer)
+                ? new PlayerActionState(
+                        players, requestBus)
+                : new ResultState(
+                        players, requestBus);
     }
 
-    private boolean didPlayerWon(Player player) {
+    private boolean didPlayerWon(final Player player) {
         return players.getOpponentOf(player).hasNoFleet();
     }
 
-    private boolean shootIfPlayerSentValidMessage(Player player) {
+    private boolean shootIfPlayerSentValidMessage(final Player player) {
         if (requestBus.haveMessageFromSender(player.getPlayerId())) {
             String shotMessage = getMessageContentFromPlayer(player);
             if (shotMessage.contains(Header.MOVE_REGULAR.name())) {
-                if(shotExecution(shotMessage, player) ) {
+                if (shotExecution(shotMessage, player)) {
                     return false;
                 }
                 players.switchCurrentPlayer();
@@ -45,17 +53,24 @@ public class ShotState extends GameState {
         return false;
     }
 
-    private boolean shotExecution(String messageContent, Player player) {
+    private boolean shotExecution(
+            final String messageContent, final Player player) {
         Integer targetedPoint = Integer.valueOf(messageContent.substring(
-                messageContent.indexOf(NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER) + 1,
-                messageContent.indexOf(NetworkMessage.RESPONSE_SPLIT_CHARACTER)
+                messageContent.indexOf(
+                        NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER) + 1,
+                messageContent.indexOf(
+                        NetworkMessage.RESPONSE_SPLIT_CHARACTER)
         ));
 
         Player opponent = players.getOpponentOf(player);
-        if(opponent.fleetGotHit(targetedPoint)) {
+        if (opponent.fleetGotHit(targetedPoint)) {
             notifyPlayersAboutHit(player, opponent, targetedPoint);
-            if(opponent.gotDestroyedShip()) {
-                notifyPlayersAboutDestroyedShip(player, opponent, opponent.pullDestroyedShip());
+            if (opponent.gotDestroyedShip()) {
+                notifyPlayersAboutDestroyedShip(
+                        player,
+                        opponent,
+                        opponent.pullDestroyedShip()
+                );
             }
             return true;
         }
@@ -64,7 +79,8 @@ public class ShotState extends GameState {
         return false;
     }
 
-    private void notifyPlayersAboutDestroyedShip(Player player, Player opponent, Ship ship) {
+    private void notifyPlayersAboutDestroyedShip(
+            final Player player, final Player opponent, final Ship ship) {
         requestBus.addMessage(
                 new MessageBuilder(
                         SERVER_ID,
@@ -79,7 +95,10 @@ public class ShotState extends GameState {
         );
     }
 
-    private void notifyPlayersAboutHit(Player player, Player opponent, Integer targetedPoint) {
+    private void notifyPlayersAboutHit(
+            final Player player,
+            final Player opponent,
+            final Integer targetedPoint) {
         requestBus.addMessage(
                 new MessageBuilder(
                         SERVER_ID,
@@ -94,7 +113,10 @@ public class ShotState extends GameState {
         );
     }
 
-    private void notifyPlayersAboutMiss(Player player, Player opponent, Integer targetedPoint) {
+    private void notifyPlayersAboutMiss(
+            final Player player,
+            final Player opponent,
+            final Integer targetedPoint) {
         requestBus.addMessage(
                 new MessageBuilder(
                         SERVER_ID,
@@ -113,7 +135,7 @@ public class ShotState extends GameState {
         return players.getCurrentPlayer();
     }
 
-    private String getMessageContentFromPlayer(Player player) {
+    private String getMessageContentFromPlayer(final Player player) {
         return requestBus.getMessageFrom(player.getPlayerId()).getContent();
     }
 }
