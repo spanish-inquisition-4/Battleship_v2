@@ -1,8 +1,7 @@
 package com.spanish_inquisition.battleship.server.game_states;
 
-import com.spanish_inquisition.battleship.server.MessageBus;
+import com.spanish_inquisition.battleship.server.bus.MessageBus;
 import com.spanish_inquisition.battleship.server.Players;
-import com.spanish_inquisition.battleship.server.game_states.EndState;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

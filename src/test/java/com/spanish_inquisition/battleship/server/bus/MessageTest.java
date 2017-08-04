@@ -1,5 +1,6 @@
-package com.spanish_inquisition.battleship.server;
+package com.spanish_inquisition.battleship.server.bus;
 
+import com.spanish_inquisition.battleship.server.bus.Message;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

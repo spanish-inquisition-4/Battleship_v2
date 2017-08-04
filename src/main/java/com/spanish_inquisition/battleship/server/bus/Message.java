@@ -1,4 +1,4 @@
-package com.spanish_inquisition.battleship.server;
+package com.spanish_inquisition.battleship.server.bus;
 
 public class Message {
     private int sender;
@@ -11,19 +11,19 @@ public class Message {
         this.content = message;
     }
 
-    boolean isToRecipient(int recipient) {
+    public boolean isToRecipient(int recipient) {
         return this.recipient == recipient;
     }
 
-    boolean isFromSender(int sender) {
+    public boolean isFromSender(int sender) {
         return this.sender == sender;
     }
 
-    int getSender() {
+    public int getSender() {
         return sender;
     }
 
-    int getRecipient() {
+    public int getRecipient() {
         return recipient;
     }
 

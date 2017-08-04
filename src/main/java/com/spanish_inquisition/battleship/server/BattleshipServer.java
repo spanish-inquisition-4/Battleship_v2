@@ -1,5 +1,7 @@
 package com.spanish_inquisition.battleship.server;
 
+import com.spanish_inquisition.battleship.server.bus.MessageBus;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
