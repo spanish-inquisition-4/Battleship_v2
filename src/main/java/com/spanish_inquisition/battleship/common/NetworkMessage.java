@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
  * @author Michal_Partacz
  */
 public class NetworkMessage {
-    static final String RESPONSE_SPLIT_CHARACTER = ";";
-    static final String RESPONSE_HEADER_SPLIT_CHARACTER = ":";
+    public static final String RESPONSE_SPLIT_CHARACTER = ";";
+    public static final String RESPONSE_HEADER_SPLIT_CHARACTER = ":";
 
     private Header header;
     private String body;

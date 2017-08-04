@@ -1,6 +1,8 @@
 package com.spanish_inquisition.battleship.client.board;
 
 import com.spanish_inquisition.battleship.client.board.boardcontroller.BoardController;
+import com.spanish_inquisition.battleship.client.board.boardcontroller.OpponentBoardController;
+import com.spanish_inquisition.battleship.client.board.boardcontroller.PlayerBoardController;
 import com.spanish_inquisition.battleship.common.AdjacentTilesCalc;
 import com.spanish_inquisition.battleship.common.Styles;
 import javafx.application.Platform;
@@ -28,7 +30,12 @@ public class GameBoardBuilder {
     private Map<Integer, Label> verticalLabels = new HashMap<>();
     private Map<Integer, Label> horizontalLabels = new HashMap<>();
 
-    public GameBoardBuilder(BoardController boardController) {
+    public GameBoardBuilder(PlayerBoardController boardController) {
+        this.boardController = boardController;
+        this.gridPane = boardController.getBoardGridPane();
+    }
+
+    public GameBoardBuilder(OpponentBoardController boardController) {
         this.boardController = boardController;
         this.gridPane = boardController.getBoardGridPane();
     }
@@ -103,9 +110,11 @@ public class GameBoardBuilder {
     }
 
     private EventHandler<MouseEvent> getOnBoardTileClickedEvent(BoardTile tile, BoardController boardController) {
-        return event -> {
-            //do something when the button is closed
-        };
+        if(boardController instanceof PlayerBoardController) {
+            return event -> {}; //TODO player impl
+        } else {
+            return event -> boardController.getGame().makeAMove(tile.getBoardIndex());
+        }
     }
 
     private void setButtonsHoverOverEvents(BoardTile tile) {
