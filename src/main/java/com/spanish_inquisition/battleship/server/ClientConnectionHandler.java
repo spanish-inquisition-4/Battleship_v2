@@ -1,5 +1,7 @@
 package com.spanish_inquisition.battleship.server;
 
+import com.spanish_inquisition.battleship.server.bus.MessageBus;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

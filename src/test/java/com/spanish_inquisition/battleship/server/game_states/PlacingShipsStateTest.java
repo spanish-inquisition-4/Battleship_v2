@@ -2,7 +2,7 @@ package com.spanish_inquisition.battleship.server.game_states;
 
 import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.server.ClientConnectionHandler;
-import com.spanish_inquisition.battleship.server.MessageBus;
+import com.spanish_inquisition.battleship.server.bus.MessageBus;
 import com.spanish_inquisition.battleship.server.Player;
 import com.spanish_inquisition.battleship.server.Players;
 import com.spanish_inquisition.battleship.server.fleet.Ship;
