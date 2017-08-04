@@ -117,8 +117,8 @@ public class MainMenuController {
     @FXML
     void onSendToServerButtonClicked() {
         fleetSetupButton.setDisable(true);
-        socketClient.sendStringToServer(game.getShipPlacementForServer());
         game.buildOpponentsBoard(new OpponentBoardController(
                 new GameBoard(opponentsGridPane)));
+        socketClient.sendStringToServer(game.getShipPlacementForServer());
     }
 }
