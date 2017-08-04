@@ -51,6 +51,7 @@ corresponding methods which will be invoked in the java class specified in tag f
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin></GridPane>
+                        <Button mnemonicParsing="false" text="Button" visible="false" />
                      </children>
                   </VBox>
                </children>

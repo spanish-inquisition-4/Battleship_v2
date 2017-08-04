@@ -27,7 +27,6 @@ public class BattleshipServer {
         connectWithPlayers(createServerSocket(PORT_NUMBER));
         BattleshipGame game = new BattleshipGame(clients, requestBus);
         game.proceed();
-
     }
 
     ServerSocket createServerSocket(int portNumber) {

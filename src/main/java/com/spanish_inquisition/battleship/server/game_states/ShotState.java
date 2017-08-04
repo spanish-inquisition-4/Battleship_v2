@@ -19,11 +19,6 @@ public class ShotState extends GameState {
     @Override
     public GameState transform() {
         Player currentPlayer = getCurrentPlayer();
-//        requestBus.addMessage(
-//                SERVER_ID,
-//                currentPlayer.getPlayerId(),
-//                Header.DECIDE_ON_MOVE.name()
-//        );
 
         if (!shootIfPlayerSentValidMessage(currentPlayer)) {
             return this;

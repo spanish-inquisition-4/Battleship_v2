@@ -1,5 +1,6 @@
 package com.spanish_inquisition.battleship.client.game;
 
+import com.spanish_inquisition.battleship.client.StatusController;
 import com.spanish_inquisition.battleship.client.board.boardcontroller.OpponentBoardController;
 import com.spanish_inquisition.battleship.client.board.boardcontroller.PlayerBoardController;
 import com.spanish_inquisition.battleship.client.network.ResponsesBus;
@@ -23,7 +24,11 @@ public class Game {
     private static final int GAME_LOOP_SLEEP = 100;
     PlayerBoardController playerBoardController;
     OpponentBoardController opponentBoardController;
+    StatusController statusController;
 
+    public void setStatusController(StatusController statusController) {
+        this.statusController = statusController;
+    }
 
     public void buildPlayersBoard(PlayerBoardController boardController) {
         logger.log(DEFAULT_LEVEL, "Building player's board");
@@ -77,6 +82,7 @@ public class Game {
                         break;
                     }
                     case PLAYER_TURN: {
+                        statusController.setPlayersLabel("Your turn!");
                         opponentBoardController.setBoardDisabled(false);
                         break;
                     }
@@ -107,6 +113,7 @@ public class Game {
                         break;
                     }
                     case OPPONENT_TURN: {
+                        statusController.setPlayersLabel("Wait for opponent move...");
                         opponentBoardController.setBoardDisabled(true);
                         break;
                     }
@@ -140,12 +147,8 @@ public class Game {
 
                     }
                 }
-//                if (isResponseFieldChanging(message.getHeader())) {
-//                    // make changes to the opponent's board
-//                }
             }
         }
-
     }
 
     public void makeAMove(Integer tileIndex) {

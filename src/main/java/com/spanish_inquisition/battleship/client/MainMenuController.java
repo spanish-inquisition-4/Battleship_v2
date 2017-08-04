@@ -68,6 +68,7 @@ public class MainMenuController {
     @FXML
     public void initialize() {
         this.game = new Game();
+        game.setStatusController(new StatusController(playersLabel));
         try {
             socketClient = SocketClient.createSocketClientWithSocket();
             game.setSocketClient(socketClient);
@@ -103,7 +104,7 @@ public class MainMenuController {
     }
 
     private void buildPlayerBoard() {
-        Platform.runLater(() -> playersLabel.setText("Set Up your ships"));
+        Platform.runLater(() -> playersLabel.setText("Set up your ships"));
         game.buildPlayersBoard(new PlayerBoardController(
            new GameBoard(this.playersGridPane), game));
         fleetSetupButton.setVisible(true);
@@ -121,6 +122,7 @@ public class MainMenuController {
         sendToServerButton.setVisible(false);
         playersGridPane.setDisable(true);
         opponentsGridPane.setDisable(true);
+        Platform.runLater(() -> playersLabel.setText("Wait for opponent's ships placement"));
 
         game.buildOpponentsBoard(new OpponentBoardController(
                 new GameBoard(opponentsGridPane), game));
