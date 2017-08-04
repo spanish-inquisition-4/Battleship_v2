@@ -8,12 +8,10 @@ import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.common.NetworkMessage;
 import com.spanish_inquisition.battleship.common.Styles;
 
+import java.util.Arrays;
+
 import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
-import static com.spanish_inquisition.battleship.common.Header.RESPONSE_OPPONENT_DESTROYED_SHIP;
-import static com.spanish_inquisition.battleship.common.Header.RESPONSE_OPPONENT_HIT;
-import static com.spanish_inquisition.battleship.common.Header.RESPONSE_OPPONENT_MISS;
-import static com.spanish_inquisition.battleship.common.Header.isResponseFieldChanging;
 
 /**
  * @author Michal_Partacz
@@ -100,8 +98,12 @@ public class Game {
                     }
                     case RESPONSE_DESTROYED_SHIP: {
                         // recolor destroyed ship points on opponent's board
-                        int index = Integer.parseInt(message.getBody());
-                        opponentBoardController.colorBoardTile(index, Styles.RESPONSE_DESTROYED);
+                        String msg = message.getBody();
+                        String destroyedFieldsString = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
+                        String[] destroyedFieldsToParse = destroyedFieldsString.split(",");
+                        Arrays.stream(destroyedFieldsToParse)
+                                .map(field -> Integer.parseInt(field.trim()))
+                                .forEach(index -> opponentBoardController.colorBoardTile(index, Styles.RESPONSE_DESTROYED));
                         break;
                     }
                     case OPPONENT_TURN: {
@@ -122,8 +124,12 @@ public class Game {
                     }
                     case RESPONSE_OPPONENT_DESTROYED_SHIP: {
                         // recolor destroyed ship points on player's board
-                        int index = Integer.parseInt(message.getBody());
-                        playerBoardController.colorBoardTile(index, Styles.RESPONSE_DESTROYED);
+                        String msg = message.getBody();
+                        String destroyedFieldsString = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
+                        String[] destroyedFieldsToParse = destroyedFieldsString.split(",");
+                        Arrays.stream(destroyedFieldsToParse)
+                                .map(field -> Integer.parseInt(field.trim()))
+                                .forEach(index -> playerBoardController.colorBoardTile(index, Styles.RESPONSE_DESTROYED));
                         break;
                     }
                     case GAME_WON: {

@@ -13,5 +13,5 @@ public class Styles {
     public static final Paint TEXT_BLACK = Paint.valueOf("black");
     public static final String RESPONSE_HIT = "-fx-base: #dd1c1c;";
     public static final String RESPONSE_MISS = "-fx-base: #22afd6;";
-    public static final String RESPONSE_DESTROYED = "-fx-base: #770d00;";
+    public static final String RESPONSE_DESTROYED = "-fx-base: #000000;";
 }
