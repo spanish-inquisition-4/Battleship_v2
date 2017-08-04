@@ -28,4 +28,8 @@ public class GameBoard {
     public Map<Integer, BoardTile> getIndexTiles() {
         return indexTiles;
     }
+
+    public void colorTileByIndex(int index, String newStyle) {
+        indexTiles.get(index).setStyle(newStyle);
+    }
 }

@@ -22,6 +22,11 @@ public class BattleshipGame {
         }
         GameState currentState = new PlacingShipsState(players, requestBus);
         while (currentState.isGameRunning()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             currentState = currentState.transform();
         }
     }

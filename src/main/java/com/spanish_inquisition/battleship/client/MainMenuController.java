@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.logging.Level;
 
+import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 /**
@@ -116,9 +117,18 @@ public class MainMenuController {
 
     @FXML
     void onSendToServerButtonClicked() {
-        fleetSetupButton.setDisable(true);
+        fleetSetupButton.setVisible(false);
+        sendToServerButton.setVisible(false);
+        playersGridPane.setDisable(true);
+        opponentsGridPane.setDisable(true);
+
         game.buildOpponentsBoard(new OpponentBoardController(
                 new GameBoard(opponentsGridPane), game));
         game.sendTheFleetToServer();
+        new Thread( () -> {try {
+            game.runTheGame();
+        } catch (InterruptedException e) {
+            logger.log(DEFAULT_LEVEL, "Game interrupted");
+        }}).start();
     }
 }

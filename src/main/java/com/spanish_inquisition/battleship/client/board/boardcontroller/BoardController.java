@@ -37,4 +37,8 @@ public abstract class BoardController {
     public Game getGame() { return game; }
 
     public void setGame(Game game) { this.game = game;}
+
+    public void colorBoardTile(int index, String color) {
+        gameBoard.colorTileByIndex(index, color);
+    }
 }

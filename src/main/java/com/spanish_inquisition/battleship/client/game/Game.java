@@ -6,6 +6,7 @@ import com.spanish_inquisition.battleship.client.network.ResponsesBus;
 import com.spanish_inquisition.battleship.client.network.SocketClient;
 import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.common.NetworkMessage;
+import com.spanish_inquisition.battleship.common.Styles;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
@@ -69,50 +70,81 @@ public class Game {
                     continue;
                 }
                 switch (message.getHeader()) {
-                    case PLAYER_TURN: { /*notify about his move */
-
+                    case FLEET_VALID: {
+                        // inform that fleet is valid and proceed
+                        break;
+                    }
+                    case FLEET_INVALID: {
+                        // inform that fleet is invalid and retry
+                        break;
+                    }
+                    case PLAYER_TURN: {
+                        opponentBoardController.setBoardDisabled(false);
+                        break;
                     }
                     case DECIDE_ON_MOVE: {
                         // wait for target point from player
+                        break;
                     }
                     case RESPONSE_HIT: {
-                        // recolor targeted point
+                        // recolor targeted point on opponent's board
+                        int index = Integer.parseInt(message.getBody());
+                        opponentBoardController.colorBoardTile(index, Styles.RESPONSE_HIT);
+                        break;
                     }
                     case RESPONSE_MISS: {
-                        // recolor targeted point
+                        // recolor targeted point on opponent's board
+                        int index = Integer.parseInt(message.getBody());
+                        opponentBoardController.colorBoardTile(index, Styles.RESPONSE_MISS);
+                        break;
                     }
                     case RESPONSE_DESTROYED_SHIP: {
-                        // recolor destroyed ship points
+                        // recolor destroyed ship points on opponent's board
+                        int index = Integer.parseInt(message.getBody());
+                        opponentBoardController.colorBoardTile(index, Styles.RESPONSE_DESTROYED);
+                        break;
                     }
                     case OPPONENT_TURN: {
-                        /* notify that it is not his turn */
-                        NetworkMessage resultMessage = this.responsesBus.getAServerResponse();
-                        while(!(resultMessage.getHeader() == RESPONSE_OPPONENT_HIT
-                                || resultMessage.getHeader() == RESPONSE_OPPONENT_MISS )) {
-                           resultMessage = this.responsesBus.getAServerResponse();
-                        }
-                        // recolor targeted point
-                        NetworkMessage destroyedShipMessage = this.responsesBus.getAServerResponse();
-                        if (destroyedShipMessage.getHeader() == RESPONSE_OPPONENT_DESTROYED_SHIP) {
-                            // recolor destroyed ship points
-                        }
+                        opponentBoardController.setBoardDisabled(true);
+                        break;
+                    }
+                    case RESPONSE_OPPONENT_HIT: {
+                        // recolor targeted point on player's board
+                        int index = Integer.parseInt(message.getBody());
+                        playerBoardController.colorBoardTile(index, Styles.RESPONSE_HIT);
+                        break;
+                    }
+                    case RESPONSE_OPPONENT_MISS: {
+                        // recolor targeted point on player's board
+                        int index = Integer.parseInt(message.getBody());
+                        playerBoardController.colorBoardTile(index, Styles.RESPONSE_MISS);
+                        break;
+                    }
+                    case RESPONSE_OPPONENT_DESTROYED_SHIP: {
+                        // recolor destroyed ship points on player's board
+                        int index = Integer.parseInt(message.getBody());
+                        playerBoardController.colorBoardTile(index, Styles.RESPONSE_DESTROYED);
+                        break;
                     }
                     case GAME_WON: {
                         break game_loop;/*notify the player he won or lost */
                     }
-                }
-                if (isResponseFieldChanging(message.getHeader())) {
-                    // make changes to the opponent's board
+                    default: {
+                        break;
 
+                    }
                 }
+//                if (isResponseFieldChanging(message.getHeader())) {
+//                    // make changes to the opponent's board
+//                }
             }
         }
 
     }
 
     public void makeAMove(Integer tileIndex) {
-        logger.log(DEFAULT_LEVEL, "The tile index that was clicked " +tileIndex);
-        String regularMoveMessage = Header.MOVE_REGULAR + NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER + tileIndex;
+        logger.log(DEFAULT_LEVEL, "The tile index that was clicked " + tileIndex);
+        String regularMoveMessage = Header.MOVE_REGULAR + NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER + tileIndex + NetworkMessage.RESPONSE_SPLIT_CHARACTER;
         if(socketClient != null) {
             socketClient.sendStringToServer(regularMoveMessage);
         }
