@@ -87,15 +87,15 @@ public class MainMenuController {
      */
     @FXML
     public void onFeatureButtonClicked() {
-        this.sendTextToSocketAndStartANewGame(this.nameTextField.getText());
+        this.acceptANameAndStartANewGame(this.nameTextField.getText());
     }
 
     @FXML
     public void onNameTextFieldEntered() {
-        this.sendTextToSocketAndStartANewGame(this.nameTextField.getText());
+        this.acceptANameAndStartANewGame(this.nameTextField.getText());
     }
 
-    void sendTextToSocketAndStartANewGame(String text) {
+    void acceptANameAndStartANewGame(String text) {
         game.acceptPlayersName(text);
         playerNameVBox.setVisible(false);
         new Thread(this::buildPlayerBoard).start();
@@ -104,7 +104,7 @@ public class MainMenuController {
     private void buildPlayerBoard() {
         Platform.runLater(() -> playersLabel.setText("Set Up your ships"));
         game.buildPlayersBoard(new PlayerBoardController(
-           new GameBoard(this.playersGridPane)));
+           new GameBoard(this.playersGridPane), game));
         fleetSetupButton.setVisible(true);
     }
 
@@ -118,7 +118,7 @@ public class MainMenuController {
     void onSendToServerButtonClicked() {
         fleetSetupButton.setDisable(true);
         game.buildOpponentsBoard(new OpponentBoardController(
-                new GameBoard(opponentsGridPane)));
-        socketClient.sendStringToServer(game.getShipPlacementForServer());
+                new GameBoard(opponentsGridPane), game));
+        game.sendTheFleetToServer();
     }
 }

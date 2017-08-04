@@ -2,6 +2,7 @@ package com.spanish_inquisition.battleship.client.board.boardcontroller;
 
 import com.spanish_inquisition.battleship.client.board.BoardTile;
 import com.spanish_inquisition.battleship.client.board.GameBoard;
+import com.spanish_inquisition.battleship.client.game.Game;
 import javafx.scene.layout.GridPane;
 
 import java.util.Map;
@@ -12,9 +13,11 @@ import java.util.Map;
  */
 public abstract class BoardController {
     protected GameBoard gameBoard;
+    private Game game;
 
-    public BoardController(GameBoard gameBoard) {
+    public BoardController(GameBoard gameBoard, Game game) {
         this.gameBoard = gameBoard;
+        this.game = game;
     }
 
     public abstract void buildBoard();
@@ -30,4 +33,8 @@ public abstract class BoardController {
     public Map<Integer, BoardTile> getBoardsIndexTiles() {
         return gameBoard.getIndexTiles();
     }
+
+    public Game getGame() { return game; }
+
+    public void setGame(Game game) { this.game = game;}
 }

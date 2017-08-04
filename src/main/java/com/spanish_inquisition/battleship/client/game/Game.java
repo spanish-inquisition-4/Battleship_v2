@@ -4,6 +4,7 @@ import com.spanish_inquisition.battleship.client.board.boardcontroller.OpponentB
 import com.spanish_inquisition.battleship.client.board.boardcontroller.PlayerBoardController;
 import com.spanish_inquisition.battleship.client.network.ResponsesBus;
 import com.spanish_inquisition.battleship.client.network.SocketClient;
+import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.common.NetworkMessage;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
@@ -49,7 +50,13 @@ public class Game {
     }
 
     public String getShipPlacementForServer(){
-        return playerBoardController.getMessageForServer();
+        return playerBoardController.getFleetMessageForServer();
+    }
+
+    public void sendTheFleetToServer() {
+        if(socketClient != null) {
+            socketClient.sendStringToServer(getShipPlacementForServer());
+        }
     }
 
     public void runTheGame() throws InterruptedException, NullPointerException {
@@ -101,6 +108,14 @@ public class Game {
             }
         }
 
+    }
+
+    public void makeAMove(Integer tileIndex) {
+        logger.log(DEFAULT_LEVEL, "The tile index that was clicked " +tileIndex);
+        String regularMoveMessage = Header.MOVE_REGULAR + NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER + tileIndex;
+        if(socketClient != null) {
+            socketClient.sendStringToServer(regularMoveMessage);
+        }
     }
 
     public void acceptPlayersName(String name) {

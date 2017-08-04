@@ -4,6 +4,7 @@ import com.spanish_inquisition.battleship.client.board.BoardTile;
 import com.spanish_inquisition.battleship.client.board.GameBoard;
 import com.spanish_inquisition.battleship.client.board.GameBoardBuilder;
 import com.spanish_inquisition.battleship.client.game.FleetInitializer;
+import com.spanish_inquisition.battleship.client.game.Game;
 import com.spanish_inquisition.battleship.client.game.ServerMessageCreator;
 import com.spanish_inquisition.battleship.common.Styles;
 import javafx.application.Platform;
@@ -13,8 +14,8 @@ import java.util.Map;
 public class PlayerBoardController extends BoardController {
     private FleetInitializer fleetInitializer;
 
-    public PlayerBoardController(GameBoard gameBoard) {
-        super(gameBoard);
+    public PlayerBoardController(GameBoard gameBoard, Game game) {
+        super(gameBoard, game);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class PlayerBoardController extends BoardController {
         fleetInitializer.setUpShips();
     }
 
-    public String getMessageForServer() {
+    public String getFleetMessageForServer() {
         return ServerMessageCreator.createFleetMessage(fleetInitializer.getShipPlaces());
     }
 }
