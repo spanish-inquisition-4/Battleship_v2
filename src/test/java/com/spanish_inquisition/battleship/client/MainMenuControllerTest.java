@@ -6,6 +6,8 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -68,7 +70,7 @@ public class MainMenuControllerTest {
         assertFalse(mainMenuController.fleetSetupButton.isDisabled());
         when(mainMenuController.game.getShipPlacementForServer()).thenReturn("");
         mainMenuController.onSendToServerButtonClicked();
-        assertTrue(mainMenuController.fleetSetupButton.isDisabled());
+        assertFalse(mainMenuController.fleetSetupButton.isVisible());
     }
 
     private MainMenuController getControllerInstance() {
@@ -76,6 +78,9 @@ public class MainMenuControllerTest {
         MainMenuController mainMenuController = new MainMenuController();
         mainMenuController.game = game;
         mainMenuController.playerNameVBox = new VBox();
+        mainMenuController.playersGridPane = new GridPane();
+        mainMenuController.opponentsGridPane = new GridPane();
+        mainMenuController.mainBorderPane = new BorderPane();
         mainMenuController.fleetSetupButton = new Button();
         mainMenuController.sendToServerButton = new Button();
         mainMenuController.playersLabel = new Label();

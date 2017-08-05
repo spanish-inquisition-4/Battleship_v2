@@ -3,6 +3,10 @@
 <!--This file contains all the UI elements which we want to load to the window initially. Some of the elements will contain
 corresponding methods which will be invoked in the java class specified in tag fx:controller -->
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -12,7 +16,7 @@ corresponding methods which will be invoked in the java class specified in tag f
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spanish_inquisition.battleship.client.MainMenuController">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spanish_inquisition.battleship.client.MainMenuController">
    <center>
       <VBox fx:id="centralVBox" alignment="CENTER" visible="false" BorderPane.alignment="CENTER">
          <children>

@@ -17,7 +17,7 @@ public class SocketClient {
     private static final String HOST_NAME = "localhost";
     static int PORT = 6666;
     private static final Logger logger = Logger.getLogger(AppLogger.class.getName());
-    private static final int THREAD_TIMEOUT = 10_000; //[ms]
+    private static final int THREAD_TIMEOUT = 3_000; //[ms]
 
     Socket socket;
     BufferedReader input;

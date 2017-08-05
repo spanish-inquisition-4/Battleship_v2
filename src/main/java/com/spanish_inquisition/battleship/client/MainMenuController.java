@@ -7,12 +7,15 @@ import com.spanish_inquisition.battleship.client.game.Game;
 import com.spanish_inquisition.battleship.client.network.SocketClient;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -58,6 +61,8 @@ public class MainMenuController {
     Button sendToServerButton;
     @FXML
     Button fleetSetupButton;
+    @FXML
+    BorderPane mainBorderPane;
 
     SocketClient socketClient;
     Game game;
@@ -98,9 +103,22 @@ public class MainMenuController {
     }
 
     void acceptANameAndStartANewGame(String text) {
+        setUpOnCloseRequest();
         game.acceptPlayersName(text);
         playerNameVBox.setVisible(false);
         new Thread(this::buildPlayerBoard).start();
+    }
+
+    private void setUpOnCloseRequest() {
+        Scene scene  = mainBorderPane.getScene();
+        if(scene == null) {return;}
+        Window window = scene.getWindow();
+        window.setOnCloseRequest(event -> {
+            Platform.exit();
+            if(game != null) {
+                game.closeSocketConnection();
+            }
+        });
     }
 
     private void buildPlayerBoard() {

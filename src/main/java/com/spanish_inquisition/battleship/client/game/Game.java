@@ -146,6 +146,7 @@ public class Game {
                         } else {
                             statusController.setPlayersLabel("You lost!");
                         }
+                        closeSocketConnection();
                         break game_loop;/*notify the player he won or lost */
                     }
                     default: {
@@ -154,6 +155,12 @@ public class Game {
                     }
                 }
             }
+        }
+    }
+
+    public void closeSocketConnection() {
+        if(socketClient != null) {
+            socketClient.closeTheSocketClient();
         }
     }
 
