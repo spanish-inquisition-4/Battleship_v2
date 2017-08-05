@@ -140,6 +140,12 @@ public class Game {
                         break;
                     }
                     case GAME_WON: {
+                        opponentBoardController.setBoardDisabled(true);
+                        if(message.getBody().equals("true")) {
+                            statusController.setPlayersLabel("You have won!");
+                        } else {
+                            statusController.setPlayersLabel("You lost!");
+                        }
                         break game_loop;/*notify the player he won or lost */
                     }
                     default: {

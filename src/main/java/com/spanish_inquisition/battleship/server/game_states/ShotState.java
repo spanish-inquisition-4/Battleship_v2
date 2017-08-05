@@ -31,7 +31,11 @@ public class ShotState extends GameState {
     }
 
     private boolean didPlayerWon(final Player player) {
-        return players.getOpponentOf(player).hasNoFleet();
+        if(players.getOpponentOf(player).hasNoFleet()) {
+            players.setWinner(player);
+            return true;
+        }
+        return false;
     }
 
     private boolean shootIfPlayerSentValidMessage(final Player player) {

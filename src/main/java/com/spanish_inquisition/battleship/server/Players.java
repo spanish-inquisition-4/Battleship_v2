@@ -7,6 +7,7 @@ public class Players {
     Player player1;
     Player player2;
     Player currentPlayer;
+    Player winner;
 
     public Players() {
     }
@@ -43,5 +44,13 @@ public class Players {
         list.add(player1);
         list.add(player2);
         return list;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 }
