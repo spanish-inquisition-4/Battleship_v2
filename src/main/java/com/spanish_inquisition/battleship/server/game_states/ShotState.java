@@ -21,7 +21,10 @@ public class ShotState extends GameState {
         Player currentPlayer = getCurrentPlayer();
 
         if (!shootIfPlayerSentValidMessage(currentPlayer)) {
-            return this;
+            return !didPlayerWon(currentPlayer)
+                    ? this
+                    : new ResultState(
+                    players, requestBus);
         }
         return !didPlayerWon(currentPlayer)
                 ? new PlayerActionState(
