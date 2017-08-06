@@ -99,7 +99,11 @@ public class ClientConnectionHandler extends Thread {
             if(input != null) {
                 if (input.ready()) {
                     String lineFromClient = input.readLine();
-                    requestBus.addMessage(clientId, SERVER_ID, lineFromClient);
+                    if (lineFromClient.trim().equals("EXIT")) {
+                        isConnected = false;
+                    } else {
+                        requestBus.addMessage(clientId, SERVER_ID, lineFromClient);
+                    }
                 }
             }
         } catch (IOException e) {

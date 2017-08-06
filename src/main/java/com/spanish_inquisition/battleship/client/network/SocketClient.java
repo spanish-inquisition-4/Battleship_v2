@@ -1,6 +1,7 @@
 package com.spanish_inquisition.battleship.client.network;
 
 import com.spanish_inquisition.battleship.common.AppLogger;
+import com.spanish_inquisition.battleship.common.Header;
 
 import java.io.*;
 import java.net.Socket;
@@ -70,6 +71,7 @@ public class SocketClient {
 
     public void closeTheSocketClient() {
         try {
+            sendStringToServer(Header.EXIT.toString());
             isRunning = false;
             updatesThread.join(THREAD_TIMEOUT);
             updatesThread.interrupt();

@@ -114,10 +114,10 @@ public class MainMenuController {
         if(scene == null) {return;}
         Window window = scene.getWindow();
         window.setOnCloseRequest(event -> {
-            Platform.exit();
             if(game != null) {
                 game.closeSocketConnection();
             }
+            Platform.exit();
         });
     }
 
