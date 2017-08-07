@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 /**
@@ -27,7 +28,8 @@ public class ResponsesBus {
     }
 
     void addAServerResponse(String response) {
-        if (response.isEmpty()) {
+        logger.log(DEFAULT_LEVEL, "Response from server : " +response);
+        if (response == null || response.isEmpty()) {
             logger.info("Response empty");
             return;
         }

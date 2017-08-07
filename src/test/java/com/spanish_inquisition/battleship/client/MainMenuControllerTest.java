@@ -5,6 +5,7 @@ import com.spanish_inquisition.battleship.client.network.SocketClient;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -38,7 +39,7 @@ public class MainMenuControllerTest {
         mainMenuController.nameTextField.setText("DummyText");
         assertTrue(mainMenuController.playerNameVBox.isVisible());
         mainMenuController.onFeatureButtonClicked();
-        assertFalse(mainMenuController.playerNameVBox.isVisible());
+        assertFalse(mainMenuController.socketProgressIndicator.isVisible());
     }
 
     @Test
@@ -47,7 +48,7 @@ public class MainMenuControllerTest {
         mainMenuController.nameTextField.setText("DummyText");
         assertTrue(mainMenuController.playerNameVBox.isVisible());
         mainMenuController.onNameTextFieldEntered();
-        assertFalse(mainMenuController.playerNameVBox.isVisible());
+        assertFalse(mainMenuController.socketProgressIndicator.isVisible());
     }
 
     @Test
@@ -78,7 +79,9 @@ public class MainMenuControllerTest {
         mainMenuController.opponentsGridPane = new GridPane();
         mainMenuController.mainBorderPane = new BorderPane();
         mainMenuController.fleetSetupButton = new Button();
+        mainMenuController.featureButton = new Button();
         mainMenuController.sendToServerButton = new Button();
+        mainMenuController.socketProgressIndicator = new ProgressIndicator();
         mainMenuController.playersLabel = new Label();
         mainMenuController.gameStatusLabel = new Label();
         mainMenuController.nameTextField = new TextField();

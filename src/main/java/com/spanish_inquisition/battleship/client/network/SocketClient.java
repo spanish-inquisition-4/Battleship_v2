@@ -45,12 +45,14 @@ public class SocketClient {
         return socketClient;
     }
 
-    void createUpdatesThreadAndRunIt() {
+    public void createUpdatesThreadAndRunIt() {
+        logger.log(DEFAULT_LEVEL, "Creating a thread for reading server updates");
         updatesThread = new Thread(this::readServerUpdatesContinuously);
         updatesThread.start();
     }
 
     private void readServerUpdatesContinuously() {
+        logger.log(DEFAULT_LEVEL, "Reading server updates continously");
         while (isRunning) {
             try {
                 this.responsesBus.addAServerResponse(readUpdateFromServer());

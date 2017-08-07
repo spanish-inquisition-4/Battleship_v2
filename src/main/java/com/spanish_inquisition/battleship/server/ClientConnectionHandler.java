@@ -1,5 +1,6 @@
 package com.spanish_inquisition.battleship.server;
 
+import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.server.bus.MessageBus;
 
 import java.io.BufferedReader;
@@ -100,7 +101,8 @@ public class ClientConnectionHandler extends Thread {
             if(input != null) {
                 if (input.ready()) {
                     String lineFromClient = input.readLine();
-                    if (lineFromClient.trim().equals("EXIT")) {
+                    logger.log(DEFAULT_LEVEL, "Message from client " +clientId + " " + lineFromClient);
+                    if (lineFromClient != null && lineFromClient.trim().equals(Header.EXIT.name())) {
                         isConnected = false;
                     } else {
                         requestBus.addMessage(clientId, SERVER_ID, lineFromClient);
