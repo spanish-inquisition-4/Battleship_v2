@@ -75,7 +75,6 @@
         <surefire.plugin.version>2.20</surefire.plugin.version>
         <failsafe.plugin.version>2.20</failsafe.plugin.version>
         <enforcer.plugin.version>1.4.1</enforcer.plugin.version>
-        <!--<assembly.plugin.version>3.0.0</assembly.plugin.version>-->
         <!--Sonar properties-->
         <sonar.pluginClass>org.sonar.plugins.java.JavaPlugin</sonar.pluginClass>
         <sonar.pluginName>Java</sonar.pluginName>
@@ -200,11 +199,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${jar.plugin.version}</version>
-                <executions>
-                    <execution>
-
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
