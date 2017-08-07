@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -63,6 +64,8 @@ public class MainMenuController {
     Button fleetSetupButton;
     @FXML
     BorderPane mainBorderPane;
+    @FXML
+    ProgressIndicator socketProgressIndicator;
 
     SocketClient socketClient;
     Game game;
@@ -98,21 +101,30 @@ public class MainMenuController {
         setUpOnCloseRequest();
         setUpSocketConnection();
         game.acceptPlayersName(text);
-        playerNameVBox.setVisible(false);
-        new Thread(this::buildPlayerBoard).start();
     }
 
     private void setUpSocketConnection() {
         this.game = new Game();
         game.setStatusController(new StatusController(playersLabel));
-        try {
-            socketClient = SocketClient.createSocketClientWithSocket(hostIP, port);
-            game.setSocketClient(socketClient);
-        } catch (IOException e) {
-            logger.log(Level.WARNING,
-                    "The client could not connect to the server", e);
-            gameStatusLabel.setText("I couldn't connect to the server");
-        }
+        socketProgressIndicator.setVisible(true);
+        Thread t = new Thread(() -> {
+            try {
+                Platform.runLater(() -> gameStatusLabel.setText("Trying to connect to the server: " +hostIP));
+                Platform.runLater(() -> featureButton.setText("Connecting..."));
+                socketClient = SocketClient.createSocketClientWithSocket(hostIP, port);
+                game.setSocketClient(socketClient);
+                Platform.runLater(() -> socketProgressIndicator.setVisible(false));
+                playerNameVBox.setVisible(false);
+                new Thread(this::buildPlayerBoard).start();
+            } catch (IOException e) {
+                logger.log(Level.WARNING,
+                        "The client could not connect to the server", e);
+                Platform.runLater(() -> gameStatusLabel.setText("I couldn't connect to the server"));
+                Platform.runLater(() -> socketProgressIndicator.setVisible(false));
+                Platform.runLater(() -> featureButton.setText("Send"));
+            }
+        });
+        t.start();
     }
 
     private void setUpOnCloseRequest() {
