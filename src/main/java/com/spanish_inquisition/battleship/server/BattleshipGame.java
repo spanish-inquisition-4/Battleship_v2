@@ -30,6 +30,7 @@ public class BattleshipGame {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 logger.log(DEFAULT_LEVEL, "Server game main thread interrupted");
             }
             currentState = currentState.transform();

@@ -66,26 +66,18 @@ public class MainMenuController {
 
     SocketClient socketClient;
     Game game;
+    private int port = 6666;
+    private String hostIP = "localhost";
 
     /**
      * This method is run automatically right after the fxml file's loaded
      */
     @FXML
     public void initialize() {
-        this.game = new Game();
-        game.setStatusController(new StatusController(playersLabel));
-        try {
-            socketClient = SocketClient.createSocketClientWithSocket();
-            game.setSocketClient(socketClient);
-        } catch (IOException e) {
-            logger.log(Level.WARNING,
-                    "The client could not connect to the server", e);
-            gameStatusLabel.setText("I couldn't connect to the server");
-        }
-        initializeElementsAfterServerConnection();
+        showMainElements();
     }
 
-    private void initializeElementsAfterServerConnection() {
+    private void showMainElements() {
         this.centralVBox.setVisible(true);
     }
 
@@ -104,9 +96,23 @@ public class MainMenuController {
 
     void acceptANameAndStartANewGame(String text) {
         setUpOnCloseRequest();
+        setUpSocketConnection();
         game.acceptPlayersName(text);
         playerNameVBox.setVisible(false);
         new Thread(this::buildPlayerBoard).start();
+    }
+
+    private void setUpSocketConnection() {
+        this.game = new Game();
+        game.setStatusController(new StatusController(playersLabel));
+        try {
+            socketClient = SocketClient.createSocketClientWithSocket(hostIP, port);
+            game.setSocketClient(socketClient);
+        } catch (IOException e) {
+            logger.log(Level.WARNING,
+                    "The client could not connect to the server", e);
+            gameStatusLabel.setText("I couldn't connect to the server");
+        }
     }
 
     private void setUpOnCloseRequest() {
@@ -149,6 +155,15 @@ public class MainMenuController {
             game.runTheGame();
         } catch (InterruptedException e) {
             logger.log(DEFAULT_LEVEL, "Game interrupted");
+            Thread.currentThread().interrupt();
         }}).start();
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public void setHostIP(String hostIP) {
+        this.hostIP = hostIP;
     }
 }

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
+import static com.spanish_inquisition.battleship.client.network.SocketClient.PORT;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.*;
@@ -36,8 +37,7 @@ public class SocketClientTest {
 
     @Test(expectedExceptions = IOException.class)
     public void testNewSocketClient_withoutServer() throws Exception {
-        SocketClient.PORT = 4567;
-        SocketClient.createSocketClientWithSocket();
+        SocketClient.createSocketClientWithSocket("localhost", PORT);
     }
 
     public void testSimpleSocket() throws IOException {

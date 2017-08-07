@@ -65,6 +65,7 @@ public class ClientConnectionHandler extends Thread {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 logger.log(DEFAULT_LEVEL, name + " client connection handler thread interrupted");
             }
         }
