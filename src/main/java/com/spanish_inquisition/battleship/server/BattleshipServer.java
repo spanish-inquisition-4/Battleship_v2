@@ -35,7 +35,8 @@ public class BattleshipServer {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(portNumber);
-            logger.log(DEFAULT_LEVEL, "IP ADDRESS OF THE SERVER: " +InetAddress.getLocalHost().toString().split("/")[1]);
+            logger.log(DEFAULT_LEVEL, "IP ADDRESS OF THE SERVER: " +
+                    InetAddress.getLocalHost().toString().split("/")[1]);
         } catch (IOException e) {
             logger.log(Level.WARNING, "could't create server socket", e);
         }
