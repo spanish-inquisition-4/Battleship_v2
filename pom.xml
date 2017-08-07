@@ -55,6 +55,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <maven.version>3.5.0</maven.version>
+        <project.version>1.0</project.version>
         <!--Dependencies versions-->
         <testng.version>6.11</testng.version>
         <mockito.version>1.10.19</mockito.version>
@@ -76,6 +77,7 @@
         <surefire.plugin.version>2.20</surefire.plugin.version>
         <failsafe.plugin.version>2.20</failsafe.plugin.version>
         <enforcer.plugin.version>1.4.1</enforcer.plugin.version>
+        <!--<assembly.plugin.version>3.0.0</assembly.plugin.version>-->
         <!--Sonar properties-->
         <sonar.pluginClass>org.sonar.plugins.java.JavaPlugin</sonar.pluginClass>
         <sonar.pluginName>Java</sonar.pluginName>
@@ -94,6 +96,12 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>${assembly.plugin.version}</version>
+        </dependency>-->
+
     </dependencies>
 
     <reporting>
@@ -200,6 +208,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${jar.plugin.version}</version>
+                <executions>
+                    <execution>
+
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -279,6 +292,49 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <id>server</id>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.spanish_inquisition.battleship.server.ServerMain</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>server</finalName>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <id>client</id>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.spanish_inquisition.battleship.client.Client</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>client</finalName>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
