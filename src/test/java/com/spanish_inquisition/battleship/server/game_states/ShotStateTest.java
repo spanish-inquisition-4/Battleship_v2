@@ -3,10 +3,11 @@ package com.spanish_inquisition.battleship.server.game_states;
 import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.common.NetworkMessage;
 import com.spanish_inquisition.battleship.server.ClientConnectionHandler;
-import com.spanish_inquisition.battleship.server.bus.Message;
-import com.spanish_inquisition.battleship.server.bus.MessageBus;
 import com.spanish_inquisition.battleship.server.Player;
 import com.spanish_inquisition.battleship.server.Players;
+import com.spanish_inquisition.battleship.server.bus.Message;
+import com.spanish_inquisition.battleship.server.bus.MessageBus;
+import com.spanish_inquisition.battleship.server.fleet.Fleet;
 import com.spanish_inquisition.battleship.server.fleet.FleetBuilder;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ShotStateTest {
     private Players players;
@@ -34,6 +37,8 @@ public class ShotStateTest {
 
     @BeforeTest
     public void initialize() {
+        Fleet fleet = mock(Fleet.class);
+        when(fleet.hasNoShips()).thenReturn(false);
         messageBus = new MessageBus();
         try {
             serverSocket = new ServerSocket(TEST_PORT);
@@ -51,7 +56,9 @@ public class ShotStateTest {
             } catch (IOException e) {
                 logger.log(Level.WARNING, "couldn't connect with server", e);
             }
-            players.addPlayer(new Player(handler));
+            Player player = new Player(handler);
+            player.setFleet(fleet);
+            players.addPlayer(player);
         });
     }
 

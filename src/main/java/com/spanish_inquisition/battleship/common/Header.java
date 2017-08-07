@@ -10,6 +10,7 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
  * header value
  */
 public enum Header {
+    EXIT,
     NAME,
     UNKNOWN,
     FLEET_REQUEST,

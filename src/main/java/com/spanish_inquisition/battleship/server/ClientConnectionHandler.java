@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
+import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 import static com.spanish_inquisition.battleship.server.BattleshipServer.SERVER_ID;
 
@@ -61,6 +62,11 @@ public class ClientConnectionHandler extends Thread {
         while(clientSocket.isConnected() && isConnected) {
             sendMessageToUser(clientOutput);
             getMessageFromUser(clientInput);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                logger.log(DEFAULT_LEVEL, name + " client connection handler thread interrupted");
+            }
         }
     }
 
@@ -93,7 +99,11 @@ public class ClientConnectionHandler extends Thread {
             if(input != null) {
                 if (input.ready()) {
                     String lineFromClient = input.readLine();
-                    requestBus.addMessage(clientId, SERVER_ID, lineFromClient);
+                    if (lineFromClient.trim().equals("EXIT")) {
+                        isConnected = false;
+                    } else {
+                        requestBus.addMessage(clientId, SERVER_ID, lineFromClient);
+                    }
                 }
             }
         } catch (IOException e) {

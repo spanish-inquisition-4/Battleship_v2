@@ -7,16 +7,20 @@ import com.spanish_inquisition.battleship.client.game.Game;
 import com.spanish_inquisition.battleship.client.network.SocketClient;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.logging.Level;
 
+import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
 /**
@@ -57,6 +61,8 @@ public class MainMenuController {
     Button sendToServerButton;
     @FXML
     Button fleetSetupButton;
+    @FXML
+    BorderPane mainBorderPane;
 
     SocketClient socketClient;
     Game game;
@@ -67,6 +73,7 @@ public class MainMenuController {
     @FXML
     public void initialize() {
         this.game = new Game();
+        game.setStatusController(new StatusController(playersLabel));
         try {
             socketClient = SocketClient.createSocketClientWithSocket();
             game.setSocketClient(socketClient);
@@ -96,13 +103,26 @@ public class MainMenuController {
     }
 
     void acceptANameAndStartANewGame(String text) {
+        setUpOnCloseRequest();
         game.acceptPlayersName(text);
         playerNameVBox.setVisible(false);
         new Thread(this::buildPlayerBoard).start();
     }
 
+    private void setUpOnCloseRequest() {
+        Scene scene  = mainBorderPane.getScene();
+        if(scene == null) {return;}
+        Window window = scene.getWindow();
+        window.setOnCloseRequest(event -> {
+            if(game != null) {
+                game.closeSocketConnection();
+            }
+            Platform.exit();
+        });
+    }
+
     private void buildPlayerBoard() {
-        Platform.runLater(() -> playersLabel.setText("Set Up your ships"));
+        Platform.runLater(() -> playersLabel.setText("Set up your ships"));
         game.buildPlayersBoard(new PlayerBoardController(
            new GameBoard(this.playersGridPane), game));
         fleetSetupButton.setVisible(true);
@@ -116,9 +136,19 @@ public class MainMenuController {
 
     @FXML
     void onSendToServerButtonClicked() {
-        fleetSetupButton.setDisable(true);
+        fleetSetupButton.setVisible(false);
+        sendToServerButton.setVisible(false);
+        playersGridPane.setDisable(true);
+        opponentsGridPane.setDisable(true);
+        Platform.runLater(() -> playersLabel.setText("Wait for opponent's ships placement"));
+
         game.buildOpponentsBoard(new OpponentBoardController(
                 new GameBoard(opponentsGridPane), game));
         game.sendTheFleetToServer();
+        new Thread( () -> {try {
+            game.runTheGame();
+        } catch (InterruptedException e) {
+            logger.log(DEFAULT_LEVEL, "Game interrupted");
+        }}).start();
     }
 }

@@ -19,14 +19,12 @@ public class ShotState extends GameState {
     @Override
     public GameState transform() {
         Player currentPlayer = getCurrentPlayer();
-        requestBus.addMessage(
-                SERVER_ID,
-                currentPlayer.getPlayerId(),
-                Header.DECIDE_ON_MOVE.name()
-        );
 
         if (!shootIfPlayerSentValidMessage(currentPlayer)) {
-            return this;
+            return !didPlayerWon(currentPlayer)
+                    ? this
+                    : new ResultState(
+                    players, requestBus);
         }
         return !didPlayerWon(currentPlayer)
                 ? new PlayerActionState(
@@ -36,7 +34,11 @@ public class ShotState extends GameState {
     }
 
     private boolean didPlayerWon(final Player player) {
-        return players.getOpponentOf(player).hasNoFleet();
+        if(players.getOpponentOf(player).hasNoFleet()) {
+            players.setWinner(player);
+            return true;
+        }
+        return false;
     }
 
     private boolean shootIfPlayerSentValidMessage(final Player player) {

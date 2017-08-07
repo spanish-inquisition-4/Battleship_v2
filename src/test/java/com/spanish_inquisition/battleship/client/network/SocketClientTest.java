@@ -74,11 +74,9 @@ public class SocketClientTest {
         SocketClient socketClient = new SocketClient();
         socketClient.socket = getSocketMockWithStreams();
         socketClient.setUpStreamsOnSocket();
-        int threadCount = Thread.activeCount();
         assertNull(socketClient.updatesThread);
         socketClient.createUpdatesThreadAndRunIt();
         assertNotNull(socketClient.updatesThread);
-        assertEquals(threadCount + 1, Thread.activeCount());
         socketClient.closeTheSocketClient();
     }
 

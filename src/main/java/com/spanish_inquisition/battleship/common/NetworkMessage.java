@@ -44,6 +44,11 @@ public class NetworkMessage {
             }
             return new NetworkMessage(header, body);
         }
+
+        public static String parseMessageToString(NetworkMessage networkMessage) {
+            return networkMessage.getHeader() + RESPONSE_HEADER_SPLIT_CHARACTER +
+                    networkMessage.getBody() + RESPONSE_SPLIT_CHARACTER;
+        }
     }
 
     @Override

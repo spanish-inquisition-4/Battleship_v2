@@ -1,18 +1,18 @@
 package com.spanish_inquisition.battleship.client.game;
 
+import com.spanish_inquisition.battleship.client.StatusController;
 import com.spanish_inquisition.battleship.client.board.boardcontroller.OpponentBoardController;
 import com.spanish_inquisition.battleship.client.board.boardcontroller.PlayerBoardController;
 import com.spanish_inquisition.battleship.client.network.ResponsesBus;
 import com.spanish_inquisition.battleship.client.network.SocketClient;
 import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.common.NetworkMessage;
+import com.spanish_inquisition.battleship.common.Styles;
+
+import java.util.Arrays;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
-import static com.spanish_inquisition.battleship.common.Header.RESPONSE_OPPONENT_DESTROYED_SHIP;
-import static com.spanish_inquisition.battleship.common.Header.RESPONSE_OPPONENT_HIT;
-import static com.spanish_inquisition.battleship.common.Header.RESPONSE_OPPONENT_MISS;
-import static com.spanish_inquisition.battleship.common.Header.isResponseFieldChanging;
 
 /**
  * @author Michal_Partacz
@@ -24,7 +24,11 @@ public class Game {
     private static final int GAME_LOOP_SLEEP = 100;
     PlayerBoardController playerBoardController;
     OpponentBoardController opponentBoardController;
+    StatusController statusController;
 
+    public void setStatusController(StatusController statusController) {
+        this.statusController = statusController;
+    }
 
     public void buildPlayersBoard(PlayerBoardController boardController) {
         logger.log(DEFAULT_LEVEL, "Building player's board");
@@ -69,50 +73,100 @@ public class Game {
                     continue;
                 }
                 switch (message.getHeader()) {
-                    case PLAYER_TURN: { /*notify about his move */
-
+                    case FLEET_VALID: {
+                        // inform that fleet is valid and proceed
+                        break;
+                    }
+                    case FLEET_INVALID: {
+                        // inform that fleet is invalid and retry
+                        break;
+                    }
+                    case PLAYER_TURN: {
+                        statusController.setPlayersLabel("Your turn!");
+                        opponentBoardController.setBoardDisabled(false);
+                        break;
                     }
                     case DECIDE_ON_MOVE: {
                         // wait for target point from player
+                        break;
                     }
                     case RESPONSE_HIT: {
-                        // recolor targeted point
+                        // recolor targeted point on opponent's board
+                        int index = Integer.parseInt(message.getBody());
+                        opponentBoardController.colorBoardTile(index, Styles.RESPONSE_HIT);
+                        break;
                     }
                     case RESPONSE_MISS: {
-                        // recolor targeted point
+                        // recolor targeted point on opponent's board
+                        int index = Integer.parseInt(message.getBody());
+                        opponentBoardController.colorBoardTile(index, Styles.RESPONSE_MISS);
+                        break;
                     }
                     case RESPONSE_DESTROYED_SHIP: {
-                        // recolor destroyed ship points
+                        // recolor destroyed ship points on opponent's board
+                        String msg = message.getBody();
+                        String destroyedFieldsString = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
+                        String[] destroyedFieldsToParse = destroyedFieldsString.split(",");
+                        Arrays.stream(destroyedFieldsToParse)
+                                .map(field -> Integer.parseInt(field.trim()))
+                                .forEach(index -> opponentBoardController.colorBoardTile(index, Styles.RESPONSE_DESTROYED));
+                        break;
                     }
                     case OPPONENT_TURN: {
-                        /* notify that it is not his turn */
-                        NetworkMessage resultMessage = this.responsesBus.getAServerResponse();
-                        while(!(resultMessage.getHeader() == RESPONSE_OPPONENT_HIT
-                                || resultMessage.getHeader() == RESPONSE_OPPONENT_MISS )) {
-                           resultMessage = this.responsesBus.getAServerResponse();
-                        }
-                        // recolor targeted point
-                        NetworkMessage destroyedShipMessage = this.responsesBus.getAServerResponse();
-                        if (destroyedShipMessage.getHeader() == RESPONSE_OPPONENT_DESTROYED_SHIP) {
-                            // recolor destroyed ship points
-                        }
+                        statusController.setPlayersLabel("Wait for opponent move...");
+                        opponentBoardController.setBoardDisabled(true);
+                        break;
+                    }
+                    case RESPONSE_OPPONENT_HIT: {
+                        // recolor targeted point on player's board
+                        int index = Integer.parseInt(message.getBody());
+                        playerBoardController.colorBoardTile(index, Styles.RESPONSE_HIT);
+                        break;
+                    }
+                    case RESPONSE_OPPONENT_MISS: {
+                        // recolor targeted point on player's board
+                        int index = Integer.parseInt(message.getBody());
+                        playerBoardController.colorBoardTile(index, Styles.RESPONSE_MISS);
+                        break;
+                    }
+                    case RESPONSE_OPPONENT_DESTROYED_SHIP: {
+                        // recolor destroyed ship points on player's board
+                        String msg = message.getBody();
+                        String destroyedFieldsString = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
+                        String[] destroyedFieldsToParse = destroyedFieldsString.split(",");
+                        Arrays.stream(destroyedFieldsToParse)
+                                .map(field -> Integer.parseInt(field.trim()))
+                                .forEach(index -> playerBoardController.colorBoardTile(index, Styles.RESPONSE_DESTROYED));
+                        break;
                     }
                     case GAME_WON: {
+                        opponentBoardController.setBoardDisabled(true);
+                        if(message.getBody().equals("true")) {
+                            statusController.setPlayersLabel("You have won!");
+                        } else {
+                            statusController.setPlayersLabel("You lost!");
+                        }
+                        closeSocketConnection();
                         break game_loop;/*notify the player he won or lost */
                     }
-                }
-                if (isResponseFieldChanging(message.getHeader())) {
-                    // make changes to the opponent's board
+                    default: {
+                        break;
 
+                    }
                 }
             }
         }
+    }
 
+    public void closeSocketConnection() {
+        if(socketClient != null) {
+            socketClient.closeTheSocketClient();
+        }
     }
 
     public void makeAMove(Integer tileIndex) {
-        logger.log(DEFAULT_LEVEL, "The tile index that was clicked " +tileIndex);
-        String regularMoveMessage = Header.MOVE_REGULAR + NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER + tileIndex;
+        logger.log(DEFAULT_LEVEL, "The tile index that was clicked " + tileIndex);
+        String regularMoveMessage = Header.MOVE_REGULAR + NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER + tileIndex + NetworkMessage.RESPONSE_SPLIT_CHARACTER;
         if(socketClient != null) {
             socketClient.sendStringToServer(regularMoveMessage);
         }

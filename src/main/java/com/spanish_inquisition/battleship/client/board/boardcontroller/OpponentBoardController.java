@@ -15,4 +15,8 @@ public class OpponentBoardController extends BoardController{
         GameBoardBuilder gameBoardBuilder = new GameBoardBuilder(this);
         gameBoardBuilder.buildGameBoard();
     }
+
+    public void setBoardDisabled(boolean disable) {
+        gameBoard.getGridPane().setDisable(disable);
+    }
 }
