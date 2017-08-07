@@ -10,22 +10,22 @@ import java.util.List;
  */
 public class AdjacentTilesCalc {
 
-    private static final int IMPORTED_BOARD_SIZE = GameBoardBuilder.BOARD_SIZE_WITH_LABELS -1;
+    private static final int IMPORTED_BOARD_SIZE = GameBoardBuilder.BOARD_SIZE_WITH_LABELS - 1;
     private static final int OUT_OF_BOARD_INDEX = -1;
 
-    public static List<Integer> getBoardIndexesOfAllAdjacentTilesOf(Integer tile) {
+    static List<Integer> getBoardIndexesOfAllAdjacentTilesOf(Integer tile) {
         List<Integer> adjacentFields = new LinkedList<>();
         TileDirection[] enumValues = TileDirection.values();
-        for (TileDirection tileDirection: enumValues) {
+        for (TileDirection tileDirection : enumValues) {
             int adjacentBoardIndex = getAdjacentTileIndex(tile, tileDirection);
-            if(adjacentBoardIndex != OUT_OF_BOARD_INDEX) {
+            if (adjacentBoardIndex != OUT_OF_BOARD_INDEX) {
                 adjacentFields.add(adjacentBoardIndex);
             }
         }
         return adjacentFields;
     }
 
-    public static int getAdjacentTileIndex(Integer boardIndex, TileDirection tileDirection) {
+    private static int getAdjacentTileIndex(Integer boardIndex, TileDirection tileDirection) {
         return tileDirection.getAdjacentTileIndex(boardIndex);
     }
 

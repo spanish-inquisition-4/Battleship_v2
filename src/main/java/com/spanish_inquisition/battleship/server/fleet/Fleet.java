@@ -17,15 +17,16 @@ public class Fleet {
 
     @Override
     public String toString() {
-        return "Fleet{" +
-                "ships=" + ships +
-                '}';
+        return "Fleet{"
+                + "ships="
+                + ships
+                + '}';
     }
 
     public boolean hasNoShips() {
         boolean noShips = true;
-        for(Ship ship : ships) {
-            if(!ship.isDestroyed()) {
+        for (Ship ship : ships) {
+            if (!ship.isDestroyed()) {
                 noShips = false;
             }
         }
@@ -34,15 +35,14 @@ public class Fleet {
     }
 
     public boolean pointIsClaimedByFleet(Integer targetedPoint) {
-        for(Ship ship : ships) {
-            if(ship.gotHit(targetedPoint)){
-                if(ship.isDestroyed()) {
+        for (Ship ship : ships) {
+            if (ship.gotHit(targetedPoint)) {
+                if (ship.isDestroyed()) {
                     currentDestroyedShip = ship;
                 }
                 return true;
             }
         }
-
         return false;
     }
 

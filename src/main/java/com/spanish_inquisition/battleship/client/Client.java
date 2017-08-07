@@ -39,7 +39,7 @@ public class Client extends Application {
         MainMenuController mainMenuController = loader.getController();
         String serverIP = argsRaw.isEmpty() ? "localhost" : argsRaw.get(0);
         mainMenuController.setHostIP(serverIP);
-        if(argsRaw.size() > 1) {
+        if (argsRaw.size() > 1) {
             int port = Integer.parseInt(argsRaw.get(1));
             mainMenuController.setPort(port);
         }

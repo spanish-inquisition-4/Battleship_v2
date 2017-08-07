@@ -23,7 +23,7 @@ public enum Fleet {
     }
 
     public static Fleet getRandomFleet() {
-        Random r = new Random();
-        return values()[r.nextInt(values().length)];
+        Random random = new Random();
+        return values()[random.nextInt(values().length)];
     }
 }

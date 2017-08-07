@@ -22,7 +22,7 @@ public class PlayerBoardController extends BoardController {
     public void buildBoard() {
         GameBoardBuilder gameBoardBuilder = new GameBoardBuilder(this);
         fleetInitializer = new FleetInitializer(this);
-        gameBoardBuilder.buildGameBoard();
+        gameBoardBuilder.fillTheBoardWithButtonsAndLabels();
     }
 
     public void placeShips() {

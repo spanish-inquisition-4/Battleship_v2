@@ -3,7 +3,11 @@ package com.spanish_inquisition.battleship.client.network;
 import com.spanish_inquisition.battleship.common.AppLogger;
 import com.spanish_inquisition.battleship.common.Header;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
@@ -15,7 +19,6 @@ import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
  * @author Michal_Partacz
  */
 public class SocketClient {
-    private static final String HOST_NAME = "localhost";
     static int PORT = 6666;
     private static final Logger logger = Logger.getLogger(AppLogger.class.getName());
     private static final int THREAD_TIMEOUT = 3_000; //[ms]
@@ -27,9 +30,12 @@ public class SocketClient {
     private boolean isRunning = true;
     Thread updatesThread;
 
-    SocketClient() {}
+    SocketClient() {
+    }
 
-    public ResponsesBus getResponsesBus() { return responsesBus; }
+    public ResponsesBus getResponsesBus() {
+        return responsesBus;
+    }
 
     void setUpStreamsOnSocket() throws IOException {
         logger.log(DEFAULT_LEVEL, "Setting up streams and socket");
@@ -66,7 +72,7 @@ public class SocketClient {
 
     String readUpdateFromServer() throws IOException {
         if (socket != null && output != null && input != null) {
-                return input.readLine();
+            return input.readLine();
         }
         return "";
     }

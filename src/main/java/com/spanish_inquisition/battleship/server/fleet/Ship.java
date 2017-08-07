@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Ship {
-    List<Integer> shipPoints;
-    List<Integer> damagedPoints;
+    private List<Integer> shipPoints;
+    private List<Integer> damagedPoints;
 
     public Ship(List<Integer> shipPoints) {
         this.shipPoints = shipPoints;
@@ -18,13 +18,13 @@ public abstract class Ship {
 
     @Override
     public String toString() {
-        return "Ship{" +
-                "shipPoints=" + shipPoints +
-                '}';
+        return "Ship{"
+                + "shipPoints=" + shipPoints
+                + '}';
     }
 
     public boolean gotHit(Integer targetedPoint) {
-        if(shipPoints.contains(targetedPoint)) {
+        if (shipPoints.contains(targetedPoint)) {
             damagedPoints.add(targetedPoint);
             shipPoints.remove(targetedPoint);
             return true;
@@ -32,7 +32,7 @@ public abstract class Ship {
         return false;
     }
 
-    public boolean isDestroyed() {
+    boolean isDestroyed() {
         return shipPoints.isEmpty();
     }
 

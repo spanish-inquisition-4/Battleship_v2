@@ -28,7 +28,7 @@ public class ResponsesBus {
     }
 
     void addAServerResponse(String response) {
-        logger.log(DEFAULT_LEVEL, "Response from server : " +response);
+        logger.log(DEFAULT_LEVEL, "Response from server : " + response);
         if (response == null || response.isEmpty()) {
             logger.info("Response empty");
             return;

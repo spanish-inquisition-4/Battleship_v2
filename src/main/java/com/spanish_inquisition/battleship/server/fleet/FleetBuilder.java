@@ -35,15 +35,15 @@ public class FleetBuilder {
 
     private List<TwoMast> createTwoMastsFromFieldsList(List<Integer> shipsFields) {
         List<TwoMast> twoMasts = new ArrayList<>(3);
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++) {
             twoMasts.add(extractNewTwoMast(shipsFields));
-
+        }
         return twoMasts;
     }
 
     private TwoMast extractNewTwoMast(List<Integer> shipsFields) {
         List<Integer> twoMastFields = new ArrayList<>(2);
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             twoMastFields.add(shipsFields.get(0));
             shipsFields.remove(0);
         }
@@ -52,15 +52,15 @@ public class FleetBuilder {
 
     private List<ThreeMast> createThreeMastsFromFieldsList(List<Integer> shipsFields) {
         List<ThreeMast> threeMasts = new ArrayList<>(2);
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++) {
             threeMasts.add(extractNewThreeMast(shipsFields));
-
+        }
         return threeMasts;
     }
 
     private ThreeMast extractNewThreeMast(List<Integer> shipsFields) {
         List<Integer> threeMastFields = new ArrayList<>(3);
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             threeMastFields.add(shipsFields.get(0));
             shipsFields.remove(0);
         }

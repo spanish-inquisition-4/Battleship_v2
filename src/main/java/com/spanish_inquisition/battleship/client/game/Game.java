@@ -53,12 +53,12 @@ public class Game {
         playerBoardController.placeShips();
     }
 
-    public String getShipPlacementForServer(){
+    public String getShipPlacementForServer() {
         return playerBoardController.getFleetMessageForServer();
     }
 
     public void sendTheFleetToServer() {
-        if(socketClient != null) {
+        if (socketClient != null) {
             socketClient.sendStringToServer(getShipPlacementForServer());
         }
     }
@@ -141,7 +141,7 @@ public class Game {
                     }
                     case GAME_WON: {
                         opponentBoardController.setBoardDisabled(true);
-                        if(message.getBody().equals("true")) {
+                        if (message.getBody().equals("true")) {
                             statusController.setPlayersLabel("You have won!");
                         } else {
                             statusController.setPlayersLabel("You lost!");
@@ -159,15 +159,16 @@ public class Game {
     }
 
     public void closeSocketConnection() {
-        if(socketClient != null) {
+        if (socketClient != null) {
             socketClient.closeTheSocketClient();
         }
     }
 
     public void makeAMove(Integer tileIndex) {
         logger.log(DEFAULT_LEVEL, "The tile index that was clicked " + tileIndex);
-        String regularMoveMessage = Header.MOVE_REGULAR + NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER + tileIndex + NetworkMessage.RESPONSE_SPLIT_CHARACTER;
-        if(socketClient != null) {
+        String regularMoveMessage = Header.MOVE_REGULAR + NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER
+                + tileIndex + NetworkMessage.RESPONSE_SPLIT_CHARACTER;
+        if (socketClient != null) {
             socketClient.sendStringToServer(regularMoveMessage);
         }
     }
@@ -178,7 +179,7 @@ public class Game {
         }
     }
 
-    public void stopGameRunning(){
+    public void stopGameRunning() {
         isGameRunning = false;
     }
 }

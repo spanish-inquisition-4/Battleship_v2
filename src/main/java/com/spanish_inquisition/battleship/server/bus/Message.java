@@ -11,11 +11,11 @@ public class Message {
         this.content = message;
     }
 
-    public boolean isToRecipient(int recipient) {
+    boolean isToRecipient(int recipient) {
         return this.recipient == recipient;
     }
 
-    public boolean isFromSender(int sender) {
+    boolean isFromSender(int sender) {
         return this.sender == sender;
     }
 
@@ -33,10 +33,10 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "sender=" + sender +
-                ", recipient=" + recipient +
-                ", message='" + content + '\'' +
-                '}';
+        return "Message{"
+                + "sender=" + sender
+                + ", recipient=" + recipient
+                + ", message='" + content + '\''
+                + '}';
     }
 }

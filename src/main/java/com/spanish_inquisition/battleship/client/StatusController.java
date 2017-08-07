@@ -9,11 +9,11 @@ import javafx.scene.control.Label;
 public class StatusController {
     private Label statusLabel;
 
-    public StatusController(Label statusLabel) {
+    StatusController(Label statusLabel) {
         this.statusLabel = statusLabel;
     }
 
-    public void setPlayersLabel(String status){
+    public void setPlayersLabel(String status) {
         Platform.runLater(() -> statusLabel.setText(status));
     }
 }

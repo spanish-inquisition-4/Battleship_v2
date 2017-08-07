@@ -40,11 +40,7 @@ public class GameBoardBuilder {
         this.gridPane = boardController.getBoardGridPane();
     }
 
-    public void buildGameBoard() {
-        fillTheBoardWithButtonsAndLabels();
-    }
-
-    private void fillTheBoardWithButtonsAndLabels() {
+    public void fillTheBoardWithButtonsAndLabels() {
         for (int column = 0; column < BOARD_SIZE_WITH_LABELS; column++) {
             Platform.runLater(() -> gridPane.getRowConstraints().add(new RowConstraints(FIELD_SIZE)));
             for (int row = 0; row < BOARD_SIZE_WITH_LABELS; row++) {
@@ -109,8 +105,9 @@ public class GameBoardBuilder {
     }
 
     private EventHandler<MouseEvent> getOnBoardTileClickedEvent(BoardTile tile, BoardController boardController) {
-        if(boardController instanceof PlayerBoardController) {
-            return event -> {}; //TODO player impl
+        if (boardController instanceof PlayerBoardController) {
+            return event -> {
+            }; //TODO player impl
         } else {
             return event -> boardController.getGame().makeAMove(tile.getBoardIndex());
         }

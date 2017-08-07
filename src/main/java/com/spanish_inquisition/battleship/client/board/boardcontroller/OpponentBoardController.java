@@ -13,7 +13,7 @@ public class OpponentBoardController extends BoardController{
     @Override
     public void buildBoard() {
         GameBoardBuilder gameBoardBuilder = new GameBoardBuilder(this);
-        gameBoardBuilder.buildGameBoard();
+        gameBoardBuilder.fillTheBoardWithButtonsAndLabels();
     }
 
     public void setBoardDisabled(boolean disable) {
