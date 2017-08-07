@@ -44,7 +44,6 @@
         </developer>
     </developers>
 
-
     <prerequisites>
         <maven>${maven.version}</maven>
     </prerequisites>
@@ -279,6 +278,49 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <id>server</id>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.spanish_inquisition.battleship.server.ServerMain</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>server</finalName>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <id>client</id>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.spanish_inquisition.battleship.client.Client</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>client</finalName>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
