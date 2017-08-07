@@ -34,7 +34,6 @@ public class NetworkMessage {
             return Arrays.stream(responses).map(Parser::parseSingleResponse).collect(Collectors.toList());
         }
 
-
         static NetworkMessage parseSingleResponse(String rawSingleResponse) {
             String[] responseParts = rawSingleResponse.split(RESPONSE_HEADER_SPLIT_CHARACTER);
             Header header = Header.parseResponseHeader(responseParts[0]);
@@ -58,8 +57,12 @@ public class NetworkMessage {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         NetworkMessage that = (NetworkMessage) o;
         return header == that.header && (body != null ? body.equals(that.body) : that.body == null);
     }

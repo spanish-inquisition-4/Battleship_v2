@@ -9,7 +9,7 @@ import com.spanish_inquisition.battleship.server.bus.MessageBus;
 import static com.spanish_inquisition.battleship.server.BattleshipServer.SERVER_ID;
 
 public class ResultState extends GameState {
-    public ResultState(Players players, MessageBus requestBus) {
+    ResultState(Players players, MessageBus requestBus) {
         super(players, requestBus);
     }
 
@@ -21,10 +21,13 @@ public class ResultState extends GameState {
 
     private void buildWinnerResponse() {
         Player winner = players.getWinner();
-        if(winner == null) {return;}
-        NetworkMessage winningMessage = new NetworkMessage(Header.GAME_WON, "true");
-        NetworkMessage losingMessage = new NetworkMessage(Header.GAME_WON, "false");
-        requestBus.addMessage(SERVER_ID, players.getWinner().getPlayerId(), NetworkMessage.Parser.parseMessageToString(winningMessage));
-        requestBus.addMessage(SERVER_ID, players.getOpponentOf(players.getWinner()).getPlayerId(), NetworkMessage.Parser.parseMessageToString(losingMessage));
+        if (winner != null) {
+            NetworkMessage winningMessage = new NetworkMessage(Header.GAME_WON, "true");
+            NetworkMessage losingMessage = new NetworkMessage(Header.GAME_WON, "false");
+            requestBus.addMessage(SERVER_ID, players.getWinner().getPlayerId(),
+                    NetworkMessage.Parser.parseMessageToString(winningMessage));
+            requestBus.addMessage(SERVER_ID, players.getOpponentOf(players.getWinner()).getPlayerId(),
+                    NetworkMessage.Parser.parseMessageToString(losingMessage));
+        }
     }
 }

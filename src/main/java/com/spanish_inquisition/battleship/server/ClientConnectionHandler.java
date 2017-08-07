@@ -19,12 +19,12 @@ import static com.spanish_inquisition.battleship.server.BattleshipServer.SERVER_
 
 public class ClientConnectionHandler extends Thread {
     String name;
-    Socket clientSocket;
-    BufferedReader clientInput;
-    PrintWriter clientOutput;
-    final int clientId;
+    private Socket clientSocket;
+    private BufferedReader clientInput;
+    private PrintWriter clientOutput;
+    private final int clientId;
     private MessageBus requestBus;
-    boolean isConnected;
+    private boolean isConnected;
 
     public ClientConnectionHandler(final int clientId, MessageBus requestBus) {
         this.clientId = clientId;
@@ -32,15 +32,11 @@ public class ClientConnectionHandler extends Thread {
         this.isConnected = true;
     }
 
-    public int getClientId(){
+    int getClientId() {
         return clientId;
     }
 
-    public String getPlayerName() {
-        return name;
-    }
-
-    public void disconnect() {
+    void disconnect() {
         isConnected = false;
     }
 
@@ -48,7 +44,7 @@ public class ClientConnectionHandler extends Thread {
         clientSocket = serverSocket.accept();
     }
 
-    public void setUpStreams() throws IOException {
+    void setUpStreams() throws IOException {
         clientInput = new BufferedReader(
                 new InputStreamReader(clientSocket.getInputStream(),
                         StandardCharsets.UTF_8));
@@ -60,7 +56,7 @@ public class ClientConnectionHandler extends Thread {
     public void run() {
         name = acceptNameFromClient();
 
-        while(clientSocket.isConnected() && isConnected) {
+        while (clientSocket.isConnected() && isConnected) {
             sendMessageToUser(clientOutput);
             getMessageFromUser(clientInput);
             try {
@@ -75,7 +71,7 @@ public class ClientConnectionHandler extends Thread {
     private String acceptNameFromClient() {
         String readName = "";
         try {
-            if(clientInput != null) {
+            if (clientInput != null) {
                 while (!clientInput.ready()) {
                     Thread.sleep(10);
                 }
@@ -88,7 +84,7 @@ public class ClientConnectionHandler extends Thread {
     }
 
     private void sendMessageToUser(PrintWriter output) {
-        if(output != null) {
+        if (output != null) {
             if (requestBus.haveMessageForRecipient(clientId)) {
                 String messageToSend = requestBus.getMessageFor(clientId).getContent();
                 output.println(messageToSend);
@@ -98,10 +94,10 @@ public class ClientConnectionHandler extends Thread {
 
     private void getMessageFromUser(BufferedReader input) {
         try {
-            if(input != null) {
+            if (input != null) {
                 if (input.ready()) {
                     String lineFromClient = input.readLine();
-                    logger.log(DEFAULT_LEVEL, "Message from client " +clientId + " " + lineFromClient);
+                    logger.log(DEFAULT_LEVEL, "Message from client " + clientId + " " + lineFromClient);
                     if (lineFromClient != null && lineFromClient.trim().equals(Header.EXIT.name())) {
                         isConnected = false;
                     } else {

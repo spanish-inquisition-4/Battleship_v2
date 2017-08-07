@@ -17,14 +17,14 @@ public class BattleshipServer {
     private static final Integer PORT_NUMBER = 6666;
     static final int NUMBER_OF_PLAYERS = 2;
     public static final int SERVER_ID = 0;
-    MessageBus requestBus;
+    private MessageBus requestBus;
     List<ClientConnectionHandler> clients;
 
-    public BattleshipServer(){
+    public BattleshipServer() {
         requestBus = new MessageBus();
     }
 
-    public void proceed(){
+    void proceed() {
         initializeLogger();
         connectWithPlayers(createServerSocket(PORT_NUMBER));
         BattleshipGame game = new BattleshipGame(clients, requestBus);

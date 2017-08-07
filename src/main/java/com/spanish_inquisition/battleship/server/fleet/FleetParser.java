@@ -8,23 +8,22 @@ import java.util.logging.Level;
 
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
+class FleetParser {
 
-public class FleetParser {
-    public static List<Integer> parseMessageToIntegersList(String message) {
+    static List<Integer> parseMessageToIntegersList(String message) {
         String[] messageSplitted = message.split(String.valueOf(NetworkMessage.RESPONSE_HEADER_SPLIT_CHARACTER));
         return parseStringArrayToIntegerList(StringToStringArrayParser.parse(messageSplitted[1]));
     }
 
-    private static List<Integer> parseStringArrayToIntegerList(String[] strArr) {
-        List<Integer> intList = new ArrayList<>(strArr.length);
-        for (String aStrArr : strArr) {
+    private static List<Integer> parseStringArrayToIntegerList(String[] fleet) {
+        List<Integer> intList = new ArrayList<>(fleet.length);
+        for (String shipIndex : fleet) {
             try {
-                intList.add(Integer.parseInt(aStrArr));
-            } catch (NumberFormatException nfe) {
-                logger.log(Level.WARNING, "wrong number format", nfe);
+                intList.add(Integer.parseInt(shipIndex));
+            } catch (NumberFormatException e) {
+                logger.log(Level.WARNING, "wrong number format", e);
             }
         }
         return intList;
     }
-
 }

@@ -32,11 +32,7 @@ public class Player {
     }
 
     public boolean fleetGotHit(Integer targetedField) {
-        if(fleet.pointIsClaimedByFleet(targetedField)) {
-            return true;
-        }
-
-        return false;
+        return fleet.pointIsClaimedByFleet(targetedField);
     }
 
     public boolean gotDestroyedShip() {

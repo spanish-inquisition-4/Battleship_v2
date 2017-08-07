@@ -41,7 +41,7 @@ public class GameBoardBuilderTest {
         GameBoardBuilder boardBuilder = new GameBoardBuilder(controller);
 
         // When
-        boardBuilder.buildGameBoard();
+        boardBuilder.fillTheBoardWithButtonsAndLabels();
         waitForRunLater();
 
         // Then

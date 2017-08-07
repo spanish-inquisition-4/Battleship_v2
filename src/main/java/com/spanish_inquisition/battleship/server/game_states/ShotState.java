@@ -2,17 +2,16 @@ package com.spanish_inquisition.battleship.server.game_states;
 
 import com.spanish_inquisition.battleship.common.Header;
 import com.spanish_inquisition.battleship.common.NetworkMessage;
-import com.spanish_inquisition.battleship.server.bus.MessageBuilder;
-import com.spanish_inquisition.battleship.server.bus.MessageBus;
 import com.spanish_inquisition.battleship.server.Player;
 import com.spanish_inquisition.battleship.server.Players;
+import com.spanish_inquisition.battleship.server.bus.MessageBuilder;
+import com.spanish_inquisition.battleship.server.bus.MessageBus;
 import com.spanish_inquisition.battleship.server.fleet.Ship;
-
 
 import static com.spanish_inquisition.battleship.server.BattleshipServer.SERVER_ID;
 
 public class ShotState extends GameState {
-    public ShotState(final Players players, final MessageBus requestBus) {
+    ShotState(final Players players, final MessageBus requestBus) {
         super(players, requestBus);
     }
 
@@ -28,13 +27,13 @@ public class ShotState extends GameState {
         }
         return !didPlayerWon(currentPlayer)
                 ? new PlayerActionState(
-                        players, requestBus)
+                players, requestBus)
                 : new ResultState(
-                        players, requestBus);
+                players, requestBus);
     }
 
     private boolean didPlayerWon(final Player player) {
-        if(players.getOpponentOf(player).hasNoFleet()) {
+        if (players.getOpponentOf(player).hasNoFleet()) {
             players.setWinner(player);
             return true;
         }

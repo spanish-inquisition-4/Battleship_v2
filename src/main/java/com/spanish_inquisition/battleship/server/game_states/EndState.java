@@ -1,10 +1,10 @@
 package com.spanish_inquisition.battleship.server.game_states;
 
-import com.spanish_inquisition.battleship.server.bus.MessageBus;
 import com.spanish_inquisition.battleship.server.Players;
+import com.spanish_inquisition.battleship.server.bus.MessageBus;
 
 public class EndState extends GameState {
-    public EndState(Players players, MessageBus requestBus) {
+    EndState(Players players, MessageBus requestBus) {
         super(players, requestBus);
     }
 
