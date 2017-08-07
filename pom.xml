@@ -44,7 +44,6 @@
         </developer>
     </developers>
 
-
     <prerequisites>
         <maven>${maven.version}</maven>
     </prerequisites>
@@ -55,7 +54,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <maven.version>3.5.0</maven.version>
-        <project.version>1.0</project.version>
         <!--Dependencies versions-->
         <testng.version>6.11</testng.version>
         <mockito.version>1.10.19</mockito.version>
@@ -96,12 +94,6 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>${assembly.plugin.version}</version>
-        </dependency>-->
-
     </dependencies>
 
     <reporting>
