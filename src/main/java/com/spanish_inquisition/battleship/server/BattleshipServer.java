@@ -3,11 +3,13 @@ package com.spanish_inquisition.battleship.server;
 import com.spanish_inquisition.battleship.server.bus.MessageBus;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import static com.spanish_inquisition.battleship.common.AppLogger.DEFAULT_LEVEL;
 import static com.spanish_inquisition.battleship.common.AppLogger.initializeLogger;
 import static com.spanish_inquisition.battleship.common.AppLogger.logger;
 
@@ -33,6 +35,7 @@ public class BattleshipServer {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(portNumber);
+            logger.log(DEFAULT_LEVEL, "IP ADDRESS OF THE SERVER: " +InetAddress.getLocalHost().toString().split("/")[1]);
         } catch (IOException e) {
             logger.log(Level.WARNING, "could't create server socket", e);
         }
