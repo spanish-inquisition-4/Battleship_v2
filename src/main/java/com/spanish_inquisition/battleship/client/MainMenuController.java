@@ -102,7 +102,7 @@ public class MainMenuController {
         this.acceptANameAndStartANewGame(this.nameTextField.getText());
     }
 
-    void acceptANameAndStartANewGame(String text) {
+    private void acceptANameAndStartANewGame(String text) {
         setUpOnCloseRequest();
         game.acceptPlayersName(text);
         playerNameVBox.setVisible(false);
@@ -110,11 +110,14 @@ public class MainMenuController {
     }
 
     private void setUpOnCloseRequest() {
-        Scene scene  = mainBorderPane.getScene();
-        if(scene == null) {return;}
+        Scene scene = mainBorderPane.getScene();
+        if (scene == null) {
+            return;
+        }
         Window window = scene.getWindow();
         window.setOnCloseRequest(event -> {
-            if(game != null) {
+            if (game != null) {
+                game.stopGameRunning();
                 game.closeSocketConnection();
             }
             Platform.exit();
@@ -124,7 +127,7 @@ public class MainMenuController {
     private void buildPlayerBoard() {
         Platform.runLater(() -> playersLabel.setText("Set up your ships"));
         game.buildPlayersBoard(new PlayerBoardController(
-           new GameBoard(this.playersGridPane), game));
+                new GameBoard(this.playersGridPane), game));
         fleetSetupButton.setVisible(true);
     }
 
@@ -145,10 +148,12 @@ public class MainMenuController {
         game.buildOpponentsBoard(new OpponentBoardController(
                 new GameBoard(opponentsGridPane), game));
         game.sendTheFleetToServer();
-        new Thread( () -> {try {
-            game.runTheGame();
-        } catch (InterruptedException e) {
-            logger.log(DEFAULT_LEVEL, "Game interrupted");
-        }}).start();
+        new Thread(() -> {
+            try {
+                game.runTheGame();
+            } catch (InterruptedException e) {
+                logger.log(DEFAULT_LEVEL, "Game interrupted");
+            }
+        }).start();
     }
 }
