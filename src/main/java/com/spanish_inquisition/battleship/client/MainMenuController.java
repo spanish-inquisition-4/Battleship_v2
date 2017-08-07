@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -56,36 +57,28 @@ public class MainMenuController {
     @FXML
     Label gameStatusLabel;
     @FXML
-    VBox fleetSetupVBox;
-    @FXML
     Button sendToServerButton;
     @FXML
     Button fleetSetupButton;
     @FXML
     BorderPane mainBorderPane;
+    @FXML
+    ProgressIndicator socketProgressIndicator;
 
     SocketClient socketClient;
     Game game;
+    private int port = 6666;
+    private String hostIP = "localhost";
 
     /**
      * This method is run automatically right after the fxml file's loaded
      */
     @FXML
     public void initialize() {
-        this.game = new Game();
-        game.setStatusController(new StatusController(playersLabel));
-        try {
-            socketClient = SocketClient.createSocketClientWithSocket();
-            game.setSocketClient(socketClient);
-        } catch (IOException e) {
-            logger.log(Level.WARNING,
-                    "The client could not connect to the server", e);
-            gameStatusLabel.setText("I couldn't connect to the server");
-        }
-        initializeElementsAfterServerConnection();
+        showMainElements();
     }
 
-    private void initializeElementsAfterServerConnection() {
+    private void showMainElements() {
         this.centralVBox.setVisible(true);
     }
 
@@ -94,27 +87,51 @@ public class MainMenuController {
      */
     @FXML
     public void onFeatureButtonClicked() {
-        this.acceptANameAndStartANewGame(this.nameTextField.getText());
+        this.acceptANameAndStartNewGame(this.nameTextField.getText());
     }
 
     @FXML
     public void onNameTextFieldEntered() {
-        this.acceptANameAndStartANewGame(this.nameTextField.getText());
+        this.acceptANameAndStartNewGame(this.nameTextField.getText());
     }
 
-    void acceptANameAndStartANewGame(String text) {
+    private void acceptANameAndStartNewGame(String text) {
         setUpOnCloseRequest();
+        setUpSocketConnection();
         game.acceptPlayersName(text);
-        playerNameVBox.setVisible(false);
-        new Thread(this::buildPlayerBoard).start();
+    }
+
+    private void setUpSocketConnection() {
+        this.game = new Game();
+        game.setStatusController(new StatusController(playersLabel));
+        socketProgressIndicator.setVisible(true);
+        try {
+            gameStatusLabel.setText("Trying to connect to the server: " + hostIP);
+            featureButton.setText("Connecting...");
+            socketClient = SocketClient.createSocketClientWithSocket(hostIP, port);
+            game.setSocketClient(socketClient);
+            socketProgressIndicator.setVisible(false);
+            gameStatusLabel.setText("");
+            playerNameVBox.setVisible(false);
+            buildPlayerBoard();
+        } catch (IOException e) {
+            logger.log(Level.WARNING,
+                    "The client could not connect to the server", e);
+            gameStatusLabel.setText("I couldn't connect to the server");
+            socketProgressIndicator.setVisible(false);
+            featureButton.setText("Send");
+        }
+
     }
 
     private void setUpOnCloseRequest() {
-        Scene scene  = mainBorderPane.getScene();
-        if(scene == null) {return;}
+        Scene scene = mainBorderPane.getScene();
+        if (scene == null) {
+            return;
+        }
         Window window = scene.getWindow();
         window.setOnCloseRequest(event -> {
-            if(game != null) {
+            if (game != null) {
                 game.closeSocketConnection();
             }
             Platform.exit();
@@ -124,9 +141,10 @@ public class MainMenuController {
     private void buildPlayerBoard() {
         Platform.runLater(() -> playersLabel.setText("Set up your ships"));
         game.buildPlayersBoard(new PlayerBoardController(
-           new GameBoard(this.playersGridPane), game));
+                new GameBoard(this.playersGridPane), game));
         fleetSetupButton.setVisible(true);
     }
+
 
     @FXML
     public void onFleetSetupButtonClicked() {
@@ -145,10 +163,21 @@ public class MainMenuController {
         game.buildOpponentsBoard(new OpponentBoardController(
                 new GameBoard(opponentsGridPane), game));
         game.sendTheFleetToServer();
-        new Thread( () -> {try {
-            game.runTheGame();
-        } catch (InterruptedException e) {
-            logger.log(DEFAULT_LEVEL, "Game interrupted");
-        }}).start();
+        new Thread(() -> {
+            try {
+                game.runTheGame();
+            } catch (InterruptedException e) {
+                logger.log(DEFAULT_LEVEL, "Game interrupted");
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+    }
+
+    void setPort(int port) {
+        this.port = port;
+    }
+
+    void setHostIP(String hostIP) {
+        this.hostIP = hostIP;
     }
 }
