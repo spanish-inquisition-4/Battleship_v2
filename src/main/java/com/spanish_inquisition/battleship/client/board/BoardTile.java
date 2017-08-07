@@ -14,7 +14,7 @@ public class BoardTile extends Button {
     Label horizontalLabel;
     Label verticalLabel;
 
-    BoardTile(int boardIndex) {
+    public BoardTile(int boardIndex) {
         this.boardIndex = boardIndex;
         setMaxSize(MAX_SIZE, MAX_SIZE);
         setStyle(Styles.DEFAULT_TILE_COLOR);
