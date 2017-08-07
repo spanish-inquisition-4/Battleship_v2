@@ -37,9 +37,7 @@ public class MainMenuControllerTest {
         MainMenuController mainMenuController = getControllerInstance();
         mainMenuController.nameTextField.setText("DummyText");
         assertTrue(mainMenuController.playerNameVBox.isVisible());
-        int threadCount = Thread.activeCount();
         mainMenuController.onFeatureButtonClicked();
-        assertEquals(threadCount + 1, Thread.activeCount());
         assertFalse(mainMenuController.playerNameVBox.isVisible());
     }
 
@@ -48,9 +46,7 @@ public class MainMenuControllerTest {
         MainMenuController mainMenuController = getControllerInstance();
         mainMenuController.nameTextField.setText("DummyText");
         assertTrue(mainMenuController.playerNameVBox.isVisible());
-        int threadCount = Thread.activeCount();
         mainMenuController.onNameTextFieldEntered();
-        assertEquals(threadCount + 1, Thread.activeCount());
         assertFalse(mainMenuController.playerNameVBox.isVisible());
     }
 
