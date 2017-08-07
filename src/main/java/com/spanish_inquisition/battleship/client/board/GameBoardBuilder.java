@@ -25,7 +25,7 @@ import java.util.Map;
 public class GameBoardBuilder {
     public static final int BOARD_SIZE_WITH_LABELS = 11;
     private static final double FIELD_SIZE = 30;
-    private GridPane gridPane;
+    GridPane gridPane;
     private BoardController boardController;
     private Map<Integer, Label> verticalLabels = new HashMap<>();
     private Map<Integer, Label> horizontalLabels = new HashMap<>();
@@ -40,9 +40,8 @@ public class GameBoardBuilder {
         this.gridPane = boardController.getBoardGridPane();
     }
 
-    public GameBoard buildGameBoard() {
+    public void buildGameBoard() {
         fillTheBoardWithButtonsAndLabels();
-        return null;
     }
 
     private void fillTheBoardWithButtonsAndLabels() {

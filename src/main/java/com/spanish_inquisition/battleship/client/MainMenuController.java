@@ -132,6 +132,7 @@ public class MainMenuController {
         Window window = scene.getWindow();
         window.setOnCloseRequest(event -> {
             if (game != null) {
+                game.stopGameRunning();
                 game.closeSocketConnection();
             }
             Platform.exit();

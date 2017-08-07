@@ -18,13 +18,13 @@ import static com.spanish_inquisition.battleship.common.AppLogger.logger;
  * @author Michal_Partacz
  */
 public class Game {
-    SocketClient socketClient;
-    ResponsesBus responsesBus;
-    String name;
+    private SocketClient socketClient;
+    private ResponsesBus responsesBus;
     private static final int GAME_LOOP_SLEEP = 100;
     PlayerBoardController playerBoardController;
     OpponentBoardController opponentBoardController;
-    StatusController statusController;
+    private StatusController statusController;
+    private boolean isGameRunning = true;
 
     public void setStatusController(StatusController statusController) {
         this.statusController = statusController;
@@ -65,7 +65,7 @@ public class Game {
 
     public void runTheGame() throws InterruptedException, NullPointerException {
         game_loop:
-        while (true) {
+        while (isGameRunning) {
             Thread.sleep(GAME_LOOP_SLEEP);
             if (this.responsesBus.hasServerResponses()) {
                 NetworkMessage message = this.responsesBus.getAServerResponse();
@@ -173,9 +173,12 @@ public class Game {
     }
 
     public void acceptPlayersName(String name) {
-        this.name = name;
         if (socketClient != null) {
             socketClient.sendStringToServer(name);
         }
+    }
+
+    public void stopGameRunning(){
+        isGameRunning = false;
     }
 }
